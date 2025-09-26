@@ -1,4 +1,4 @@
-class_name ColorBubble
+class_name SpikyEnemyBubble
 
 extends Area2D
 
@@ -6,3 +6,4 @@ extends Area2D
 
 func _process(_delta: float) -> void:
 	modulate = rgb_color
+	#do we need this if they don't change coo

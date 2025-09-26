@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://br32x2pqn5aui"]
+[gd_scene load_steps=7 format=3 uid="uid://bglr84f65i7l8"]
 
-[ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_njfqy"]
-[ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_v4bbh"]
+[ext_resource type="Script" uid="uid://bbfy86x4fqfn0" path="res://Scripts/spiky_enemy_bubble.gd" id="1_fbcgj"]
+[ext_resource type="Texture2D" uid="uid://d18kxyc6xq3wi" path="res://Art Folders/SpikyBubble.png" id="1_yat1f"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
 blend_mode = 1
@@ -18,14 +18,15 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
 radius = 31.0
 
-[node name="ColorBubble" type="Area2D"]
+[node name="SpikyEnemyBubble" type="Area2D"]
 modulate = Color(1, 0, 0, 1)
 collision_layer = 8
 collision_mask = 0
-script = ExtResource("1_njfqy")
+script = ExtResource("1_fbcgj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_v4bbh")
+scale = Vector2(1.0, 1.0)
+texture = ExtResource("1_yat1f")
 
 [node name="PointLight2D2" type="Sprite2D" parent="Sprite2D"]
 modulate = Color(0.37413925, 0.37413928, 0.37413922, 1)
