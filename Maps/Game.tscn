@@ -1,11 +1,10 @@
-[gd_scene load_steps=19 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=10 format=4 uid="uid://bkvfgd3chj1pk"]
 
-[ext_resource type="Script" uid="uid://d4svnx0c2r8i" path="res://Scripts/bubble_controller.gd" id="1_jso7u"]
-[ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_5nq1w"]
+[ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
 [ext_resource type="PackedScene" uid="uid://daeq4sldjssur" path="res://Objects/pellet.tscn" id="4_hyobi"]
+[ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
-[ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="6_kkdw2"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -18,56 +17,33 @@ particles_anim_loop = false
 blend_mode = 1
 light_mode = 1
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdqsx"]
-friction = 0.2
-rough = true
-bounce = 1.0
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
-blend_mode = 1
-
-[sub_resource type="Gradient" id="Gradient_5nq1w"]
-offsets = PackedFloat32Array(0, 0.68613136)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_hyobi"]
-gradient = SubResource("Gradient_5nq1w")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_hyobi"]
-radius = 32.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_mdqsx"]
-radius = 96.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_kkdw2"]
-radius = 34.36568
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kkdw2"]
 texture = ExtResource("5_mdqsx")
 texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 4
+0:0/next_alternative_id = 10
 0:0/0 = 0
+0:0/0/modulate = Color(0, 0, 0, 1)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 0:0/1 = 1
 0:0/1/modulate = Color(1, 0, 0, 1)
 0:0/1/physics_layer_1/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-3:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-3:3/0 = 0
+0:0/4 = 4
+0:0/4/modulate = Color(0, 1, 0, 1)
+0:0/4/physics_layer_2/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/5 = 5
+0:0/5/modulate = Color(0, 0, 1, 1)
+0:0/5/physics_layer_3/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/6 = 6
+0:0/6/modulate = Color(1, 1, 0, 1)
+0:0/6/physics_layer_4/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/7 = 7
+0:0/7/modulate = Color(1, 0, 1, 1)
+0:0/7/physics_layer_5/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/8 = 8
+0:0/8/modulate = Color(0, 1, 1, 1)
+0:0/8/physics_layer_6/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/9 = 9
+0:0/9/physics_layer_7/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 
 [sub_resource type="TileSet" id="TileSet_qbg5b"]
 tile_size = Vector2i(64, 64)
@@ -75,10 +51,19 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
 physics_layer_1/collision_layer = 256
 physics_layer_1/collision_mask = 0
+physics_layer_2/collision_layer = 512
+physics_layer_2/collision_mask = 0
+physics_layer_3/collision_layer = 1024
+physics_layer_3/collision_mask = 0
+physics_layer_4/collision_layer = 768
+physics_layer_4/collision_mask = 0
+physics_layer_5/collision_layer = 1280
+physics_layer_5/collision_mask = 0
+physics_layer_6/collision_layer = 1536
+physics_layer_6/collision_mask = 0
+physics_layer_7/collision_layer = 1792
+physics_layer_7/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_kkdw2")
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
-radius = 31.0
 
 [node name="Game" type="Node2D"]
 texture_filter = 1
@@ -103,55 +88,9 @@ cell_size = 64
 line_thickness = 4
 line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
 
-[node name="Bubble" type="RigidBody2D" parent="." node_paths=PackedStringArray("sprite", "shape", "sprite_parent")]
-modulate = Color(0.64573294, 0.70089954, 0.7804614, 1)
+[node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
 position = Vector2(919, -192)
-collision_layer = 0
-collision_mask = 16129
-physics_material_override = SubResource("PhysicsMaterial_mdqsx")
-gravity_scale = 0.0
-lock_rotation = true
-linear_velocity = Vector2(4.49, 0)
-linear_damp = 2.24
-script = ExtResource("1_jso7u")
-maximum_speed = 300.0
-acceleration = 1000.0
-stretch_scale_factor = 1500.0
-sprite = NodePath("SpriteParent/Sprite2D")
-shape = NodePath("CollisionShape2D")
-sprite_parent = NodePath("SpriteParent")
-
-[node name="SpriteParent" type="Node2D" parent="Bubble"]
-
-[node name="Sprite2D" type="Sprite2D" parent="Bubble/SpriteParent"]
-texture = ExtResource("2_5nq1w")
-
-[node name="PointLight2D2" type="Sprite2D" parent="Bubble/SpriteParent/Sprite2D"]
-modulate = Color(0.37413925, 0.37413928, 0.37413922, 1)
-material = SubResource("CanvasItemMaterial_mdqsx")
-scale = Vector2(2, 2)
-texture = SubResource("GradientTexture2D_hyobi")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bubble"]
-shape = SubResource("CircleShape2D_hyobi")
-
-[node name="Area2D" type="Area2D" parent="Bubble"]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bubble/Area2D"]
-shape = SubResource("CircleShape2D_mdqsx")
-debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
-
-[node name="PelletGrabber" type="Area2D" parent="Bubble"]
-collision_layer = 0
-collision_mask = 12
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bubble/PelletGrabber"]
-shape = SubResource("CircleShape2D_kkdw2")
-debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
-
-[node name="Camera2D" type="Camera2D" parent="Bubble"]
+collision_mask = 1793
 
 [node name="Pellets" type="Node" parent="."]
 
@@ -174,19 +113,17 @@ position = Vector2(384, -66)
 position = Vector2(448, -66)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD6/wIAAAAAAAAAAAD6/wEAAAAAAAAAAAD6/wAAAAAAAAAAAAD6////AAAAAAAAAAD6//7/AAAAAAAAAAD6//3/AAAAAAAAAAD6//z/AAAAAAAAAAD6//v/AAAAAAAAAAD7//v/AAAAAAAAAAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAADAPv/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAPv/AAAAAAAAAAAGAPv/AAAAAAAAAAAHAPv/AAAAAAAAAAAIAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAARAAIAAAAAAAAAAAASAAIAAAAAAAAAAAATAAIAAAAAAAAAAAAJAPr/AAAAAAAAAAAJAPn/AAAAAAAAAAAJAPj/AAAAAAAAAAAJAPf/AAAAAAAAAAAJAPb/AAAAAAAAAAAJAPX/AAAAAAAAAAAJAPT/AAAAAAAAAAAUAAIAAAAAAAAAAAAVAAIAAAAAAAAAAAAWAAIAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAAEAAAAAAAAAAAAXAAAAAAAAAAAAAAAXAP//AAAAAAAAAAAXAP7/AAAAAAAAAAAXAP3/AAAAAAAAAAAXAPz/AAAAAAAAAAAXAPv/AAAAAAAAAAAXAPr/AAAAAAAAAAAXAPn/AAAAAAAAAAAXAPj/AAAAAAAAAAAXAPf/AAAAAAAAAAAKAPj/AAAAAAAAAQALAPj/AAAAAAAAAQAMAPj/AAAAAAAAAQANAPj/AAAAAAAAAQAOAPj/AAAAAAAAAQAPAPj/AAAAAAAAAQAQAPj/AAAAAAAAAQARAPj/AAAAAAAAAQASAPj/AAAAAAAAAQATAPj/AAAAAAAAAQAUAPj/AAAAAAAAAQAVAPj/AAAAAAAAAQAWAPj/AAAAAAAAAQAXAPb/AAAAAAAAAAAXAPX/AAAAAAAAAAAXAPT/AAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD6/wIAAAAAAAAAAAD6/wEAAAAAAAAAAAD6/wAAAAAAAAAAAAD6////AAAAAAAAAAD6//7/AAAAAAAAAAD6//3/AAAAAAAAAAD6//z/AAAAAAAAAAD6//v/AAAAAAAAAAD7//v/AAAAAAAAAAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAADAPv/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAPv/AAAAAAAAAAAGAPv/AAAAAAAAAAAHAPv/AAAAAAAAAAAIAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAARAAIAAAAAAAAAAAASAAIAAAAAAAAAAAATAAIAAAAAAAAAAAAJAPr/AAAAAAAAAAAJAPn/AAAAAAAAAAAJAPj/AAAAAAAAAAAJAPf/AAAAAAAAAAAJAPb/AAAAAAAAAAAJAPX/AAAAAAAAAAAJAPT/AAAAAAAAAAAUAAIAAAAAAAAAAAAVAAIAAAAAAAAAAAAWAAIAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAPj/AAAAAAAAAAAXAPf/AAAAAAAAAAAKAPj/AAAAAAAAAQALAPj/AAAAAAAAAQAMAPj/AAAAAAAAAQANAPj/AAAAAAAAAQAOAPj/AAAAAAAAAQAPAPj/AAAAAAAAAQAQAPj/AAAAAAAAAQATAPj/AAAAAAAAAQAUAPj/AAAAAAAAAQAVAPj/AAAAAAAAAQAWAPj/AAAAAAAAAQAXAPb/AAAAAAAAAAAXAPX/AAAAAAAAAAAXAPT/AAAAAAAAAAARAPj/AAAAAAAAAQASAPj/AAAAAAAAAQAVAP3/AAAAAAAABAAVAPv/AAAAAAAAAQAVAP//AAAAAAAABQAYAPv/AAAAAAAABgAYAP3/AAAAAAAABwAYAP//AAAAAAAACAAbAPv/AAAAAAAACQAbAPz/AAAAAAAACQAbAP3/AAAAAAAACQAbAP7/AAAAAAAACQAbAP//AAAAAAAACQA=")
 tile_set = SubResource("TileSet_qbg5b")
 
-[node name="ColorBubble" type="Area2D" parent="."]
-modulate = Color(1, 0, 0, 1)
+[node name="ColorBubble" parent="." instance=ExtResource("5_kkdw2")]
 position = Vector2(1089, -191)
-collision_layer = 8
-collision_mask = 0
-script = ExtResource("6_kkdw2")
+color_mask = 2
+
+[node name="ColorBubble2" parent="." instance=ExtResource("5_kkdw2")]
+position = Vector2(1088, -75)
 color_mask = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="ColorBubble"]
-texture = ExtResource("2_5nq1w")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorBubble"]
-shape = SubResource("CircleShape2D_qbg5b")
+[node name="ColorBubble3" parent="." instance=ExtResource("5_kkdw2")]
+position = Vector2(1088, 8)
+color_mask = 4

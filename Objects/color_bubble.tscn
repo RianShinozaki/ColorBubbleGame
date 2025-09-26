@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://daeq4sldjssur"]
+[gd_scene load_steps=7 format=3 uid="uid://br32x2pqn5aui"]
 
-[ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="1_uej0o"]
+[ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_njfqy"]
+[ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_v4bbh"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
 blend_mode = 1
@@ -14,16 +15,18 @@ gradient = SubResource("Gradient_5nq1w")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5nq1w"]
-radius = 32.140316
+[sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
+radius = 31.0
 
-[node name="Pellet" type="Area2D"]
-scale = Vector2(0.3, 0.3)
-collision_layer = 4
+[node name="ColorBubble" type="Area2D"]
+modulate = Color(1, 0, 0, 1)
+collision_layer = 8
 collision_mask = 0
+script = ExtResource("1_njfqy")
+color_mask = 7
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_uej0o")
+texture = ExtResource("2_v4bbh")
 
 [node name="PointLight2D2" type="Sprite2D" parent="Sprite2D"]
 modulate = Color(0.37413925, 0.37413928, 0.37413922, 1)
@@ -33,4 +36,4 @@ texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-shape = SubResource("CircleShape2D_5nq1w")
+shape = SubResource("CircleShape2D_qbg5b")

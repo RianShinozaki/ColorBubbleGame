@@ -1,0 +1,82 @@
+[gd_scene load_steps=10 format=3 uid="uid://swbutbh0hbrp"]
+
+[ext_resource type="Script" uid="uid://d4svnx0c2r8i" path="res://Scripts/bubble_controller.gd" id="1_to0jj"]
+[ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_rndeb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdqsx"]
+friction = 0.2
+rough = true
+bounce = 1.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_5nq1w"]
+offsets = PackedFloat32Array(0, 0.68613136)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hyobi"]
+gradient = SubResource("Gradient_5nq1w")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hyobi"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mdqsx"]
+radius = 96.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kkdw2"]
+radius = 34.36568
+
+[node name="PlayerBubble" type="RigidBody2D" node_paths=PackedStringArray("sprite", "shape", "sprite_parent")]
+modulate = Color(0.64573294, 0.70089954, 0.7804614, 1)
+collision_layer = 0
+collision_mask = 16129
+physics_material_override = SubResource("PhysicsMaterial_mdqsx")
+gravity_scale = 0.0
+lock_rotation = true
+linear_velocity = Vector2(4.49, 0)
+linear_damp = 2.24
+script = ExtResource("1_to0jj")
+maximum_speed = 300.0
+acceleration = 1000.0
+stretch_scale_factor = 1500.0
+sprite = NodePath("SpriteParent/Art")
+shape = NodePath("CollisionShape2D")
+sprite_parent = NodePath("SpriteParent")
+
+[node name="SpriteParent" type="Node2D" parent="."]
+
+[node name="Art" type="Sprite2D" parent="SpriteParent"]
+texture = ExtResource("2_rndeb")
+
+[node name="Light" type="Sprite2D" parent="SpriteParent/Art"]
+modulate = Color(0.37413925, 0.37413928, 0.37413922, 1)
+material = SubResource("CanvasItemMaterial_mdqsx")
+scale = Vector2(2, 2)
+texture = SubResource("GradientTexture2D_hyobi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_hyobi")
+
+[node name="PelletAbsorption" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PelletAbsorption"]
+visible = false
+shape = SubResource("CircleShape2D_mdqsx")
+debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
+
+[node name="ItemCollision" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemCollision"]
+visible = false
+shape = SubResource("CircleShape2D_kkdw2")
+debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
+
+[node name="Camera2D" type="Camera2D" parent="."]
