@@ -11,7 +11,9 @@ extends RigidBody2D
 var this_scale: float = 1
 var to_scale: float = 1
 var grow_speed: float = 0.2
-var first_collision_occurred: bool = false
+var no_color: bool = true
+var color_shift_multiple: float = 1.0 #this gives us the option to adjust the intensity of the color shift for boards with more collisions
+#to do: change color_shift_multiple to be proportionate to bubble size if we do dif. bubble sizes
 
 
 
@@ -42,10 +44,14 @@ func on_item_pickup(area: Area2D):
 	#Check if it's a colored bubble and use add color script
 	if area is ColorBubble:
 		var _cb: ColorBubble = area as ColorBubble
-		if !first_collision_occurred:
+		if no_color:
 			rgb_color = Color.BLACK
-			first_collision_occurred = true
+			no_color = false
 		add_color(_cb.rgb_color)
+	elif area is SpikyEnemyBubble:
+		var _eb: SpikyEnemyBubble = area as SpikyEnemyBubble
+		if !no_color:
+			subtract_color(_eb.rgb_color)
 	else:
 		to_scale += 0.1
 	#Destroy whatever item we got
@@ -55,12 +61,25 @@ func on_item_pickup(area: Area2D):
 #continuous colors instead of bitmask
 func add_color(rgb_add: Color):
 	
-	var _red: float = clamp(rgb_color.r + rgb_add.r, 0.0, 1.0)
-	var _green: float = clamp(rgb_color.g + rgb_add.g, 0.0, 1.0)
-	var _blue: float = clamp(rgb_color.b + rgb_add.b, 0.0, 1.0)
+	var _red: float = clamp(rgb_color.r + rgb_add.r*color_shift_multiple, 0.0, 1.0)
+	var _green: float = clamp(rgb_color.g + rgb_add.g*color_shift_multiple, 0.0, 1.0)
+	var _blue: float = clamp(rgb_color.b + rgb_add.b*color_shift_multiple, 0.0, 1.0)
 	rgb_color = Color(_red, _green, _blue, 1)
 	modulate = rgb_color
 	
 	#We don't want the color to be totally black
 	if modulate == Color.BLACK:
+		modulate = Color(0.4, 0.4, 0.4)
+		
+func subtract_color(rgb_subtract: Color):
+	
+	var _red: float = clamp(rgb_color.r - rgb_subtract.r*color_shift_multiple, 0.0, 1.0)
+	var _green: float = clamp(rgb_color.g - rgb_subtract.g*color_shift_multiple, 0.0, 1.0)
+	var _blue: float = clamp(rgb_color.b - rgb_subtract.b*color_shift_multiple, 0.0, 1.0)
+	rgb_color = Color(_red, _green, _blue, 1)
+	modulate = rgb_color
+		
+	#We don't want the color to be totally black
+	if modulate == Color.BLACK:
+		no_color = true
 		modulate = Color(0.4, 0.4, 0.4)

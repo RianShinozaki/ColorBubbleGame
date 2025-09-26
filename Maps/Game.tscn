@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=11 format=4 uid="uid://bkvfgd3chj1pk"]
 
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
 [ext_resource type="PackedScene" uid="uid://daeq4sldjssur" path="res://Objects/pellet.tscn" id="4_hyobi"]
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
+[ext_resource type="PackedScene" uid="uid://bglr84f65i7l8" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -134,3 +135,6 @@ rgb_color = Color(0.7019922, 0.05716729, 0.62302274, 1)
 [node name="ColorBubble5" parent="." instance=ExtResource("5_kkdw2")]
 position = Vector2(1089, 74)
 rgb_color = Color(0.90499455, 0.7741303, 0.13821825, 1)
+
+[node name="SpikyEnemyBubble" parent="." instance=ExtResource("6_kkdw2")]
+position = Vector2(630, -79)

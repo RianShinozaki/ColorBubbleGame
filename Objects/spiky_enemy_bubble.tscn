@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://bglr84f65i7l8"]
+
+[ext_resource type="Script" uid="uid://bbfy86x4fqfn0" path="res://Scripts/spiky_enemy_bubble.gd" id="1_fbcgj"]
+[ext_resource type="Texture2D" uid="uid://d18kxyc6xq3wi" path="res://Art Folders/SpikyBubble.png" id="1_yat1f"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_5nq1w"]
+offsets = PackedFloat32Array(0, 0.68613136)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hyobi"]
+gradient = SubResource("Gradient_5nq1w")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
+radius = 31.0
+
+[node name="SpikyEnemyBubble" type="Area2D"]
+modulate = Color(1, 0, 0, 1)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_fbcgj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.0, 1.0)
+texture = ExtResource("1_yat1f")
+
+[node name="PointLight2D2" type="Sprite2D" parent="Sprite2D"]
+modulate = Color(0.37413925, 0.37413928, 0.37413922, 1)
+material = SubResource("CanvasItemMaterial_mdqsx")
+scale = Vector2(2, 2)
+texture = SubResource("GradientTexture2D_hyobi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qbg5b")
