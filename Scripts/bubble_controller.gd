@@ -11,6 +11,16 @@ var to_scale: float = 1
 var grow_speed: float = 0.2
 var color_mask: int
 
+#temporary HSV variables for this test
+@export var hue_step: float = 0.08      # how much to spin hue per “R” bit, tweak to taste
+@export var value_step: float = 0.08    # how much to brighten/lighten
+@export var min_s: float = 0.75         # minimum saturation so colors don’t look washed
+@export var min_v: float = 0.40         # minimum value so it never goes black
+
+#total HSV offsets
+var hue_offset: float = 0.0
+var value_offset: float = 0.0
+
 func _ready() -> void:
 	#Connects a signal, basically means when PelletGrabber signals "area_entered", we run this "on_pellet_pickedup" function
 	get_node("ItemCollision").area_entered.connect(on_item_pickup)
@@ -46,6 +56,16 @@ func on_item_pickup(area: Area2D):
 		
 #Weird bit twiddly functions to change the bubble's color
 func add_color(_color_mask: int):
+	# Accumulate HSV deltas based on which bits were added
+	# Example mapping: 1st bit nudges hue; 2nd bit brightens; 3rd bit nudges both lightly.
+	if (_color_mask & 0b001) != 0:
+		hue_offset = fposmod(hue_offset + hue_step, 1.0)
+	if (_color_mask & 0b010) != 0:
+		value_offset = clamp(value_offset + value_step, 0.0, 1.0)
+	if (_color_mask & 0b100) != 0:
+		hue_offset = fposmod(hue_offset + 0.5 * hue_step, 1.0)
+		value_offset = clamp(value_offset + 0.5 * value_step, 0.0, 1.0)
+
 	set_color(color_mask | _color_mask)
 
 #Really hope it works bc this shit is so weird lmao i just be making stuff up
@@ -56,7 +76,25 @@ func set_color(_color_mask: int):
 	var _red: int = color_mask & 0b1
 	var _green: int = (color_mask & 0b10) >> 1
 	var _blue: int = (color_mask & 0b100) >> 2
-	modulate = Color(_red, _green, _blue, 1)
+	
+	var base := Color(_red, _green, _blue, 1.0)
+
+	# convert to HSV
+	var h := base.h
+	var s := base.s
+	var v := base.v
+	
+	# ensure it's not fully black / desaturated
+	s = max(s, min_s)
+	v = max(v, min_v)
+
+	# apply accumulated offsets
+	h = fposmod(h + hue_offset, 1.0)
+	v = clamp(v + value_offset, 0.0, 1.0)
+
+	# back to RGB
+	modulate = Color.from_hsv(h, s, v, 1.0)
+	
 	
 	#We don't want the color to be totally black
 	if modulate == Color.BLACK:
