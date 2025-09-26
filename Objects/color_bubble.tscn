@@ -23,7 +23,6 @@ modulate = Color(1, 0, 0, 1)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_njfqy")
-color_mask = 7
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_v4bbh")
@@ -35,5 +34,4 @@ scale = Vector2(2, 2)
 texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_qbg5b")
