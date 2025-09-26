@@ -138,3 +138,7 @@ rgb_color = Color(0.90499455, 0.7741303, 0.13821825, 1)
 
 [node name="SpikyEnemyBubble" parent="." instance=ExtResource("6_kkdw2")]
 position = Vector2(630, -79)
+
+[node name="SpikyEnemyBubble2" parent="." instance=ExtResource("6_kkdw2")]
+position = Vector2(831, 17)
+rgb_color = Color(0, 0, 1, 1)
