@@ -1,0 +1,150 @@
+[gd_scene load_steps=11 format=4 uid="uid://bkvfgd3chj1pk"]
+
+[ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
+[ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
+[ext_resource type="PackedScene" uid="uid://daeq4sldjssur" path="res://Objects/pellet.tscn" id="4_hyobi"]
+[ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
+[ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
+[ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hyobi"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kkdw2"]
+texture = ExtResource("5_mdqsx")
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 10
+0:0/0 = 0
+0:0/0/modulate = Color(0, 0, 0, 1)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/1 = 1
+0:0/1/modulate = Color(1, 0, 0, 1)
+0:0/1/physics_layer_1/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/4 = 4
+0:0/4/modulate = Color(0, 1, 0, 1)
+0:0/4/physics_layer_2/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/5 = 5
+0:0/5/modulate = Color(0, 0, 1, 1)
+0:0/5/physics_layer_3/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/6 = 6
+0:0/6/modulate = Color(1, 1, 0, 1)
+0:0/6/physics_layer_4/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/7 = 7
+0:0/7/modulate = Color(1, 0, 1, 1)
+0:0/7/physics_layer_5/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/8 = 8
+0:0/8/modulate = Color(0, 1, 1, 1)
+0:0/8/physics_layer_6/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/9 = 9
+0:0/9/physics_layer_7/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="TileSet" id="TileSet_qbg5b"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+physics_layer_1/collision_layer = 256
+physics_layer_1/collision_mask = 0
+physics_layer_2/collision_layer = 512
+physics_layer_2/collision_mask = 0
+physics_layer_3/collision_layer = 1024
+physics_layer_3/collision_mask = 0
+physics_layer_4/collision_layer = 768
+physics_layer_4/collision_mask = 0
+physics_layer_5/collision_layer = 1280
+physics_layer_5/collision_mask = 0
+physics_layer_6/collision_layer = 1536
+physics_layer_6/collision_mask = 0
+physics_layer_7/collision_layer = 1792
+physics_layer_7/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_kkdw2")
+
+[node name="Game" type="Node2D"]
+texture_filter = 1
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="GridController" type="Node2D" parent="Background"]
+material = SubResource("CanvasItemMaterial_5nq1w")
+script = ExtResource("3_5nq1w")
+origin_point = Vector2i(-1600, -1600)
+grid_size = Vector2i(128, 128)
+cell_size = 64
+line_thickness = 7
+line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
+
+[node name="GridController2" type="Node2D" parent="Background"]
+material = SubResource("CanvasItemMaterial_hyobi")
+script = ExtResource("3_5nq1w")
+origin_point = Vector2i(-1600, -1600)
+grid_size = Vector2i(128, 128)
+cell_size = 64
+line_thickness = 4
+line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
+
+[node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
+position = Vector2(919, -192)
+collision_mask = 1793
+rgb_color = null
+
+[node name="Pellets" type="Node" parent="."]
+
+[node name="Pellet" parent="Pellets" instance=ExtResource("4_hyobi")]
+position = Vector2(128, -66)
+
+[node name="Pellet2" parent="Pellets" instance=ExtResource("4_hyobi")]
+position = Vector2(192, -66)
+
+[node name="Pellet3" parent="Pellets" instance=ExtResource("4_hyobi")]
+position = Vector2(256, -66)
+
+[node name="Pellet4" parent="Pellets" instance=ExtResource("4_hyobi")]
+position = Vector2(320, -66)
+
+[node name="Pellet5" parent="Pellets" instance=ExtResource("4_hyobi")]
+position = Vector2(384, -66)
+
+[node name="Pellet6" parent="Pellets" instance=ExtResource("4_hyobi")]
+position = Vector2(448, -66)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD6/wIAAAAAAAAAAAD6/wEAAAAAAAAAAAD6/wAAAAAAAAAAAAD6////AAAAAAAAAAD6//7/AAAAAAAAAAD6//3/AAAAAAAAAAD6//z/AAAAAAAAAAD6//v/AAAAAAAAAAD7//v/AAAAAAAAAAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAADAPv/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAPv/AAAAAAAAAAAGAPv/AAAAAAAAAAAHAPv/AAAAAAAAAAAIAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAARAAIAAAAAAAAAAAASAAIAAAAAAAAAAAATAAIAAAAAAAAAAAAJAPr/AAAAAAAAAAAJAPn/AAAAAAAAAAAJAPj/AAAAAAAAAAAJAPf/AAAAAAAAAAAJAPb/AAAAAAAAAAAJAPX/AAAAAAAAAAAJAPT/AAAAAAAAAAAUAAIAAAAAAAAAAAAVAAIAAAAAAAAAAAAWAAIAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAPj/AAAAAAAAAAAXAPf/AAAAAAAAAAAKAPj/AAAAAAAAAQALAPj/AAAAAAAAAQAMAPj/AAAAAAAAAQANAPj/AAAAAAAAAQAOAPj/AAAAAAAAAQAPAPj/AAAAAAAAAQAQAPj/AAAAAAAAAQATAPj/AAAAAAAAAQAUAPj/AAAAAAAAAQAVAPj/AAAAAAAAAQAWAPj/AAAAAAAAAQAXAPb/AAAAAAAAAAAXAPX/AAAAAAAAAAAXAPT/AAAAAAAAAAARAPj/AAAAAAAAAQASAPj/AAAAAAAAAQAVAP3/AAAAAAAABAAVAPv/AAAAAAAAAQAVAP//AAAAAAAABQAYAPv/AAAAAAAABgAYAP3/AAAAAAAABwAYAP//AAAAAAAACAAbAPv/AAAAAAAACQAbAPz/AAAAAAAACQAbAP3/AAAAAAAACQAbAP7/AAAAAAAACQAbAP//AAAAAAAACQA=")
+tile_set = SubResource("TileSet_qbg5b")
+
+[node name="ColorBubble" parent="." instance=ExtResource("5_kkdw2")]
+position = Vector2(1090, -258)
+
+[node name="ColorBubble2" parent="." instance=ExtResource("5_kkdw2")]
+modulate = Color(0, 0, 1, 1)
+position = Vector2(1089, -172)
+rgb_color = Color(0, 0, 1, 1)
+
+[node name="ColorBubble3" parent="." instance=ExtResource("5_kkdw2")]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(1088, -87)
+rgb_color = Color(0, 1, 0, 1)
+
+[node name="ColorBubble4" parent="." instance=ExtResource("5_kkdw2")]
+modulate = Color(0.7019922, 0.05716729, 0.62302274, 1)
+position = Vector2(1091, -7)
+rgb_color = Color(0.7019922, 0.05716729, 0.62302274, 1)
+
+[node name="ColorBubble5" parent="." instance=ExtResource("5_kkdw2")]
+modulate = Color(0.90499455, 0.7741303, 0.13821825, 1)
+position = Vector2(1089, 74)
+rgb_color = Color(0.90499455, 0.7741303, 0.13821825, 1)
+
+[node name="SpikyEnemyBubble" parent="." instance=ExtResource("6_kkdw2")]
+position = Vector2(630, -79)
+
+[node name="SpikyEnemyBubble2" parent="." instance=ExtResource("6_kkdw2")]
+modulate = Color(0, 0, 1, 1)
+position = Vector2(831, 17)
+rgb_color = Color(0, 0, 1, 1)

@@ -14,14 +14,16 @@ var grow_speed: float = 0.2
 var no_color: bool = true
 var color_shift_multiple: float = 1.0 #this gives us the option to adjust the intensity of the color shift for boards with more collisions
 #to do: change color_shift_multiple to be proportionate to bubble size if we do dif. bubble sizes
-
-
+@export var color_animation_gradient: Gradient
+@export var color_animation_gradient_position: float = 1
+const null_color: Color = Color(0.4, 0.4, 0.4, 1)
 
 func _ready() -> void:
 	#Connects a signal, basically means when PelletGrabber signals "area_entered", we run this "on_pellet_pickedup" function
 	get_node("ItemCollision").area_entered.connect(on_item_pickup)
-	#add_color(0)
-
+	modulate = null_color
+	set_color(Color(0, 0, 0, 1))
+	
 func _physics_process(_delta: float) -> void:
 	#Get movement input vector from API Call
 	var _input: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -38,6 +40,10 @@ func _physics_process(_delta: float) -> void:
 	sprite_parent.scale = Vector2(this_scale, this_scale)
 	#Just change the scale of the shape directly
 	shape.scale = Vector2(this_scale, this_scale)
+	
+	#Slowly shift the color to the desired one
+	color_animation_gradient_position = move_toward(color_animation_gradient_position, 1, _delta*5)
+	modulate = color_animation_gradient.sample(color_animation_gradient_position)
 
 #I use the same script for colored bubbles and growth pellets lol
 func on_item_pickup(area: Area2D):
@@ -74,19 +80,24 @@ func subtract_color(rgb_subtract: Color):
 		
 func set_color(_rgb_color: Color):
 	rgb_color = _rgb_color
-	modulate = _rgb_color
 	
 	var _red_bit: int = floori(rgb_color.r)
 	var _green_bit: int = floori(rgb_color.g)
 	var _blue_bit: int = floori(rgb_color.b)
 	var _color_mask: int = _red_bit + (_green_bit<<1) + (_blue_bit<<2)
 	
+	var _to_color: Color = rgb_color
+	if rgb_color == Color.BLACK:
+		no_color = true
+		_to_color = null_color
 	collision_mask |= 0b111 << 8
 	collision_mask &= ~(_color_mask << 8)
-	
+	color_animation_gradient = Gradient.new()
+	color_animation_gradient.add_point(0, modulate)
+	color_animation_gradient.add_point(1, _to_color)
+	color_animation_gradient.remove_point(0)
+	color_animation_gradient.remove_point(0)
+	color_animation_gradient_position = 0
 	#We don't want the color to be totally black
-	if modulate == Color.BLACK:
-		no_color = true
-		modulate = Color(0.4, 0.4, 0.4)
 	
 	
