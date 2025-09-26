@@ -56,7 +56,6 @@ func on_item_pickup(area: Area2D):
 		to_scale += 0.1
 	#Destroy whatever item we got
 	area.queue_free()
-		
 
 #continuous colors instead of bitmask
 func add_color(rgb_add: Color):
@@ -64,22 +63,30 @@ func add_color(rgb_add: Color):
 	var _red: float = clamp(rgb_color.r + rgb_add.r*color_shift_multiple, 0.0, 1.0)
 	var _green: float = clamp(rgb_color.g + rgb_add.g*color_shift_multiple, 0.0, 1.0)
 	var _blue: float = clamp(rgb_color.b + rgb_add.b*color_shift_multiple, 0.0, 1.0)
-	rgb_color = Color(_red, _green, _blue, 1)
-	modulate = rgb_color
+	set_color(Color(_red, _green, _blue, 1))
 	
-	#We don't want the color to be totally black
-	if modulate == Color.BLACK:
-		modulate = Color(0.4, 0.4, 0.4)
-		
 func subtract_color(rgb_subtract: Color):
 	
 	var _red: float = clamp(rgb_color.r - rgb_subtract.r*color_shift_multiple, 0.0, 1.0)
 	var _green: float = clamp(rgb_color.g - rgb_subtract.g*color_shift_multiple, 0.0, 1.0)
 	var _blue: float = clamp(rgb_color.b - rgb_subtract.b*color_shift_multiple, 0.0, 1.0)
-	rgb_color = Color(_red, _green, _blue, 1)
-	modulate = rgb_color
+	set_color(Color(_red, _green, _blue, 1))
 		
+func set_color(_rgb_color: Color):
+	rgb_color = _rgb_color
+	modulate = _rgb_color
+	
+	var _red_bit: int = floori(rgb_color.r)
+	var _green_bit: int = floori(rgb_color.g)
+	var _blue_bit: int = floori(rgb_color.b)
+	var _color_mask: int = _red_bit + (_green_bit<<1) + (_blue_bit<<2)
+	
+	collision_mask |= 0b111 << 8
+	collision_mask &= ~(_color_mask << 8)
+	
 	#We don't want the color to be totally black
 	if modulate == Color.BLACK:
 		no_color = true
 		modulate = Color(0.4, 0.4, 0.4)
+	
+	

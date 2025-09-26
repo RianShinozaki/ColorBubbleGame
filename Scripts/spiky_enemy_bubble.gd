@@ -1,3 +1,5 @@
+@tool
+
 class_name SpikyEnemyBubble
 
 extends Area2D

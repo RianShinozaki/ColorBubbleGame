@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bglr84f65i7l8"]
+[gd_scene load_steps=7 format=3 uid="uid://btjikawn20mvo"]
 
 [ext_resource type="Script" uid="uid://bbfy86x4fqfn0" path="res://Scripts/spiky_enemy_bubble.gd" id="1_fbcgj"]
 [ext_resource type="Texture2D" uid="uid://d18kxyc6xq3wi" path="res://Art Folders/SpikyBubble.png" id="1_yat1f"]
@@ -25,7 +25,6 @@ collision_mask = 0
 script = ExtResource("1_fbcgj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(1.0, 1.0)
 texture = ExtResource("1_yat1f")
 
 [node name="PointLight2D2" type="Sprite2D" parent="Sprite2D"]
@@ -35,4 +34,5 @@ scale = Vector2(2, 2)
 texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_qbg5b")

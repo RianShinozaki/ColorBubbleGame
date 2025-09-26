@@ -1,3 +1,5 @@
+@tool
+
 class_name ColorBubble
 
 extends Area2D
