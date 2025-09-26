@@ -1,0 +1,36 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="BubbleGame"
+run/main_scene="uid://bkvfgd3chj1pk"
+config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0.0660848, 0.073836334, 0.14326572, 1)
+config/icon="res://icon.svg"
+
+[layer_names]
+
+2d_physics/layer_1="Environment"
+2d_physics/layer_2="Entity"
+2d_physics/layer_3="Pellet"
+2d_physics/layer_4="ColorBubble"
+2d_physics/layer_9="Red"
+2d_physics/layer_10="Orange"
+2d_physics/layer_11="Yellow"
+2d_physics/layer_12="Green"
+2d_physics/layer_13="Blue"
+2d_physics/layer_14="Purple"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.030663837, 0.031227617, 0.1356219, 1)
