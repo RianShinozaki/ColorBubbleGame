@@ -31,4 +31,9 @@ func _process(_delta: float):
 		_col_shape.shape = rect
 		@warning_ignore("integer_division")
 		_col_shape.position = Vector2(distance/2, 0)
+		
+		var _light: Sprite2D = $Light as Sprite2D
+		_light.scale = Vector2(randf_range(0.4, 1.5), distance)
+		_light.position = Vector2(distance/2, 0)
+		
 	

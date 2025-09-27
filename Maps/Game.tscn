@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=17 format=4 uid="uid://bkvfgd3chj1pk"]
 
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
@@ -68,6 +68,17 @@ physics_layer_7/collision_layer = 1792
 physics_layer_7/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_kkdw2")
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8puwx"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_8puwx"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8edix"]
+gradient = SubResource("Gradient_8puwx")
+width = 32
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8puwx"]
 size = Vector2(8, 8)
 
@@ -101,6 +112,7 @@ tile_set = SubResource("TileSet_qbg5b")
 [node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
 position = Vector2(84, -165)
 collision_mask = 1793
+knockback_force = 500.0
 
 [node name="Pellets" type="Node" parent="."]
 
@@ -178,6 +190,12 @@ position = Vector2(-32, -0.9999962)
 rotation = 1.5707964
 scale = Vector2(0.3, 0.222)
 texture = ExtResource("7_8puwx")
+
+[node name="Light" type="Sprite2D" parent="LaserEmitter"]
+material = SubResource("CanvasItemMaterial_8puwx")
+rotation = 1.5707964
+scale = Vector2(1, 32)
+texture = SubResource("GradientTexture1D_8edix")
 
 [node name="Hitbox" type="Area2D" parent="LaserEmitter"]
 

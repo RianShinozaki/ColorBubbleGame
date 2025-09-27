@@ -7,6 +7,7 @@ extends RigidBody2D
 @export var shape: CollisionShape2D
 @export var sprite_parent: Node2D
 @export var rgb_color: Color = Color.WHITE
+@export var knockback_force: float
 
 var this_scale: float = 1
 var to_scale: float = 1
@@ -69,6 +70,11 @@ func on_item_pickup(area: Area2D):
 func on_hurtbox_entered(_area: Area2D):
 	if _area.get_parent() is LaserEmitter:
 		set_color(Color(0, 0, 0, 1))
+		var _laser_forward = Vector2.from_angle(_area.global_rotation)
+		var _diff: Vector2 = global_position - _area.global_position
+		var _angle_to: float = _laser_forward.angle_to(_diff)
+		var _knockback_vec = Vector2.from_angle(_area.global_rotation + deg_to_rad(90))
+		linear_velocity = knockback_force * _knockback_vec * sign(_angle_to)
 
 #continuous colors instead of bitmask
 func add_color(rgb_add: Color):
