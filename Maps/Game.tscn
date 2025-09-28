@@ -126,45 +126,54 @@ position = Vector2(512, 0)
 [node name="ColorBubble" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0.5686275, 0, 0, 1)
 position = Vector2(896, -256)
+collision_mask = 1795
 rgb_color = Color(0.5686275, 0, 0, 1)
 
 [node name="ColorBubble7" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0.61229926, 1.504086e-06, 5.7756904e-07, 1)
 position = Vector2(896, -352)
+collision_mask = 1795
 rgb_color = Color(0.61229926, 1.504086e-06, 5.7756904e-07, 1)
 
 [node name="ColorBubble2" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 0, 1, 1)
 position = Vector2(896, 192)
+scale = Vector2(2, 2)
+collision_mask = 771
 rgb_color = Color(0, 0, 1, 1)
+radius = 2.0
 
 [node name="ColorBubble3" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(896, -64)
+collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 
 [node name="ColorBubble4" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(1, 0, 1, 1)
 position = Vector2(1088, -64)
+collision_mask = 515
 rgb_color = Color(1, 0, 1, 1)
 
 [node name="ColorBubble6" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 1, 1, 1)
 position = Vector2(1088, 192)
+collision_mask = 259
 rgb_color = Color(0, 1, 1, 1)
 
 [node name="ColorBubble5" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(1, 1, 0, 1)
 position = Vector2(1088, -288)
+collision_mask = 1025
 rgb_color = Color(1, 1, 0, 1)
 
 [node name="SpikyEnemyBubble" parent="Bubbles" instance=ExtResource("6_kkdw2")]
 position = Vector2(672, -224)
+collision_mask = 1539
 
 [node name="SpikyEnemyBubble2" parent="Bubbles" instance=ExtResource("6_kkdw2")]
-modulate = Color(0, 0, 1, 1)
 position = Vector2(672, -64)
-rgb_color = Color(0, 0, 1, 1)
+collision_mask = 1539
 
 [node name="ColorLegend" parent="." instance=ExtResource("9_qpgel")]
 offset = Vector2(0, -50)
@@ -185,10 +194,6 @@ position = Vector2(-1248, -1)
 [node name="LaserSpinner2" parent="." instance=ExtResource("11_ceqvn")]
 position = Vector2(-448, -0.9999771)
 rotation = 0.7853982
-
-[node name="LaserEmitter2" parent="LaserSpinner2" index="0"]
-modulate = Color(0, 1, 0, 1)
-rgb_color = Color(0, 1, 0, 1)
 
 [node name="LaserEmitter3" parent="LaserSpinner2" index="1"]
 modulate = Color(0, 0, 1, 1)

@@ -1,3 +1,5 @@
+class_name BubbleController
+
 extends RigidBody2D
 
 @export var maximum_speed: float
@@ -21,13 +23,16 @@ var color_shift_multiple: float = 1.0 #this gives us the option to adjust the in
 @export var color_animation_gradient_position: float = 1
 #The color to use instead of pure black
 const null_color: Color = Color(0.4, 0.4, 0.4, 1)
+static var instance: BubbleController
 
 func _ready() -> void:
 	#Connects a signal, basically means when PelletGrabber signals "area_entered", we run this "on_pellet_pickedup" function
 	get_node("Area2Ds/ItemCollision").area_entered.connect(on_item_pickup)
+	get_node("Area2Ds/ItemCollision").body_entered.connect(on_bubble_collision)
 	get_node("Area2Ds/Hurtbox").area_entered.connect(on_hurtbox_entered)
 	modulate = null_color
 	set_color(Color(0, 0, 0, 1))
+	instance = self
 	
 func _physics_process(_delta: float) -> void:
 	#Get movement input vector from API Call
@@ -40,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 	sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
 	sprite.scale = Vector2(1+linear_velocity.length()/stretch_scale_factor, 1-(linear_velocity.length()/stretch_scale_factor))
 	#We can't change the scale of this root node bc you can't scale a rigidbody
-	to_scale = min(to_scale, 5)
+	to_scale = clamp(to_scale, 1, 5)
 	this_scale = lerp(this_scale, to_scale, grow_speed)
 	#I put a layer between the sprite and this root node to make life easier
 	sprite_parent.scale = Vector2(this_scale, this_scale)
@@ -57,21 +62,22 @@ func _physics_process(_delta: float) -> void:
 		invincibility_counter = move_toward(invincibility_counter, 0, _delta)
 		if floori(invincibility_counter * 10) % 2 == 0:
 			visible = false
-		
+
+func on_bubble_collision(body: Node2D):
+	if body is EnemyBubble:
+		var _cb: EnemyBubble = body as EnemyBubble
+		var _new_area = to_scale
+		if _cb.add_color:
+			add_color(_cb.rgb_color)
+			_new_area = get_area(to_scale) + get_area(_cb.radius)
+		else:
+			subtract_color(_cb.rgb_color)
+			_new_area = get_area(to_scale) - get_area(_cb.radius)
+		to_scale = get_radius(_new_area)
+		body.queue_free()
 #I use the same script for colored bubbles and growth pellets lol
 func on_item_pickup(area: Area2D):
 	#Check if it's a colored bubble and use add color script
-	if area is ColorBubble:
-		var _cb: ColorBubble = area as ColorBubble
-		if no_color:
-			rgb_color = Color.BLACK
-			no_color = false
-		add_color(_cb.rgb_color)
-	elif area is SpikyEnemyBubble:
-		var _eb: SpikyEnemyBubble = area as SpikyEnemyBubble
-		if !no_color:
-			subtract_color(_eb.rgb_color)
-	
 	var _new_area = get_area(to_scale) + get_area(area.radius)
 	to_scale = get_radius(_new_area)
 	#Destroy whatever item we got
@@ -122,6 +128,8 @@ func set_color(_rgb_color: Color):
 	if rgb_color == Color.BLACK:
 		no_color = true
 		_to_color = null_color
+	else:
+		no_color = false
 		
 	collision_mask |= 0b111 << 8
 	collision_mask &= ~(_color_mask << 8)

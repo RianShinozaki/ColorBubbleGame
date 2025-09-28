@@ -1,7 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://br32x2pqn5aui"]
+[gd_scene load_steps=8 format=3 uid="uid://br32x2pqn5aui"]
 
 [ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_njfqy"]
 [ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_v4bbh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_njfqy"]
+friction = 0.2
+rough = true
+bounce = 1.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
 blend_mode = 1
@@ -18,16 +23,28 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
 radius = 31.0
 
-[node name="ColorBubble" type="Area2D"]
+[node name="ColorBubble" type="RigidBody2D"]
 modulate = Color(1, 0, 0, 1)
-collision_layer = 8
-collision_mask = 0
+collision_layer = 10
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_njfqy")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 2.24
 script = ExtResource("1_njfqy")
+maximum_speed = 150.0
+acceleration = 800.0
+stretch_scale_factor = 1500.0
+rgb_color = Color(1, 0, 0, 1)
+behavior = 1
+detect_range = 512.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="SpriteParent" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteParent"]
 texture = ExtResource("2_v4bbh")
 
-[node name="PointLight2D2" type="Sprite2D" parent="Sprite2D"]
+[node name="PointLight2D2" type="Sprite2D" parent="SpriteParent/Sprite2D"]
 modulate = Color(0.37413925, 0.37413928, 0.37413922, 1)
 material = SubResource("CanvasItemMaterial_mdqsx")
 scale = Vector2(2, 2)

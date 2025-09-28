@@ -10,6 +10,10 @@ extends Hazard
 @onready var area_2D: Area2D = $Hitbox as Area2D
 @onready var ray: RayCast2D = $RayCast2D as RayCast2D
 var rect: RectangleShape2D = RectangleShape2D.new()
+@export_tool_button("Update Attributes") var update_attributes_action = update_attributes
+
+func _ready() -> void:
+	update_attributes()
 	
 func _draw() -> void:
 	var _direction: Vector2 = Vector2.from_angle(global_rotation)
@@ -19,18 +23,8 @@ func _draw() -> void:
 
 func _process(_delta: float):
 	queue_redraw()
-	modulate = rgb_color
 	if not Engine.is_editor_hint():
-		
-		var _red_bit: int = floori(rgb_color.r)
-		var _green_bit: int = floori(rgb_color.g)
-		var _blue_bit: int = floori(rgb_color.b)
-		var _color_mask: int = _red_bit + (_green_bit<<1) + (_blue_bit<<2)
-		area_2D.collision_layer = (_color_mask << 8)
-			
-		ray.collision_mask |= 0b111 << 8
-		ray.collision_mask &= ~(_color_mask << 8)
-		ray.target_position = Vector2(distance, 0)
+
 		var _ray_dist = distance
 		if ray.is_colliding():
 			_ray_dist = (ray.get_collision_point() - global_position).length()
@@ -46,4 +40,18 @@ func _process(_delta: float):
 		@warning_ignore("integer_division")
 		_light.position = Vector2(_ray_dist/2, 0)
 		
-	
+func update_attributes():
+	modulate = rgb_color
+	var _red_bit: int = floori(rgb_color.r)
+	var _green_bit: int = floori(rgb_color.g)
+	var _blue_bit: int = floori(rgb_color.b)
+	var _color_mask: int = _red_bit + (_green_bit<<1) + (_blue_bit<<2)
+	area_2D.collision_layer = (_color_mask << 8)
+		
+	ray.collision_mask |= 0b111 << 8
+	ray.collision_mask &= ~(_color_mask << 8)
+	ray.target_position = Vector2(distance, 0)
+	var _light: Sprite2D = $Light as Sprite2D
+	_light.scale = Vector2(1, distance)
+	@warning_ignore("integer_division")
+	_light.position = Vector2(distance/2, 0)
