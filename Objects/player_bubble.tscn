@@ -12,7 +12,8 @@ bounce = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bubble"]
 shader = ExtResource("3_shader")
-shader_parameter/base_color = Vector4(0.25, 0.65, 1, 1)
+shader_parameter/sprite_rotation = 0.0
+shader_parameter/base_color = Vector4(1, 1, 1, 1)
 shader_parameter/time = 0.0
 shader_parameter/iridescence_strength = 0.8
 shader_parameter/radius = 0.48
@@ -30,6 +31,7 @@ shader_parameter/center_highlight = 0.4
 shader_parameter/highlight_size = 0.4
 shader_parameter/highlight_falloff = 2.5
 shader_parameter/light_color_boost = 1.5
+shader_parameter/light_dir = Vector2(0.7, -0.5)
 shader_parameter/fresnel_power = 2.5
 shader_parameter/bubble_screen_pos = Vector2(0.5, 0.5)
 shader_parameter/global_light_pos = Vector2(0.5, 0.3)

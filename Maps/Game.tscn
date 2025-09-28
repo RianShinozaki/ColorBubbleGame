@@ -118,7 +118,7 @@ tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAA
 tile_set = SubResource("TileSet_qbg5b")
 
 [node name="ColorBubble" parent="." instance=ExtResource("5_kkdw2")]
-position = Vector2(1090, -258)
+position = Vector2(1084, -255)
 
 [node name="ColorBubble2" parent="." instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 0, 1, 1)
@@ -141,9 +141,14 @@ position = Vector2(1089, 74)
 rgb_color = Color(0.90499455, 0.7741303, 0.13821825, 1)
 
 [node name="SpikyEnemyBubble" parent="." instance=ExtResource("6_kkdw2")]
-position = Vector2(630, -79)
+position = Vector2(764, -258)
 
 [node name="SpikyEnemyBubble2" parent="." instance=ExtResource("6_kkdw2")]
 modulate = Color(0, 0, 1, 1)
-position = Vector2(831, 17)
+position = Vector2(762, -174)
 rgb_color = Color(0, 0, 1, 1)
+
+[node name="SpikyEnemyBubble3" parent="." instance=ExtResource("6_kkdw2")]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(762, -81)
+rgb_color = Color(0, 1, 0, 1)

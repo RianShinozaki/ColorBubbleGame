@@ -1,0 +1,280 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxgtypf4myp82"]
+
+[sub_resource type="GDScript" id="GDScript_p4ks4"]
+script/source = "extends RigidBody2D
+
+@export_group(\"Physics\")
+@export var bubble_radius: float = 50.0
+@export var mass_scale: float = 1.0
+@export var movement_force: float = 200.0
+
+@export_group(\"Visual\")
+@export var bubble_color: Color = Color(0.3, 0.6, 1.0, 1.0)  # Opaque blue
+
+@onready var collision_shape = $CollisionShape2D
+@onready var visual = $BubbleVisual
+
+var velocity_previous: Vector2 = Vector2.ZERO
+var current_impacts: Array = []  # Store current collisions
+
+func _ready():
+	# Physics setup
+	gravity_scale = 0.0
+	linear_damp = 2.0
+	angular_damp = 4.0
+	mass = mass_scale
+	
+	# Set collision size
+	if collision_shape.shape:
+		collision_shape.shape.radius = bubble_radius
+	
+	# Initialize visual
+	if visual:
+		visual.set_bubble_radius(bubble_radius)  # Updated method name
+		visual.set_bubble_color(bubble_color)    # Updated method name
+	
+	# Enable collision detection
+	contact_monitor = true
+	max_contacts_reported = 10
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+
+func _physics_process(delta):
+	# Calculate acceleration for shape distortion
+	var current_velocity = linear_velocity
+	var acceleration = (current_velocity - velocity_previous) / delta
+	velocity_previous = current_velocity
+	
+	# Pass movement data to visual
+	if visual:
+		visual.set_movement_distortion(current_velocity, acceleration)
+		visual.set_collision_points(current_impacts)
+
+func _on_body_entered(body):
+	if body != self:
+		var collision_point = (body.global_position - global_position).normalized()
+		current_impacts.append({
+			\"point\": collision_point,
+			\"strength\": linear_velocity.length() / 100.0,
+			\"time\": 0.0
+		})
+
+func _on_body_exited(body):
+	# Remove collision from list
+	for i in range(current_impacts.size() - 1, -1, -1):
+		current_impacts[i].time += 0.1
+		if current_impacts[i].time > 0.5:
+			current_impacts.remove_at(i)
+
+func set_color(new_color: Color):
+	bubble_color = new_color
+	if visual:
+		visual.set_bubble_color(bubble_color)  # Updated method name
+
+func apply_movement(direction: Vector2):
+	apply_central_impulse(direction * movement_force)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sqnr2"]
+
+[sub_resource type="Shader" id="Shader_eyko7"]
+code = "shader_type canvas_item;
+
+// Base color (opaque)
+uniform vec4 bubble_color : source_color = vec4(0.3, 0.6, 1.0, 1.0);
+
+// Shine effects
+uniform float shine_speed : hint_range(0.5, 5.0) = 2.0;
+uniform float shine_scale : hint_range(5.0, 30.0) = 15.0;
+uniform float shine_brightness : hint_range(0.0, 0.5) = 0.3;
+
+// Ripple effects
+uniform float ripple_speed : hint_range(1.0, 10.0) = 3.0;
+uniform float ripple_frequency : hint_range(5.0, 30.0) = 12.0;
+uniform float ripple_amplitude : hint_range(0.0, 0.3) = 0.15;
+
+// Highlight
+uniform vec2 light_direction = vec2(-0.5, -0.5);
+uniform float highlight_strength : hint_range(0.0, 0.5) = 0.3;
+uniform float highlight_size : hint_range(0.1, 0.5) = 0.25;
+
+void fragment() {
+    vec2 uv = UV;
+    vec2 center = vec2(0.5, 0.5);
+    vec2 to_center = uv - center;
+    float dist_from_center = length(to_center);
+    float angle = atan(to_center.y, to_center.x);
+    
+    // Start with opaque base color
+    vec3 final_color = bubble_color.rgb;
+    
+    // 1. Rippling shine (like water surface)
+    float shine_wave1 = sin(dist_from_center * shine_scale - TIME * shine_speed);
+    float shine_wave2 = sin(angle * 4.0 + TIME * shine_speed * 1.3);
+    float combined_shine = (shine_wave1 * 0.7 + shine_wave2 * 0.3) * shine_brightness;
+    
+    // 2. Circular ripples emanating from center
+    float ripple = sin(dist_from_center * ripple_frequency - TIME * ripple_speed);
+    ripple = smoothstep(-0.5, 1.0, ripple) * ripple_amplitude;
+    
+    // 3. Highlight spot (simulated light source)
+    vec2 light_pos = center + light_direction * highlight_size;
+    float highlight = 1.0 - distance(uv, light_pos) / highlight_size;
+    highlight = clamp(highlight, 0.0, 1.0);
+    highlight = pow(highlight, 2.0) * highlight_strength;
+    
+    // 4. Fresnel-like edge brightening
+    float edge_glow = smoothstep(0.3, 0.45, dist_from_center) * 0.1;
+    
+    // Combine all effects
+    final_color *= 1.0 + combined_shine + ripple + edge_glow;
+    final_color += vec3(highlight);
+    
+    // Ensure we stay opaque
+    COLOR = vec4(final_color, 1.0);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8edix"]
+shader = SubResource("Shader_eyko7")
+shader_parameter/bubble_color = Color(0.3, 0.6, 1, 1)
+shader_parameter/shine_speed = 2.0
+shader_parameter/shine_scale = 15.0
+shader_parameter/shine_brightness = 0.3
+shader_parameter/ripple_speed = 3.0
+shader_parameter/ripple_frequency = 12.0
+shader_parameter/ripple_amplitude = 0.15
+shader_parameter/light_direction = Vector2(-0.5, -0.5)
+shader_parameter/highlight_strength = 0.3
+shader_parameter/highlight_size = 0.25
+
+[sub_resource type="GDScript" id="GDScript_2cwsm"]
+script/source = "extends Polygon2D
+
+@export_group(\"Shape\")
+@export var base_segments: int = 32
+@export var base_radius: float = 50.0
+
+@export_group(\"Animation\")
+@export var idle_wobble_speed: float = 2.0
+@export var idle_wobble_amount: float = 3.0
+@export var movement_distortion_strength: float = 0.15
+@export var collision_deform_strength: float = 8.0
+
+# Internal variables
+var time: float = 0.0
+var vertex_offsets: Array = []
+var base_vertices: Array = []
+var movement_velocity: Vector2 = Vector2.ZERO
+var movement_acceleration: Vector2 = Vector2.ZERO
+var collision_points: Array = []
+
+# Shader material
+var bubble_material: ShaderMaterial
+
+func _ready():
+	setup_material()
+	initialize_shape()
+
+func setup_material():
+	bubble_material = ShaderMaterial.new()
+	var shader = preload(\"res://Shaders/bubble_shader.gdshader\")
+	bubble_material.shader = shader
+	material = bubble_material
+
+func initialize_shape():
+	base_vertices.clear()
+	vertex_offsets.clear()
+	
+	# Create base circle vertices
+	for i in range(base_segments):
+		var angle = (TAU * i) / base_segments
+		var vertex = Vector2(cos(angle), sin(angle)) * base_radius
+		base_vertices.append(vertex)
+		
+		# Random offset for each vertex for organic movement
+		vertex_offsets.append({
+			\"phase\": randf() * TAU,
+			\"speed\": randf_range(0.8, 1.2),
+			\"amplitude\": randf_range(0.8, 1.2)
+		})
+
+func _process(delta):
+	time += delta
+	update_shape()
+
+func update_shape():
+	var deformed_vertices = PackedVector2Array()
+	
+	for i in range(base_segments):
+		var base_vertex = base_vertices[i]
+		var offset_data = vertex_offsets[i]
+		var vertex_angle = atan2(base_vertex.y, base_vertex.x)
+		var vertex_dir = base_vertex.normalized()
+		
+		# 1. Idle wobble (organic bubble movement)
+		var idle_offset = sin(time * idle_wobble_speed * offset_data.speed + offset_data.phase)
+		idle_offset *= idle_wobble_amount * offset_data.amplitude
+		
+		# 2. Movement distortion (stretch opposite to movement)
+		var movement_offset = 0.0
+		if movement_velocity.length() > 10:
+			var movement_alignment = vertex_dir.dot(-movement_velocity.normalized())
+			movement_offset = movement_alignment * movement_velocity.length() * movement_distortion_strength
+			# Add some lag/wobble to the movement distortion
+			movement_offset *= (1.0 + sin(time * 10.0 + offset_data.phase) * 0.2)
+		
+		# 3. Collision deformation (squash at impact points)
+		var collision_offset = 0.0
+		for impact in collision_points:
+			var impact_alignment = vertex_dir.dot(impact.point)
+			if impact_alignment > 0.5:  # Only deform near impact
+				var impact_strength = (impact_alignment - 0.5) * 2.0  # 0 to 1
+				collision_offset -= impact_strength * collision_deform_strength * impact.strength
+		
+		# 4. Acceleration squash/stretch
+		var accel_offset = 0.0
+		if movement_acceleration.length() > 50:
+			var accel_alignment = vertex_dir.dot(movement_acceleration.normalized())
+			accel_offset = -accel_alignment * min(movement_acceleration.length() / 1000.0, 1.0) * 5.0
+		
+		# Combine all deformations
+		var total_offset = idle_offset + movement_offset + collision_offset + accel_offset
+		
+		# Apply deformation
+		var deformed_vertex = base_vertex + vertex_dir * total_offset
+		deformed_vertices.append(deformed_vertex)
+	
+	# Close the shape
+	deformed_vertices.append(deformed_vertices[0])
+	
+	# Update polygon
+	polygon = deformed_vertices
+
+func set_bubble_radius(radius: float):  # Renamed from set_radius
+	base_radius = radius
+	initialize_shape()
+
+func set_bubble_color(new_color: Color):  # Renamed from set_color
+	if bubble_material:
+		bubble_material.set_shader_parameter(\"bubble_color\", new_color)
+
+func set_movement_distortion(velocity: Vector2, acceleration: Vector2):
+	movement_velocity = velocity
+	movement_acceleration = acceleration
+
+func set_collision_points(impacts: Array):
+	collision_points = impacts
+"
+
+[node name="NewPlayerBubble" type="RigidBody2D"]
+gravity_scale = 0.0
+script = SubResource("GDScript_p4ks4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sqnr2")
+
+[node name="BubbleController" type="Node2D" parent="."]
+
+[node name="BubbleVisual" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_8edix")
+script = SubResource("GDScript_2cwsm")

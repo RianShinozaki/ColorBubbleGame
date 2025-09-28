@@ -1,7 +1,34 @@
-[gd_scene load_steps=7 format=3 uid="uid://br32x2pqn5aui"]
+[gd_scene load_steps=9 format=3 uid="uid://br32x2pqn5aui"]
 
 [ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_njfqy"]
+[ext_resource type="Shader" uid="uid://bnpn1fhy2ln2f" path="res://Shaders/color_bubble_shader.gdshader" id="2_ktd3s"]
 [ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_v4bbh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oe3js"]
+shader = ExtResource("2_ktd3s")
+shader_parameter/base_color = Vector4(1, 1, 1, 1)
+shader_parameter/time = 0.0
+shader_parameter/iridescence_strength = 0.8
+shader_parameter/radius = 0.45
+shader_parameter/edge_softness = 0.06
+shader_parameter/rim_white = 0.15
+shader_parameter/rim_width = 0.12
+shader_parameter/color_bands = 1.0
+shader_parameter/saturation = 0.6
+shader_parameter/flow_speed = 0.3
+shader_parameter/center_pure_radius = 0.15
+shader_parameter/center_pure_fade = 0.25
+shader_parameter/center_solid_radius = 0.9
+shader_parameter/center_fade = 0.1
+shader_parameter/center_highlight = 0.1
+shader_parameter/highlight_size = 0.3
+shader_parameter/highlight_falloff = 2.5
+shader_parameter/light_color_boost = 2.5
+shader_parameter/light_dir = Vector2(0.7, -0.5)
+shader_parameter/fresnel_power = 2.5
+shader_parameter/bubble_screen_pos = Vector2(0.5, 0.5)
+shader_parameter/global_light_pos = Vector2(0.3, 0.3)
+shader_parameter/light_influence = 0.5
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
 blend_mode = 1
@@ -23,8 +50,10 @@ modulate = Color(1, 0, 0, 1)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_njfqy")
+rgb_color = Color(1, 0, 0, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_oe3js")
 texture = ExtResource("2_v4bbh")
 
 [node name="PointLight2D2" type="Sprite2D" parent="Sprite2D"]

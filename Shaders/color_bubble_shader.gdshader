@@ -2,22 +2,21 @@ shader_type canvas_item;
 render_mode unshaded, blend_mix;
 
 // ---- Controls ----
-uniform float sprite_rotation = 0.0;
-uniform vec4  base_color = vec4(1, 1, 1.0, 1.0);
+uniform vec4  base_color = vec4(1, 1, 1, 1.0);
 uniform float time = 0.0;
 uniform float iridescence_strength = 0.8;
 
-uniform float radius = 0.8;
+uniform float radius = 0.45;
 uniform float edge_softness = 0.06;
-uniform float rim_white = 0.4;
+uniform float rim_white = 0.2;
 uniform float rim_width = 0.12;
 
 // Iridescence controls
-uniform float film_variation = 0.9;  // How much the "film thickness" varies - reduced default
-uniform float flow_speed = 0.15;
-uniform float turbulence = 0.2;      // Amount of swirling distortion - reduced default
-uniform float color_bands = 2.0;     // Number of color cycles - reduced default
-uniform float saturation = 0.8;      // Reduced default for softer colors
+uniform float color_bands = 1.0;     // Number of color cycles
+uniform float saturation = 0.6;      // Reduced default for softer colors
+uniform float flow_speed = 0.3;      // Speed of animated movement
+uniform float center_pure_radius = 0.3;  // Radius where only base color shows (0-1)
+uniform float center_pure_fade = 0.15;   // How gradual the transition from pure to effects
 uniform float center_solid_radius = 0.9;  // How far from center to keep solid (0-1)
 uniform float center_fade = 0.1;     // How gradual the transition is
 uniform float center_highlight = 0.25;  // Brightness of center highlight (0-1)
@@ -33,9 +32,6 @@ uniform vec2 bubble_screen_pos = vec2(0.5, 0.5);
 uniform vec2 global_light_pos = vec2(0.3, 0.3);  // Light position in screen space (0-1)
 uniform float light_influence = 0.5;  // How much the global light affects the highlight
 
-// Noise texture for organic patterns
-uniform sampler2D noise_tex;
-uniform float noise_scale = 4;
 
 // ---- Helpers ----
 
@@ -58,52 +54,28 @@ vec3 screen(vec3 a, vec3 b) {
     return 1.0 - (1.0 - a)*(1.0 - b); 
 }
 
-// Create flowing distortion field
-vec2 flowField(vec2 uv, float t) {
-    // Sample noise at multiple scales for organic movement
-    vec2 flow1 = texture(noise_tex, uv * noise_scale + vec2(t * flow_speed, 0.0)).rg - 0.5;
-    vec2 flow2 = texture(noise_tex, uv * noise_scale * 0.7 + vec2(0.0, t * flow_speed * 0.8)).rg - 0.5;
-    vec2 flow3 = texture(noise_tex, uv * noise_scale * 1.4 + vec2(t * flow_speed * 0.6, t * flow_speed * 0.4)).rg - 0.5;
-    
-    return (flow1 + flow2 * 0.5 + flow3 * 0.3) * turbulence;
-}
-
-// Simulate thin-film interference pattern
+// Simulate thin-film interference pattern with animated movement
 float thinFilmInterference(vec2 uv, vec2 center, float t) {
 	
-	    // Counter-rotate UV to keep interference stable
-    vec2 rotated_uv = uv - center;
-    rotated_uv = vec2(
-        rotated_uv.x * cos(sprite_rotation) - rotated_uv.y * sin(sprite_rotation),
-        rotated_uv.x * sin(sprite_rotation) + rotated_uv.y * cos(sprite_rotation)
-    );
-    rotated_uv += center;
+    vec2 toCenter = uv - center;
     
-    // Use rotated_uv instead of uv for the rest of the function
-    vec2 toCenter = rotated_uv - center;
+    // Add subtle time-based distortion for organic movement
+    float time_distortion = sin(t * flow_speed * 0.5) * 0.02;
+    toCenter += vec2(cos(t * flow_speed * 0.7) * time_distortion, sin(t * flow_speed * 0.6) * time_distortion);
     
-    // Add flow distortion - use rotated_uv here
-    vec2 distortion = flowField(rotated_uv, t);
-    toCenter += distortion * 0.1;
-	    
-    
-    // Distance from center (but distorted)
+    // Distance from center
     float dist = length(toCenter);
     
     // Angular component for variation
     float angle = atan(toCenter.y, toCenter.x);
     
-    // Create multiple overlapping wave patterns with SMOOTHER frequencies
-    float wave1 = sin(dist * 8.0 - t * 1.5 + angle * 1.5);  // Reduced frequency
-    float wave2 = sin(dist * 5.0 + t * 1.0 + angle * 2.0);   // Reduced frequency
-    float wave3 = cos(dist * 11.0 - t * 2.0 - angle * 0.5);  // Reduced frequency
-    
-    // Combine with noise for organic variation
-    float noise_pattern = texture(noise_tex, uv * 2.5 + vec2(t * 0.1)).r;  // Reduced scale
+    // Create multiple overlapping wave patterns with animated movement
+    float wave1 = sin(dist * 8.0 - t * flow_speed * 1.5 + angle * 1.5);
+    float wave2 = sin(dist * 5.0 + t * flow_speed * 1.0 + angle * 2.0);   // Re-enabled for more movement
+    float wave3 = cos(dist * 11.0 - t * flow_speed * 2.0 - angle * 0.5);
     
     // Mix waves with varying weights
-    float pattern = wave1 * 0.35 + wave2 * 0.35 + wave3 * 0.3;
-    pattern += (noise_pattern - 0.5) * film_variation;
+    float pattern = wave1 * 0.3 + wave2 * 0.3 + wave3 * 0.3;
     
     // Apply smoothstep for softer transitions
     pattern = pattern * 0.5 + 0.5;
@@ -128,8 +100,8 @@ void fragment() {
         float distFromCenter = length(toCenter);
         float normalizedDist = distFromCenter / radius;
         
-        // Calculate interference pattern
-        float interference = thinFilmInterference(UV, center, time);
+        // Calculate interference pattern - use TIME built-in for automatic animation
+        float interference = thinFilmInterference(UV, center, TIME);
         
 		
 		
@@ -140,14 +112,9 @@ void fragment() {
 		vec2 light_dir_screen = normalize(global_light_pos - bubble_screen_pos);
 
 		vec2 local_light_offset = light_dir_screen * 0.2;  // Adjust 0.2 to control offset amount
-
-		vec2 rotated_offset = vec2(
-		    local_light_offset.x * cos(-sprite_rotation) - local_light_offset.y * sin(-sprite_rotation),
-		    local_light_offset.x * sin(-sprite_rotation) + local_light_offset.y * cos(-sprite_rotation)
-		);
 		
 		// Create a more realistic 3D sphere shading for the solid center
-		vec2 solid_center = center - rotated_offset * 0.2;  // Reduced from 0.3 for subtlety
+		vec2 solid_center = center - local_light_offset * 0.2;  // Reduced from 0.3 for subtlety
 		float distFromSolidCenter = length(UV - solid_center);
 
 		// Simulate 3D sphere surface normal
@@ -166,7 +133,7 @@ void fragment() {
 
 
 		// Use the rotated offset for the light center
-		vec2 light_center = center - rotated_offset;
+		vec2 light_center = center - local_light_offset;
 
 		// Offset the highlight based on where the light is  // Negative because highlight is opposite of light source
 		float dist_to_light = length(UV - light_center);
@@ -187,8 +154,8 @@ void fragment() {
         float hue_shift = interference * color_bands;
         
         // Smooth the hue transitions using mix between neighboring hues
-        float h1 = fract(hue_shift + time * 0.05);
-        float h2 = fract(hue_shift + time * 0.05 + 0.15);  // Offset hue
+        float h1 = fract(hue_shift + TIME * flow_speed * 0.1);
+        float h2 = fract(hue_shift + TIME * flow_speed * 0.1 + 0.15);  // Offset hue
         float blend_factor = smoothstep(0.3, 0.7, fract(hue_shift * 2.0));
         float h = mix(h1, h2, blend_factor);
         
@@ -205,8 +172,8 @@ void fragment() {
         vec3 iridescent = hsv2rgb(vec3(h, s, v));
         
         // Mix iridescence strength based on fresnel
-		float strong_center_mask = pow(center_mask, 2.0);  //  sharper transition
-		float irid_mix = iridescence_strength * (0.3 + 0.7 * fresnel) * strong_center_mask;
+		float new_center_fade = smoothstep(0.0, 0.6, normalizedDist);
+		float irid_mix = iridescence_strength * fresnel * new_center_fade;
 		
 		// Ensure center stays more opaque
 		float center_opacity = 1.0 - smoothstep(0.0, center_solid_radius * 0.8, distFromSolidCenter);
@@ -236,23 +203,26 @@ void fragment() {
         
 		// Add specular highlights based on light direction (with rotation compensation)
 		vec2 spec_offset = light_dir * 0.2;
-		vec2 rotated_spec_offset = vec2(
-		    spec_offset.x * cos(-sprite_rotation) - spec_offset.y * sin(-sprite_rotation),
-		    spec_offset.x * sin(-sprite_rotation) + spec_offset.y * cos(-sprite_rotation)
-		);
-		vec2 light_pos = center - rotated_spec_offset;
+
+		vec2 light_pos = center - spec_offset;
 		float spec = pow(softcircle(UV, light_pos, 0.08, 0.1), 4.0) * 0.6;
         
 		// Add center highlight for 3D roundness
 		float highlight_reduction = mix(1.0, 0.5, smoothstep(0.5, 0.8, base_luminance));
-		vec3 highlight_color = mix(bubble_color, vec3(1.0), center_highlight * center_glow * highlight_reduction);
+		vec3 highlight_color = mix(bubble_color, bubble_color * 1.3, center_highlight * center_glow);
 
 
-		// Final composition
-		vec3 final_color = mix(bubble_color, highlight_color, center_glow);
-		final_color = screen(final_color, rim_col);
-		final_color += vec3(spec) * (1.0 - irid_mix * 0.5);
+		// Final composition with effects
+		vec3 effect_color = mix(bubble_color, highlight_color, center_glow);
+		effect_color = screen(effect_color, rim_col);
+		effect_color += vec3(spec) * (1.0 - irid_mix * 0.5);
+		
+		// Create pure center mask - inside this radius, only base color shows
+		float pure_center_mask = smoothstep(center_pure_radius, center_pure_radius + center_pure_fade, normalizedDist);
+		
+		// Mix between pure actual color in center and effects outside
+		vec3 final_color = mix(actual_color, effect_color, pure_center_mask);
         
-        COLOR = vec4(final_color, alpha);
+        COLOR = vec4(final_color, alpha * base_color.a);
     }
 }
