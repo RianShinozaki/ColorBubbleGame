@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=17 format=4 uid="uid://bkvfgd3chj1pk"]
 
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
@@ -6,10 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
-[ext_resource type="PackedScene" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
+[ext_resource type="PackedScene" uid="uid://c7c2t7rt0xb8d" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
 [ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="9_qpgel"]
 [ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="10_ceqvn"]
-[ext_resource type="PackedScene" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
+[ext_resource type="PackedScene" uid="uid://bolbn37ngi3oe" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
+[ext_resource type="PackedScene" uid="uid://chgks6x2hrsc2" path="res://Objects/nail.tscn" id="11_lntlw"]
+[ext_resource type="PackedScene" uid="uid://bh4m2eebg003k" path="res://Objects/checkpoint.tscn" id="12_lntlw"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -72,7 +74,7 @@ sources/0 = SubResource("TileSetAtlasSource_kkdw2")
 
 [node name="Game" type="Node2D"]
 texture_filter = 1
-position = Vector2(0, 1)
+position = Vector2(1, 1)
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -100,6 +102,7 @@ tile_set = SubResource("TileSet_qbg5b")
 
 [node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
 position = Vector2(84, -165)
+collision_layer = 1
 collision_mask = 1793
 knockback_force = 500.0
 
@@ -185,3 +188,41 @@ position = Vector2(-704, -129)
 [node name="LaserEmitter2" parent="." instance=ExtResource("7_qbg5b")]
 position = Vector2(-160, 287)
 rotation = 0.0
+
+[node name="Nail" parent="." instance=ExtResource("11_lntlw")]
+position = Vector2(780, -44)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD"]
+layout_mode = 0
+offset_right = 1100.0
+offset_bottom = 400.0
+alignment = 1
+
+[node name="DeathLabel" type="Label" parent="UI/HUD/VBoxContainer" groups=["death_label"]]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "You Died!!
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartLabel" type="Label" parent="UI/HUD/VBoxContainer" groups=["restart_label"]]
+visible = false
+layout_mode = 2
+text = "Press Enter to respawn"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Checkpoint" parent="." groups=["checkpoint"] instance=ExtResource("12_lntlw")]
+position = Vector2(1028, -213)

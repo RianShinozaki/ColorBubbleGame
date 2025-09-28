@@ -1,5 +1,9 @@
 extends RigidBody2D
 
+enum State { ALIVE, STUNNED, DEAD }
+var state: State = State.ALIVE
+var input_enabled := true
+
 @export var maximum_speed: float
 @export var acceleration: float
 @export var stretch_scale_factor: float
@@ -8,7 +12,13 @@ extends RigidBody2D
 @export var sprite_parent: Node2D
 @export var rgb_color: Color = Color.WHITE
 @export var knockback_force: float
+@onready var hurtbox: Area2D = $Area2Ds/Hurtbox
 
+@onready var death_label: Label = get_tree().get_first_node_in_group("death_label")
+@onready var restart_label: Label = get_tree().get_first_node_in_group("restart_label")
+
+var start_position: Vector2
+var is_dead: bool = false
 var this_scale: float = 1
 var to_scale: float = 1
 var grow_speed: float = 0.2
@@ -26,8 +36,23 @@ func _ready() -> void:
 	get_node("Area2Ds/Hurtbox").area_entered.connect(on_hurtbox_entered)
 	modulate = null_color
 	set_color(Color(0, 0, 0, 1))
+	start_position = global_position
+	if death_label: death_label.set_anchors_preset(Control.PRESET_CENTER)
+	if restart_label: restart_label.set_anchors_preset(Control.PRESET_CENTER)
+	
 	
 func _physics_process(_delta: float) -> void:
+	#For respawn check
+	if state == State.DEAD:
+		linear_velocity = Vector2.ZERO
+		angular_velocity = 0.0
+		if Input.is_action_just_pressed("respawn") or Input.is_action_just_pressed("ui_accept"):
+			_do_respawn()
+		return
+		
+	if not input_enabled:
+		return
+		
 	#Get movement input vector from API Call
 	var _input: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	if _input.length() > 0: #Check if there is any input
@@ -65,7 +90,26 @@ func on_item_pickup(area: Area2D):
 	else:
 		to_scale += 0.1
 	#Destroy whatever item we got
-	area.queue_free()
+	# area.queue_free()
+	_soft_disable_item(area)
+	
+	
+func _soft_disable_item(a: Area2D) -> void:
+	#Hide visuals (Area2D is a CanvasItem, so it has `visible`)
+	a.visible = false
+	#If the sprite/mesh is on the parent or a sibling, also hide the parent if it's a CanvasItem
+	var p := a.get_parent()
+	if p and p is CanvasItem:
+		(p as CanvasItem).visible = false
+
+	# Stop future overlap callbacks
+	a.set_deferred("monitoring",  false)
+	a.set_deferred("monitorable", false)
+
+	# Mark it so we can restore later
+	if not a.is_in_group("collectible_soft_disabled"):
+		a.add_to_group("collectible_soft_disabled")
+
 
 #For things that really hurt the bubble (lasers, screws)
 func on_hurtbox_entered(_area: Area2D):
@@ -121,5 +165,99 @@ func set_color(_rgb_color: Color):
 	color_animation_gradient.remove_point(0)
 	color_animation_gradient_position = 0
 
-func bubble_die():
-	print("Died")
+func bubble_die() -> void:
+	if state == State.DEAD:
+		return
+	state = State.DEAD
+	input_enabled = false
+	
+	# stop motion (RigidBody2D)
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0.0
+
+	# gray tint to show “dead” state
+	modulate = Color(0.6, 0.6, 0.6, 1.0)
+	
+
+	# ignore hits while dead
+	if is_instance_valid(hurtbox):
+		hurtbox.set_deferred("monitoring", false)
+		hurtbox.set_deferred("monitorable", false)
+	
+	if death_label:
+		death_label.text = "You died!"
+		death_label.visible = true
+	else:
+		print("DeathLabel not found (check group 'death_label').")
+	if restart_label:
+		restart_label.text = "Press Enter to restart"
+		restart_label.visible = true
+	else:
+		print("RestartLabel not found (check group 'restart_label').")
+	
+	#_debug_check_labels("after_die")
+		
+		
+func hazard_hit(hazard: Node) -> void:
+	match state:
+		State.ALIVE:
+			state = State.STUNNED
+			input_enabled = false
+			modulate = Color(0.6, 0.6, 0.6, 1.0)
+
+			if has_method("on_hurtbox_entered"):
+				on_hurtbox_entered(hazard)
+
+			if is_instance_valid(hurtbox):
+				hurtbox.set_deferred("monitoring",  true)
+				hurtbox.set_deferred("monitorable", true)
+		State.STUNNED:
+			bubble_die()
+		State.DEAD:
+			pass
+			
+			
+func _reset_collected_items() -> void:
+	for a in get_tree().get_nodes_in_group("collectible_soft_disabled"):
+		if not is_instance_valid(a):
+			continue
+		# show again
+		a.visible = true
+		var p := a.get_parent()
+		if p and p is CanvasItem:
+			(p as CanvasItem).visible = true
+		# re-enable overlaps
+		a.set_deferred("monitoring",  true)
+		a.set_deferred("monitorable", true)
+		# let item reset any internal state if it has such a method
+		if a.has_method("reset"):
+			a.reset()
+
+		a.remove_from_group("collectible_soft_disabled")
+
+func _do_respawn() -> void:
+	state = State.ALIVE
+	input_enabled = true
+	modulate = Color(1, 1, 1, 1)
+	
+	global_position = start_position
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0.0
+	
+	if death_label:
+		death_label.visible = false
+	if restart_label:
+		restart_label.visible = false
+
+	if is_instance_valid(hurtbox):
+		hurtbox.set_deferred("monitoring",  true)
+		hurtbox.set_deferred("monitorable", true)
+		
+	_reset_collected_items()
+
+#func _debug_check_labels(prefix: String) -> void:
+	#print(prefix, " death_label=", death_label, " vis=", death_label and death_label.visible)
+	#print(prefix, " restart_label=", restart_label, " vis=", restart_label and restart_label.visible)
+
+func set_checkpoint(pos: Vector2) -> void:
+	start_position = pos

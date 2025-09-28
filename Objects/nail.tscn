@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://chgks6x2hrsc2"]
+
+[ext_resource type="Script" uid="uid://751qi202l8f4" path="res://Scripts/Nail.gd" id="1_1s0sc"]
+[ext_resource type="Script" uid="uid://btxmyywnwpscc" path="res://Scripts/hazard.gd" id="1_m2fd7"]
+[ext_resource type="Texture2D" uid="uid://dkeh1rj3wjsy6" path="res://Art Folders/25px-Nails.png" id="2_m2fd7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fhm15"]
+size = Vector2(20, 47)
+
+[node name="Nail" type="Node2D"]
+script = ExtResource("1_m2fd7")
+
+[node name="HitArea" type="Area2D" parent="."]
+collision_layer = 1793
+script = ExtResource("1_1s0sc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_fhm15")
+
+[node name="Sprite2D" type="Sprite2D" parent="HitArea"]
+position = Vector2(0, 1.4999995)
+scale = Vector2(1, 1.9599999)
+texture = ExtResource("2_m2fd7")
