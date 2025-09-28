@@ -1,12 +1,41 @@
-[gd_scene load_steps=10 format=3 uid="uid://swbutbh0hbrp"]
+[gd_scene load_steps=13 format=3 uid="uid://swbutbh0hbrp"]
 
 [ext_resource type="Script" uid="uid://d4svnx0c2r8i" path="res://Scripts/bubble_controller.gd" id="1_to0jj"]
 [ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_rndeb"]
+[ext_resource type="Texture2D" uid="uid://bi5mond6w4rxp" path="res://Art Folders/bubble_noise.tres" id="3_ghrps"]
+[ext_resource type="Shader" uid="uid://dfdcq2ethwfcl" path="res://Shaders/player_bubble_shader.gdshader" id="3_shader"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mdqsx"]
 friction = 0.2
 rough = true
 bounce = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bubble"]
+shader = ExtResource("3_shader")
+shader_parameter/base_color = Vector4(0.25, 0.65, 1, 1)
+shader_parameter/time = 0.0
+shader_parameter/iridescence_strength = 0.8
+shader_parameter/radius = 0.48
+shader_parameter/edge_softness = 0.06
+shader_parameter/rim_white = 0.4
+shader_parameter/rim_width = 0.12
+shader_parameter/film_variation = 0.5
+shader_parameter/flow_speed = 0.15
+shader_parameter/turbulence = 0.3
+shader_parameter/color_bands = 3.0
+shader_parameter/saturation = 0.7
+shader_parameter/center_solid_radius = 0.5
+shader_parameter/center_fade = 0.3
+shader_parameter/center_highlight = 0.4
+shader_parameter/highlight_size = 0.4
+shader_parameter/highlight_falloff = 2.5
+shader_parameter/light_color_boost = 1.5
+shader_parameter/fresnel_power = 2.5
+shader_parameter/bubble_screen_pos = Vector2(0.5, 0.5)
+shader_parameter/global_light_pos = Vector2(0.5, 0.3)
+shader_parameter/light_influence = 0.5
+shader_parameter/noise_tex = ExtResource("3_ghrps")
+shader_parameter/noise_scale = 2.5
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
 blend_mode = 1
@@ -49,6 +78,7 @@ sprite_parent = NodePath("SpriteParent")
 [node name="SpriteParent" type="Node2D" parent="."]
 
 [node name="Art" type="Sprite2D" parent="SpriteParent"]
+material = SubResource("ShaderMaterial_bubble")
 texture = ExtResource("2_rndeb")
 
 [node name="Light" type="Sprite2D" parent="SpriteParent/Art"]

@@ -8,21 +8,52 @@ extends RigidBody2D
 @export var sprite_parent: Node2D
 @export var rgb_color: Color = Color.WHITE
 
+@export var color_animation_gradient: Gradient
+@export var color_animation_gradient_position: float = 1
+
+@onready var mat: ShaderMaterial = sprite.material as ShaderMaterial
+
+
 var this_scale: float = 1
 var to_scale: float = 1
 var grow_speed: float = 0.2
 var no_color: bool = true
 var color_shift_multiple: float = 1.0 #this gives us the option to adjust the intensity of the color shift for boards with more collisions
 #to do: change color_shift_multiple to be proportionate to bubble size if we do dif. bubble sizes
-@export var color_animation_gradient: Gradient
-@export var color_animation_gradient_position: float = 1
+var iridesence_speed: float = 0.5
+
 const null_color: Color = Color(0.4, 0.4, 0.4, 1)
 
 func _ready() -> void:
+	if !(sprite.material is ShaderMaterial):
+		var sh: Shader = preload("res://Shaders/player_bubble_shader.gdshader")
+		sprite.material = ShaderMaterial.new()
+		sprite.material.shader = sh
+		mat = sprite.material as ShaderMaterial
+	if mat:
+		mat.set_shader_parameter("base_color", rgb_color)  
+		mat.set_shader_parameter("time", 0.0)
 	#Connects a signal, basically means when PelletGrabber signals "area_entered", we run this "on_pellet_pickedup" function
 	get_node("ItemCollision").area_entered.connect(on_item_pickup)
 	modulate = null_color
 	set_color(Color(0, 0, 0, 1))
+
+
+func _process(delta):
+	if mat:
+		var current_time = mat.get_shader_parameter("time")
+		mat.set_shader_parameter("time", current_time+delta*iridesence_speed)
+		
+		# Update light position based on screen position
+		var viewport_size = get_viewport_rect().size
+		var bubble_pos = global_position
+		
+		
+		# Convert to normalized coordinates (0-1)
+		var normalized_pos = bubble_pos / viewport_size
+		
+		mat.set_shader_parameter("bubble_screen_pos", normalized_pos)
+	
 	
 func _physics_process(_delta: float) -> void:
 	#Get movement input vector from API Call
@@ -33,6 +64,11 @@ func _physics_process(_delta: float) -> void:
 	#This is some silly stuff to make the bubble stretchy and squishy
 	#The squishing and rotation only happens to the sprite so it doesn't affect collision
 	sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
+	
+	#compensate for rotation in shader
+	if mat:
+		mat.set_shader_parameter("sprite_rotation", sprite.rotation)
+	
 	sprite.scale = Vector2(1+linear_velocity.length()/stretch_scale_factor, 1-(linear_velocity.length()/stretch_scale_factor))
 	#We can't change the scale of this root node bc you can't scale a rigidbody
 	this_scale = lerp(this_scale, to_scale, grow_speed)
@@ -98,6 +134,6 @@ func set_color(_rgb_color: Color):
 	color_animation_gradient.remove_point(0)
 	color_animation_gradient.remove_point(0)
 	color_animation_gradient_position = 0
+	if mat:
+		mat.set_shader_parameter("base_color", rgb_color)   # update shader colors
 	#We don't want the color to be totally black
-	
-	
