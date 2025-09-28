@@ -1,3 +1,5 @@
+class_name BubbleController
+
 extends RigidBody2D
 
 @export var maximum_speed: float
@@ -7,6 +9,9 @@ extends RigidBody2D
 @export var shape: CollisionShape2D
 @export var sprite_parent: Node2D
 @export var rgb_color: Color = Color.WHITE
+@export var knockback_force: float
+@export var invincibility_time: float
+@export var initial_scale: float = 0.8
 
 @export var color_animation_gradient: Gradient
 @export var color_animation_gradient_position: float = 1
@@ -14,15 +19,20 @@ extends RigidBody2D
 @onready var mat: ShaderMaterial = sprite.material as ShaderMaterial
 
 
+var invincibility_counter: float = 0
 var this_scale: float = 1
-var to_scale: float = 1
+var to_scale: float = initial_scale
 var grow_speed: float = 0.2
 var no_color: bool = true
 var color_shift_multiple: float = 1.0 #this gives us the option to adjust the intensity of the color shift for boards with more collisions
 #to do: change color_shift_multiple to be proportionate to bubble size if we do dif. bubble sizes
+@export var color_animation_gradient: Gradient #Used to make the color switch smoother
+@export var color_animation_gradient_position: float = 1
+#The color to use instead of pure black
 var iridesence_speed: float = 0.5
 
 const null_color: Color = Color(0.4, 0.4, 0.4, 1)
+static var instance: BubbleController
 
 func _ready() -> void:
 	if !(sprite.material is ShaderMaterial):
@@ -34,9 +44,12 @@ func _ready() -> void:
 		mat.set_shader_parameter("base_color", rgb_color)  
 		mat.set_shader_parameter("time", 0.0)
 	#Connects a signal, basically means when PelletGrabber signals "area_entered", we run this "on_pellet_pickedup" function
-	get_node("ItemCollision").area_entered.connect(on_item_pickup)
+	get_node("Area2Ds/ItemCollision").area_entered.connect(on_item_pickup)
+	get_node("Area2Ds/ItemCollision").body_entered.connect(on_bubble_collision)
+	get_node("Area2Ds/Hurtbox").area_entered.connect(on_hurtbox_entered)
 	modulate = null_color
 	set_color(Color(0, 0, 0, 1))
+	instance = self
 
 
 func _process(delta):
@@ -71,33 +84,60 @@ func _physics_process(_delta: float) -> void:
 	
 	sprite.scale = Vector2(1+linear_velocity.length()/stretch_scale_factor, 1-(linear_velocity.length()/stretch_scale_factor))
 	#We can't change the scale of this root node bc you can't scale a rigidbody
+	to_scale = clamp(to_scale, initial_scale, 5)
 	this_scale = lerp(this_scale, to_scale, grow_speed)
 	#I put a layer between the sprite and this root node to make life easier
 	sprite_parent.scale = Vector2(this_scale, this_scale)
 	#Just change the scale of the shape directly
 	shape.scale = Vector2(this_scale, this_scale)
+	get_node("Area2Ds").scale = Vector2(this_scale, this_scale)
 	
 	#Slowly shift the color to the desired one
 	color_animation_gradient_position = move_toward(color_animation_gradient_position, 1, _delta*5)
 	modulate = color_animation_gradient.sample(color_animation_gradient_position)
+	
+	visible = true
+	if invincibility_counter > 0:
+		invincibility_counter = move_toward(invincibility_counter, 0, _delta)
+		if floori(invincibility_counter * 10) % 2 == 0:
+			visible = false
 
+func on_bubble_collision(body: Node2D):
+	if body is EnemyBubble:
+		var _cb: EnemyBubble = body as EnemyBubble
+		var _new_area = to_scale
+		if _cb.add_color:
+			add_color(_cb.rgb_color)
+			_new_area = get_area(to_scale) + get_area(_cb.radius)
+		else:
+			subtract_color(_cb.rgb_color)
+			_new_area = get_area(to_scale) - get_area(_cb.radius)
+		to_scale = get_radius(_new_area)
+		body.queue_free()
 #I use the same script for colored bubbles and growth pellets lol
 func on_item_pickup(area: Area2D):
 	#Check if it's a colored bubble and use add color script
-	if area is ColorBubble:
-		var _cb: ColorBubble = area as ColorBubble
-		if no_color:
-			rgb_color = Color.BLACK
-			no_color = false
-		add_color(_cb.rgb_color)
-	elif area is SpikyEnemyBubble:
-		var _eb: SpikyEnemyBubble = area as SpikyEnemyBubble
-		if !no_color:
-			subtract_color(_eb.rgb_color)
-	else:
-		to_scale += 0.1
+	var _new_area = get_area(to_scale) + get_area(area.radius)
+	to_scale = get_radius(_new_area)
 	#Destroy whatever item we got
 	area.queue_free()
+
+#For things that really hurt the bubble (lasers, screws)
+func on_hurtbox_entered(_area: Area2D):
+	if _area.get_parent() is Hazard:
+		if false && rgb_color == Color.BLACK:
+			if invincibility_counter == 0:
+				bubble_die()
+		else:
+			if invincibility_counter == 0:
+				set_color(Color.BLACK)
+				invincibility_counter = invincibility_time
+				to_scale = initial_scale
+			var _laser_forward = Vector2.from_angle(_area.global_rotation)
+			var _diff: Vector2 = global_position - _area.global_position
+			var _angle_to: float = _laser_forward.angle_to(_diff)
+			var _knockback_vec = Vector2.from_angle(_area.global_rotation + deg_to_rad(90))
+			linear_velocity = knockback_force * _knockback_vec * sign(_angle_to)
 
 #continuous colors instead of bitmask
 func add_color(rgb_add: Color):
@@ -122,12 +162,19 @@ func set_color(_rgb_color: Color):
 	var _blue_bit: int = floori(rgb_color.b)
 	var _color_mask: int = _red_bit + (_green_bit<<1) + (_blue_bit<<2)
 	
+	#We don't want the color to be totally black
 	var _to_color: Color = rgb_color
 	if rgb_color == Color.BLACK:
 		no_color = true
 		_to_color = null_color
+	else:
+		no_color = false
+		
 	collision_mask |= 0b111 << 8
 	collision_mask &= ~(_color_mask << 8)
+	get_node("Area2Ds/Hurtbox").collision_mask |= 0b111 << 8
+	get_node("Area2Ds/Hurtbox").collision_mask &= ~(_color_mask << 8)
+	#Basically we make a gradient object and sample along it to get the color transition
 	color_animation_gradient = Gradient.new()
 	color_animation_gradient.add_point(0, modulate)
 	color_animation_gradient.add_point(1, _to_color)
@@ -137,3 +184,12 @@ func set_color(_rgb_color: Color):
 	if mat:
 		mat.set_shader_parameter("base_color", rgb_color)   # update shader colors
 	#We don't want the color to be totally black
+
+func bubble_die():
+	print("Died")
+
+func get_area(_radius: float) -> float:
+	return pow(_radius, 2) * PI
+
+func get_radius(_area: float) -> float:
+	return sqrt(_area / PI)

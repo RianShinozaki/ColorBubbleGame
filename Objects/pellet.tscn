@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://daeq4sldjssur"]
+[gd_scene load_steps=7 format=3 uid="uid://daeq4sldjssur"]
 
+[ext_resource type="Script" uid="uid://cq782137lfyq2" path="res://Scripts/pellet.gd" id="1_6icai"]
 [ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="1_uej0o"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
@@ -21,6 +22,7 @@ radius = 32.140316
 scale = Vector2(0.3, 0.3)
 collision_layer = 4
 collision_mask = 0
+script = ExtResource("1_6icai")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_uej0o")

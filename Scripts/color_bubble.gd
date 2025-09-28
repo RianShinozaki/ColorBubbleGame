@@ -2,7 +2,8 @@
 
 class_name ColorBubble
 
-extends Area2D
+extends EnemyBubble
+
 
 @export var rgb_color: Color=Color(1, 1, 1, 1)
 

@@ -1,0 +1,51 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://blllp1ve3elou"]
+
+[ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="1_ootfk"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kkdw2"]
+texture = ExtResource("1_ootfk")
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 10
+0:0/0 = 0
+0:0/0/modulate = Color(0, 0, 0, 1)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/1 = 1
+0:0/1/modulate = Color(1, 0, 0, 1)
+0:0/1/physics_layer_1/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/4 = 4
+0:0/4/modulate = Color(0, 1, 0, 1)
+0:0/4/physics_layer_2/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/5 = 5
+0:0/5/modulate = Color(0, 0, 1, 1)
+0:0/5/physics_layer_3/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/6 = 6
+0:0/6/modulate = Color(1, 1, 0, 1)
+0:0/6/physics_layer_4/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/7 = 7
+0:0/7/modulate = Color(1, 0, 1, 1)
+0:0/7/physics_layer_5/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/8 = 8
+0:0/8/modulate = Color(0, 1, 1, 1)
+0:0/8/physics_layer_6/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/9 = 9
+0:0/9/physics_layer_7/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[resource]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+physics_layer_1/collision_layer = 256
+physics_layer_1/collision_mask = 0
+physics_layer_2/collision_layer = 512
+physics_layer_2/collision_mask = 0
+physics_layer_3/collision_layer = 1024
+physics_layer_3/collision_mask = 0
+physics_layer_4/collision_layer = 768
+physics_layer_4/collision_mask = 0
+physics_layer_5/collision_layer = 1280
+physics_layer_5/collision_mask = 0
+physics_layer_6/collision_layer = 1536
+physics_layer_6/collision_mask = 0
+physics_layer_7/collision_layer = 1792
+physics_layer_7/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_kkdw2")
