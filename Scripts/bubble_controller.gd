@@ -40,6 +40,7 @@ func _physics_process(_delta: float) -> void:
 	sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
 	sprite.scale = Vector2(1+linear_velocity.length()/stretch_scale_factor, 1-(linear_velocity.length()/stretch_scale_factor))
 	#We can't change the scale of this root node bc you can't scale a rigidbody
+	to_scale = min(to_scale, 5)
 	this_scale = lerp(this_scale, to_scale, grow_speed)
 	#I put a layer between the sprite and this root node to make life easier
 	sprite_parent.scale = Vector2(this_scale, this_scale)
@@ -70,21 +71,23 @@ func on_item_pickup(area: Area2D):
 		var _eb: SpikyEnemyBubble = area as SpikyEnemyBubble
 		if !no_color:
 			subtract_color(_eb.rgb_color)
-	else:
-		to_scale += 0.1
+	
+	var _new_area = get_area(to_scale) + get_area(area.radius)
+	to_scale = get_radius(_new_area)
 	#Destroy whatever item we got
 	area.queue_free()
 
 #For things that really hurt the bubble (lasers, screws)
 func on_hurtbox_entered(_area: Area2D):
 	if _area.get_parent() is Hazard:
-		if rgb_color == Color.BLACK:
+		if false && rgb_color == Color.BLACK:
 			if invincibility_counter == 0:
 				bubble_die()
 		else:
 			if invincibility_counter == 0:
 				set_color(Color.BLACK)
 				invincibility_counter = invincibility_time
+				to_scale = 1
 			var _laser_forward = Vector2.from_angle(_area.global_rotation)
 			var _diff: Vector2 = global_position - _area.global_position
 			var _angle_to: float = _laser_forward.angle_to(_diff)
@@ -134,3 +137,9 @@ func set_color(_rgb_color: Color):
 
 func bubble_die():
 	print("Died")
+
+func get_area(_radius: float) -> float:
+	return pow(_radius, 2) * PI
+
+func get_radius(_area: float) -> float:
+	return sqrt(_area / PI)

@@ -21,7 +21,7 @@ size = Vector2(8, 8)
 modulate = Color(1, 0, 0, 1)
 rotation = -1.5707964
 script = ExtResource("1_2fbyj")
-distance = 640
+distance = 1000
 width = 8
 
 [node name="Battery" type="Sprite2D" parent="."]
@@ -42,3 +42,6 @@ texture = SubResource("GradientTexture1D_8edix")
 position = Vector2(320, 0)
 shape = SubResource("RectangleShape2D_8puwx")
 debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(64, 2.7975289e-06)
