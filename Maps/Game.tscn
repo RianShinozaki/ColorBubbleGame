@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-[gd_scene load_steps=13 format=4 uid="uid://bkvfgd3chj1pk"]
-=======
 [gd_scene load_steps=17 format=4 uid="uid://bkvfgd3chj1pk"]
->>>>>>> e093fc11886e7c396d63d9537a68305b22c1f48b
 
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
@@ -10,13 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
-<<<<<<< HEAD
-[ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="7_qbg5b"]
-[ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="8_8puwx"]
-=======
 [ext_resource type="Texture2D" uid="uid://df4k8arq21lv4" path="res://Art Folders/Battery.png" id="7_8puwx"]
 [ext_resource type="Script" uid="uid://c01yo6r2xccte" path="res://Scripts/laser_emitter.gd" id="8_8puwx"]
->>>>>>> e093fc11886e7c396d63d9537a68305b22c1f48b
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
