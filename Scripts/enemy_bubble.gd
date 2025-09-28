@@ -12,7 +12,7 @@ enum behavior_mode {IDLE, ATTACK}
 @onready var shape: CollisionShape2D = $CollisionShape2D as CollisionShape2D
 @onready var sprite_parent: Node2D = $SpriteParent as Node2D
 @export var rgb_color: Color = Color.WHITE
-@export var radius: float = 1
+@export var radius: float = 0.8
 @export var add_color: bool = true
 @export var behavior: behavior_mode = behavior_mode.IDLE
 @export var detect_range: float
@@ -29,7 +29,7 @@ func _process(_delta: float) -> void:
 			var _diff: Vector2 = BubbleController.instance.global_position - global_position
 			if _diff.length() < detect_range:
 				_input = _diff.normalized()
-				if add_color and BubbleController.instance.to_scale > radius:
+				if add_color and BubbleController.instance.to_scale >= radius:
 					_input = -_input
 
 		sprite_parent.scale = Vector2(radius, radius)

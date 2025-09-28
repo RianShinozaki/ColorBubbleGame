@@ -11,10 +11,11 @@ extends RigidBody2D
 @export var rgb_color: Color = Color.WHITE
 @export var knockback_force: float
 @export var invincibility_time: float
+@export var initial_scale: float = 0.8
 
 var invincibility_counter: float = 0
 var this_scale: float = 1
-var to_scale: float = 1
+var to_scale: float = initial_scale
 var grow_speed: float = 0.2
 var no_color: bool = true
 var color_shift_multiple: float = 1.0 #this gives us the option to adjust the intensity of the color shift for boards with more collisions
@@ -45,7 +46,7 @@ func _physics_process(_delta: float) -> void:
 	sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
 	sprite.scale = Vector2(1+linear_velocity.length()/stretch_scale_factor, 1-(linear_velocity.length()/stretch_scale_factor))
 	#We can't change the scale of this root node bc you can't scale a rigidbody
-	to_scale = clamp(to_scale, 1, 5)
+	to_scale = clamp(to_scale, initial_scale, 5)
 	this_scale = lerp(this_scale, to_scale, grow_speed)
 	#I put a layer between the sprite and this root node to make life easier
 	sprite_parent.scale = Vector2(this_scale, this_scale)
@@ -93,7 +94,7 @@ func on_hurtbox_entered(_area: Area2D):
 			if invincibility_counter == 0:
 				set_color(Color.BLACK)
 				invincibility_counter = invincibility_time
-				to_scale = 1
+				to_scale = initial_scale
 			var _laser_forward = Vector2.from_angle(_area.global_rotation)
 			var _diff: Vector2 = global_position - _area.global_position
 			var _angle_to: float = _laser_forward.angle_to(_diff)
