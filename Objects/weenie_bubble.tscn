@@ -1,39 +1,42 @@
-[gd_scene load_steps=8 format=3 uid="uid://br32x2pqn5aui"]
+[gd_scene load_steps=10 format=3 uid="uid://bdu0pxx6rc3t8"]
 
-[ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_njfqy"]
-[ext_resource type="Shader" uid="uid://bnpn1fhy2ln2f" path="res://Shaders/color_bubble_shader.gdshader" id="2_ktd3s"]
-[ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_v4bbh"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_oe3js"]
-shader = ExtResource("2_ktd3s")
-shader_parameter/base_color = Vector4(1, 1, 1, 1)
-shader_parameter/time = 0.0
-shader_parameter/iridescence_strength = 0.8
-shader_parameter/radius = 0.45
-shader_parameter/edge_softness = 0.06
-shader_parameter/rim_white = 0.15
-shader_parameter/rim_width = 0.12
-shader_parameter/color_bands = 1.0
-shader_parameter/saturation = 0.6
-shader_parameter/flow_speed = 0.3
-shader_parameter/center_pure_radius = 0.15
-shader_parameter/center_pure_fade = 0.25
-shader_parameter/center_solid_radius = 0.9
-shader_parameter/center_fade = 0.1
-shader_parameter/center_highlight = 0.1
-shader_parameter/highlight_size = 0.3
-shader_parameter/highlight_falloff = 2.5
-shader_parameter/light_color_boost = 2.5
-shader_parameter/light_dir = Vector2(0.7, -0.5)
-shader_parameter/fresnel_power = 2.5
-shader_parameter/bubble_screen_pos = Vector2(0.5, 0.5)
-shader_parameter/global_light_pos = Vector2(0.3, 0.3)
-shader_parameter/light_influence = 0.5
+[ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_p37jm"]
+[ext_resource type="Shader" uid="uid://cr0wiaxw8bv4e" path="res://Shaders/weenie_bubble_shader.gdshader" id="2_p37jm"]
+[ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="3_gtt57"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_njfqy"]
 friction = 0.2
 rough = true
 bounce = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oe3js"]
+shader = ExtResource("2_p37jm")
+shader_parameter/base_color = Vector4(1, 1, 1, 1)
+shader_parameter/time = 0.0
+shader_parameter/iridescence_strength = 1.0
+shader_parameter/rainbow_intensity = 2.0
+shader_parameter/brightness_pulsate_strength = 0.2
+shader_parameter/pulsate_speed = 3.0
+shader_parameter/color_cycle_speed = 5.0
+shader_parameter/radius = 0.45
+shader_parameter/edge_softness = 0.06
+shader_parameter/rim_glow = 0.8
+shader_parameter/rim_width = 0.12
+shader_parameter/color_bands = 1.0
+shader_parameter/saturation = 0.6
+shader_parameter/flow_speed = 0.3
+shader_parameter/center_pure_radius = 0.3
+shader_parameter/center_pure_fade = 0.15
+shader_parameter/inner_rainbow_boost = 1.5
+shader_parameter/wave_amplitude = 0.05
+shader_parameter/wave_frequency = 15.0
+shader_parameter/spiral_speed = 2.0
+shader_parameter/color_blend_smoothness = 0.9
+shader_parameter/hue_variation = 0.8
+shader_parameter/light_dir = Vector2(0.7, -0.5)
+shader_parameter/fresnel_power = 2.5
+shader_parameter/bubble_screen_pos = Vector2(0.5, 0.5)
+shader_parameter/global_light_pos = Vector2(0.3, 0.3)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
 blend_mode = 1
@@ -48,29 +51,29 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
-radius = 31.0
+radius = 46.5
 
-[node name="ColorBubble" type="RigidBody2D"]
-modulate = Color(1, 0, 0, 1)
+[node name="WeenieBubble" type="RigidBody2D"]
 collision_layer = 10
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_njfqy")
 gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 2.24
-script = ExtResource("1_njfqy")
-maximum_speed = 150.0
-acceleration = 800.0
+script = ExtResource("1_p37jm")
+maximum_speed = 10.0
+acceleration = 100.0
 stretch_scale_factor = 1500.0
-rgb_color = Color(1, 0, 0, 1)
+radius = 1.5
 behavior = 1
 detect_range = 512.0
 
 [node name="SpriteParent" type="Node2D" parent="."]
+scale = Vector2(1.5, 1.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpriteParent"]
 material = SubResource("ShaderMaterial_oe3js")
-texture = ExtResource("2_v4bbh")
+texture = ExtResource("3_gtt57")
 
 [node name="PointLight2D2" type="Sprite2D" parent="SpriteParent/Sprite2D"]
 modulate = Color(0.37413925, 0.37413928, 0.37413922, 1)
@@ -80,4 +83,5 @@ texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
+scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_qbg5b")

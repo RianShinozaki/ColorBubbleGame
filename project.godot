@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 
 GameState="*res://Scripts/GameState.gd"
 
+[global_group]
+
+Hazard=""
+
 [input]
 
 respawn={

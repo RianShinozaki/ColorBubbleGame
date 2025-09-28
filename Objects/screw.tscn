@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1hjn7gxlwhrp"]
+
+[ext_resource type="Script" uid="uid://btxmyywnwpscc" path="res://Scripts/hazard.gd" id="1_mbbyw"]
+[ext_resource type="Texture2D" uid="uid://48edmscum3w6" path="res://Art Folders/Screw.png" id="2_86xby"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xacle"]
+size = Vector2(18.435, 64)
+
+[node name="Screw" type="Node2D"]
+script = ExtResource("1_mbbyw")
+
+[node name="Screw" type="Sprite2D" parent="."]
+modulate = Color(0.7554601, 0.6367266, 0.60285246, 1)
+position = Vector2(1.5258789e-05, 32)
+scale = Vector2(0.43, 0.275)
+texture = ExtResource("2_86xby")
+
+[node name="Hitbox" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_xacle")

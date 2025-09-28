@@ -10,7 +10,7 @@ size = Vector2(20, 47)
 [node name="Nail" type="Node2D"]
 script = ExtResource("1_m2fd7")
 
-[node name="HitArea" type="Area2D" parent="."]
+[node name="HitArea" type="Area2D" parent="." groups=["hazard"]]
 collision_layer = 1793
 script = ExtResource("1_1s0sc")
 

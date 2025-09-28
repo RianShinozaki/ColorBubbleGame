@@ -1,3 +1,5 @@
+class_name BubbleController
+
 extends RigidBody2D
 
 enum State { ALIVE, STUNNED, DEAD }
@@ -19,26 +21,63 @@ var input_enabled := true
 
 var start_position: Vector2
 var is_dead: bool = false
+@export var invincibility_time: float
+@export var initial_scale: float = 0.8
+
+@export var color_animation_gradient: Gradient
+@export var color_animation_gradient_position: float = 1
+
+@onready var mat: ShaderMaterial = sprite.material as ShaderMaterial
+
+
+var invincibility_counter: float = 0
 var this_scale: float = 1
-var to_scale: float = 1
+var to_scale: float = initial_scale
 var grow_speed: float = 0.2
 var no_color: bool = true
 var color_shift_multiple: float = 1.0 #this gives us the option to adjust the intensity of the color shift for boards with more collisions
 #to do: change color_shift_multiple to be proportionate to bubble size if we do dif. bubble sizes
-@export var color_animation_gradient: Gradient #Used to make the color switch smoother
-@export var color_animation_gradient_position: float = 1
 #The color to use instead of pure black
+var iridesence_speed: float = 0.5
+
 const null_color: Color = Color(0.4, 0.4, 0.4, 1)
+static var instance: BubbleController
 
 func _ready() -> void:
+	if !(sprite.material is ShaderMaterial):
+		var sh: Shader = preload("res://Shaders/player_bubble_shader.gdshader")
+		sprite.material = ShaderMaterial.new()
+		sprite.material.shader = sh
+		mat = sprite.material as ShaderMaterial
+	if mat:
+		mat.set_shader_parameter("base_color", rgb_color)  
+		mat.set_shader_parameter("time", 0.0)
 	#Connects a signal, basically means when PelletGrabber signals "area_entered", we run this "on_pellet_pickedup" function
 	get_node("Area2Ds/ItemCollision").area_entered.connect(on_item_pickup)
+	get_node("Area2Ds/ItemCollision").body_entered.connect(on_bubble_collision)
 	get_node("Area2Ds/Hurtbox").area_entered.connect(on_hurtbox_entered)
 	modulate = null_color
 	set_color(Color(0, 0, 0, 1))
-	start_position = global_position
+	if start_position == Vector2.ZERO: start_position = global_position
 	if death_label: death_label.set_anchors_preset(Control.PRESET_CENTER)
 	if restart_label: restart_label.set_anchors_preset(Control.PRESET_CENTER)
+	instance = self
+
+
+func _process(delta):
+	if mat:
+		var current_time = mat.get_shader_parameter("time")
+		mat.set_shader_parameter("time", current_time+delta*iridesence_speed)
+		
+		# Update light position based on screen position
+		var viewport_size = get_viewport_rect().size
+		var bubble_pos = global_position
+		
+		
+		# Convert to normalized coordinates (0-1)
+		var normalized_pos = bubble_pos / viewport_size
+		
+		mat.set_shader_parameter("bubble_screen_pos", normalized_pos)
 	
 	
 func _physics_process(_delta: float) -> void:
@@ -61,8 +100,14 @@ func _physics_process(_delta: float) -> void:
 	#This is some silly stuff to make the bubble stretchy and squishy
 	#The squishing and rotation only happens to the sprite so it doesn't affect collision
 	sprite.rotation = atan2(linear_velocity.y, linear_velocity.x)
+	
+	#compensate for rotation in shader
+	if mat:
+		mat.set_shader_parameter("sprite_rotation", sprite.rotation)
+	
 	sprite.scale = Vector2(1+linear_velocity.length()/stretch_scale_factor, 1-(linear_velocity.length()/stretch_scale_factor))
 	#We can't change the scale of this root node bc you can't scale a rigidbody
+	to_scale = clamp(to_scale, initial_scale, 5)
 	this_scale = lerp(this_scale, to_scale, grow_speed)
 	#I put a layer between the sprite and this root node to make life easier
 	sprite_parent.scale = Vector2(this_scale, this_scale)
@@ -73,28 +118,64 @@ func _physics_process(_delta: float) -> void:
 	#Slowly shift the color to the desired one
 	color_animation_gradient_position = move_toward(color_animation_gradient_position, 1, _delta*5)
 	modulate = color_animation_gradient.sample(color_animation_gradient_position)
+	
+	visible = true
+	if invincibility_counter > 0:
+		invincibility_counter = move_toward(invincibility_counter, 0, _delta)
+		if floori(invincibility_counter * 10) % 2 == 0:
+			visible = false
 
+func on_bubble_collision(body: Node2D):
+	if body is EnemyBubble:
+		var _cb: EnemyBubble = body as EnemyBubble
+		var _new_area = to_scale
+		if _cb.add_color:
+			add_color(_cb.rgb_color)
+			_new_area = get_area(to_scale) + get_area(_cb.radius)
+		else:
+			subtract_color(_cb.rgb_color)
+			_new_area = get_area(to_scale) - get_area(_cb.radius)
+		to_scale = get_radius(_new_area)
+		#body.queue_free()
+		if body.has_method("soft_disable"):
+			body.soft_disable()
+		else:
+			_soft_disable_body_generic(body)
+			
+func _soft_disable_body_generic(n: Node) -> void:
+	# Try to find the Area2D that actually triggers collisions
+	var area := n as Area2D
+	if area == null:
+		area = n.get_node_or_null("Area2D") as Area2D
+
+	# Hide visuals: if the root draws, hide it; also try a common child sprite
+	if n is CanvasItem:
+		(n as CanvasItem).visible = false
+	var bodysprite := n.get_node_or_null("Sprite2D") as CanvasItem
+	if bodysprite:
+		bodysprite.visible = false
+
+	if area:
+		area.set_deferred("monitoring",  false)
+		area.set_deferred("monitorable", false)
+
+	if not n.is_in_group("collectible_soft_disabled"):
+		n.add_to_group("collectible_soft_disabled")
+		
 #I use the same script for colored bubbles and growth pellets lol
 func on_item_pickup(area: Area2D):
 	#Check if it's a colored bubble and use add color script
-	if area is ColorBubble:
-		var _cb: ColorBubble = area as ColorBubble
-		if no_color:
-			rgb_color = Color.BLACK
-			no_color = false
-		add_color(_cb.rgb_color)
-	elif area is SpikyEnemyBubble:
-		var _eb: SpikyEnemyBubble = area as SpikyEnemyBubble
-		if !no_color:
-			subtract_color(_eb.rgb_color)
-	else:
-		to_scale += 0.1
+	var _new_area = get_area(to_scale) + get_area(area.radius)
+	to_scale = get_radius(_new_area)
 	#Destroy whatever item we got
 	# area.queue_free()
-	_soft_disable_item(area)
+	if area.has_method("soft_disable"):
+		area.soft_disable()
+	else:
+		_soft_disable_generic(area)
 	
 	
-func _soft_disable_item(a: Area2D) -> void:
+func _soft_disable_generic(a: Area2D) -> void:
 	#Hide visuals (Area2D is a CanvasItem, so it has `visible`)
 	a.visible = false
 	#If the sprite/mesh is on the parent or a sibling, also hide the parent if it's a CanvasItem
@@ -113,11 +194,17 @@ func _soft_disable_item(a: Area2D) -> void:
 
 #For things that really hurt the bubble (lasers, screws)
 func on_hurtbox_entered(_area: Area2D):
-	if _area.get_parent() is Hazard:
+	var is_hazard := _area.is_in_group("hazard")
+	#if _area.get_parent() is Hazard:
+	if is_hazard:
 		if rgb_color == Color.BLACK:
-			bubble_die()
+			if invincibility_counter == 0:
+				bubble_die()
 		else:
-			set_color(Color.BLACK)
+			if invincibility_counter == 0:
+				set_color(Color.BLACK)
+				invincibility_counter = invincibility_time
+				to_scale = initial_scale
 			var _laser_forward = Vector2.from_angle(_area.global_rotation)
 			var _diff: Vector2 = global_position - _area.global_position
 			var _angle_to: float = _laser_forward.angle_to(_diff)
@@ -152,6 +239,8 @@ func set_color(_rgb_color: Color):
 	if rgb_color == Color.BLACK:
 		no_color = true
 		_to_color = null_color
+	else:
+		no_color = false
 		
 	collision_mask |= 0b111 << 8
 	collision_mask &= ~(_color_mask << 8)
@@ -218,31 +307,43 @@ func hazard_hit(hazard: Node) -> void:
 			
 			
 func _reset_collected_items() -> void:
-	for a in get_tree().get_nodes_in_group("collectible_soft_disabled"):
+	var to_restore := get_tree().get_nodes_in_group("collectible_soft_disabled")
+	#for a in get_tree().get_nodes_in_group("collectible_soft_disabled"):
+	for a in to_restore:
 		if not is_instance_valid(a):
 			continue
-		# show again
-		a.visible = true
-		var p := a.get_parent()
-		if p and p is CanvasItem:
-			(p as CanvasItem).visible = true
-		# re-enable overlaps
-		a.set_deferred("monitoring",  true)
-		a.set_deferred("monitorable", true)
-		# let item reset any internal state if it has such a method
 		if a.has_method("reset"):
 			a.reset()
-
-		a.remove_from_group("collectible_soft_disabled")
+		else:
+			if a is CanvasItem:
+				(a as CanvasItem).visible = true
+			var spr := a.get_node_or_null("Sprite2D") as CanvasItem
+			if spr: spr.visible = true
+			var area := (a as Node).get_node_or_null("Area2D") as Area2D
+			if area:
+				area.set_deferred("monitoring",  true)
+				area.set_deferred("monitorable", true)
+		#if "visible" in a: a.visible = true
+		#var p := a.get_parent()
+		#if p and p is CanvasItem:
+			#(p as CanvasItem).visible = true
+		# re-enable overlaps
+	await get_tree().create_timer(0.05).timeout
+	for a in to_restore:
+		if is_instance_valid(a):
+			a.remove_from_group("collectible_soft_disabled")
 
 func _do_respawn() -> void:
 	state = State.ALIVE
 	input_enabled = true
 	modulate = Color(1, 1, 1, 1)
 	
+	GameState.respawn_player(self)
 	global_position = start_position
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
+	is_dead = false
+	set_meta("dead", false)
 	
 	if death_label:
 		death_label.visible = false
@@ -261,3 +362,9 @@ func _do_respawn() -> void:
 
 func set_checkpoint(pos: Vector2) -> void:
 	start_position = pos
+
+func get_area(_radius: float) -> float:
+	return pow(_radius, 2) * PI
+
+func get_radius(_area: float) -> float:
+	return sqrt(_area / PI)

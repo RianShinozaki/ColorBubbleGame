@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
-[ext_resource type="PackedScene" uid="uid://c7c2t7rt0xb8d" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
 [ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="9_qpgel"]
 [ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="10_ceqvn"]
-[ext_resource type="PackedScene" uid="uid://bolbn37ngi3oe" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
+[ext_resource type="PackedScene" uid="uid://6qnty0c7kr8v" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
 [ext_resource type="PackedScene" uid="uid://chgks6x2hrsc2" path="res://Objects/nail.tscn" id="11_lntlw"]
+[ext_resource type="PackedScene" uid="uid://bdu0pxx6rc3t8" path="res://Objects/weenie_bubble.tscn" id="11_xacle"]
 [ext_resource type="PackedScene" uid="uid://bh4m2eebg003k" path="res://Objects/checkpoint.tscn" id="12_lntlw"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
@@ -81,7 +81,7 @@ position = Vector2(1, 1)
 [node name="GridController" type="Node2D" parent="Background"]
 material = SubResource("CanvasItemMaterial_5nq1w")
 script = ExtResource("3_5nq1w")
-origin_point = Vector2i(-1600, -1600)
+origin_point = Vector2i(-3200, -1600)
 grid_size = Vector2i(128, 128)
 cell_size = 64
 line_thickness = 7
@@ -90,84 +90,92 @@ line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
 [node name="GridController2" type="Node2D" parent="Background"]
 material = SubResource("CanvasItemMaterial_hyobi")
 script = ExtResource("3_5nq1w")
-origin_point = Vector2i(-1600, -1600)
+origin_point = Vector2i(-3200, -1600)
 grid_size = Vector2i(128, 128)
 cell_size = 64
 line_thickness = 4
 line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD6/wIAAAAAAAAAAAD6//v/AAAAAAAAAAD7//v/AAAAAAAAAAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAADAPv/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAPv/AAAAAAAAAAAGAPv/AAAAAAAAAAAHAPv/AAAAAAAAAAAIAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAARAAIAAAAAAAAAAAASAAIAAAAAAAAAAAATAAIAAAAAAAAAAAAJAPr/AAAAAAAAAAAJAPn/AAAAAAAAAAAJAPj/AAAAAAAAAAAJAPf/AAAAAAAAAAAJAPb/AAAAAAAAAAAJAPX/AAAAAAAAAAAJAPT/AAAAAAAAAAAUAAIAAAAAAAAAAAAVAAIAAAAAAAAAAAAWAAIAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAPj/AAAAAAAAAAAXAPf/AAAAAAAAAAAKAPj/AAAAAAAAAQALAPj/AAAAAAAAAQAMAPj/AAAAAAAAAQANAPj/AAAAAAAAAQAOAPj/AAAAAAAAAQAPAPj/AAAAAAAAAQAQAPj/AAAAAAAAAQATAPj/AAAAAAAAAQAUAPj/AAAAAAAAAQAVAPj/AAAAAAAAAQAWAPj/AAAAAAAAAQAXAPb/AAAAAAAAAAAXAPX/AAAAAAAAAAAXAPT/AAAAAAAAAAARAPj/AAAAAAAAAQASAPj/AAAAAAAAAQAVAP3/AAAAAAAABAAVAPv/AAAAAAAAAQAVAP//AAAAAAAABQAYAPv/AAAAAAAABgAYAP3/AAAAAAAABwAYAP//AAAAAAAACAAbAPv/AAAAAAAACQAbAPz/AAAAAAAACQAbAP3/AAAAAAAACQAbAP7/AAAAAAAACQAbAP//AAAAAAAACQAYAPj/AAAAAAAAAAAZAPj/AAAAAAAAAAAaAPj/AAAAAAAAAAAbAPj/AAAAAAAAAAAcAPj/AAAAAAAAAAAdAPj/AAAAAAAAAAAYAAIAAAAAAAAAAAAZAAIAAAAAAAAAAAAaAAIAAAAAAAAAAAAbAAIAAAAAAAAAAAAcAAIAAAAAAAAAAAAdAAIAAAAAAAAAAAAeAAIAAAAAAAAAAAAeAAEAAAAAAAAAAAAeAAAAAAAAAAAAAAAeAP//AAAAAAAAAAAeAP7/AAAAAAAAAAAeAP3/AAAAAAAAAAAeAPz/AAAAAAAAAAAeAPv/AAAAAAAAAAAeAPr/AAAAAAAAAAAeAPn/AAAAAAAAAAAeAPj/AAAAAAAAAAAXAPP/AAAAAAAAAAAXAPL/AAAAAAAAAAAXAPH/AAAAAAAAAAAJAPP/AAAAAAAAAAAJAPL/AAAAAAAAAAAJAPH/AAAAAAAAAAA=")
+tile_map_data = PackedByteArray("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AADm/wUAAAAAAAAAAADl/wUAAAAAAAAAAADk/wUAAAAAAAAAAADl/wEAAAAAAAAAAADl/wAAAAAAAAAAAADl////AAAAAAAAAADl//7/AAAAAAAAAADn//r/AAAAAAAAAADo//r/AAAAAAAAAADm//r/AAAAAAAAAADl//r/AAAAAAAAAADk//r/AAAAAAAAAADj//r/AAAAAAAAAADi//r/AAAAAAAAAADh//r/AAAAAAAAAADg//r/AAAAAAAAAADf//r/AAAAAAAAAADe//r/AAAAAAAAAADf/wUAAAAAAAAAAADg/wUAAAAAAAAAAADh/wUAAAAAAAAAAADi/wUAAAAAAAAAAADj/wUAAAAAAAAAAAD+//3/AAAAAAAAAAD+//z/AAAAAAAAAAD+//v/AAAAAAAAAADz/wQAAAAAAAAAAADz/wMAAAAAAAAAAADz/wIAAAAAAAAAAAD+//7/AAAAAAAAAAD+////AAAAAAAAAAD+/wAAAAAAAAAAAAD+/wEAAAAAAAAAAAABAAQAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAADz//3/AAAAAAAAAADw//3/AAAAAAAAAADw//z/AAAAAAAAAADw//v/AAAAAAAAAADl//v/AAAAAAAAAADl//z/AAAAAAAAAADl//3/AAAAAAAAAADi/wQAAAAAAAAAAADi/wMAAAAAAAAAAADi/wIAAAAAAAAAAADi/wEAAAAAAAAAAAAVAAMAAAAAAAAABQAVAAIAAAAAAAAABQAVAP//AAAAAAAABAAVAP7/AAAAAAAABAAVAPv/AAAAAAAAAQAVAPr/AAAAAAAAAQAYAPr/AAAAAAAABgAYAPv/AAAAAAAABgAYAP7/AAAAAAAABwAYAP//AAAAAAAABwAYAAIAAAAAAAAACAAYAAMAAAAAAAAACAAbAAMAAAAAAAAACQAbAAIAAAAAAAAACQAbAAEAAAAAAAAACQAbAAAAAAAAAAAACQAbAP//AAAAAAAACQAbAP7/AAAAAAAACQAbAP3/AAAAAAAACQAbAPz/AAAAAAAACQAbAPv/AAAAAAAACQAbAPr/AAAAAAAACQA=")
 tile_set = SubResource("TileSet_qbg5b")
 
 [node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
-position = Vector2(84, -165)
-collision_layer = 1
+position = Vector2(416, 128)
 collision_mask = 1793
-knockback_force = 500.0
 
 [node name="Pellets" type="Node" parent="."]
 
 [node name="Pellet" parent="Pellets" instance=ExtResource("4_hyobi")]
-position = Vector2(128, -66)
+position = Vector2(192, 0)
 
 [node name="Pellet2" parent="Pellets" instance=ExtResource("4_hyobi")]
-position = Vector2(192, -66)
+position = Vector2(256, 0)
 
 [node name="Pellet3" parent="Pellets" instance=ExtResource("4_hyobi")]
-position = Vector2(256, -66)
+position = Vector2(320, 0)
 
 [node name="Pellet4" parent="Pellets" instance=ExtResource("4_hyobi")]
-position = Vector2(320, -66)
+position = Vector2(384, 0)
 
 [node name="Pellet5" parent="Pellets" instance=ExtResource("4_hyobi")]
-position = Vector2(384, -66)
+position = Vector2(448, 0)
 
 [node name="Pellet6" parent="Pellets" instance=ExtResource("4_hyobi")]
-position = Vector2(448, -66)
+position = Vector2(512, 0)
 
 [node name="Bubbles" type="Node" parent="."]
 
 [node name="ColorBubble" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-position = Vector2(253, -196)
-
-[node name="ColorBubble6" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-modulate = Color(0.4627451, 0, 0, 1)
-position = Vector2(383, 71)
-rgb_color = Color(0.4627451, 0, 0, 1)
+modulate = Color(0.5686275, 0, 0, 1)
+position = Vector2(896, -256)
+collision_mask = 1795
+rgb_color = Color(0.5686275, 0, 0, 1)
 
 [node name="ColorBubble7" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-modulate = Color(0.4627451, 0, 0, 1)
-position = Vector2(118, 81)
-rgb_color = Color(0.4627451, 0, 0, 1)
+modulate = Color(0.61229926, 1.504086e-06, 5.7756904e-07, 1)
+position = Vector2(896, -352)
+collision_mask = 1795
+rgb_color = Color(0.61229926, 1.504086e-06, 5.7756904e-07, 1)
 
 [node name="ColorBubble2" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 0, 1, 1)
-position = Vector2(253, 60)
+position = Vector2(896, 192)
+collision_mask = 771
 rgb_color = Color(0, 0, 1, 1)
+radius = 2.0
 
 [node name="ColorBubble3" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 1, 0, 1)
-position = Vector2(253, -68)
+position = Vector2(896, -64)
+collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 
 [node name="ColorBubble4" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-modulate = Color(0.7019922, 0.05716729, 0.62302274, 1)
-position = Vector2(381, -68)
-rgb_color = Color(0.7019922, 0.05716729, 0.62302274, 1)
+modulate = Color(1, 0, 1, 1)
+position = Vector2(1088, -64)
+collision_mask = 515
+rgb_color = Color(1, 0, 1, 1)
+
+[node name="ColorBubble6" parent="Bubbles" instance=ExtResource("5_kkdw2")]
+modulate = Color(0, 1, 1, 1)
+position = Vector2(1088, 192)
+collision_mask = 259
+rgb_color = Color(0, 1, 1, 1)
 
 [node name="ColorBubble5" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-modulate = Color(0.90499455, 0.7741303, 0.13821825, 1)
-position = Vector2(381, -196)
-rgb_color = Color(0.90499455, 0.7741303, 0.13821825, 1)
+modulate = Color(1, 1, 0, 1)
+position = Vector2(1088, -288)
+collision_mask = 1025
+rgb_color = Color(1, 1, 0, 1)
 
 [node name="SpikyEnemyBubble" parent="Bubbles" instance=ExtResource("6_kkdw2")]
-position = Vector2(544, -160)
+position = Vector2(672, -224)
+collision_mask = 1539
 
 [node name="SpikyEnemyBubble2" parent="Bubbles" instance=ExtResource("6_kkdw2")]
-modulate = Color(0, 0, 1, 1)
-position = Vector2(544, 32)
-rgb_color = Color(0, 0, 1, 1)
+position = Vector2(672, -64)
+collision_mask = 1539
 
 [node name="ColorLegend" parent="." instance=ExtResource("9_qpgel")]
 offset = Vector2(0, -50)
@@ -182,15 +190,8 @@ offset_bottom = 26.0
 script = ExtResource("10_ceqvn")
 player_path = NodePath("../../PlayerBubble")
 
-[node name="LaserSpinner" parent="." instance=ExtResource("11_ceqvn")]
-position = Vector2(-704, -129)
-
-[node name="LaserEmitter2" parent="." instance=ExtResource("7_qbg5b")]
-position = Vector2(-160, 287)
-rotation = 0.0
-
-[node name="Nail" parent="." instance=ExtResource("11_lntlw")]
-position = Vector2(780, -44)
+[node name="Nail" parent="." groups=["Hazard", "hazard"] instance=ExtResource("11_lntlw")]
+position = Vector2(739, 74)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -226,3 +227,74 @@ vertical_alignment = 1
 
 [node name="Checkpoint" parent="." groups=["checkpoint"] instance=ExtResource("12_lntlw")]
 position = Vector2(1028, -213)
+
+[node name="LaserSpinner2" parent="." instance=ExtResource("11_ceqvn")]
+position = Vector2(-448, -0.9999771)
+rotation = 0.7853982
+
+[node name="LaserEmitter3" parent="LaserSpinner2" index="1"]
+modulate = Color(0, 0, 1, 1)
+rgb_color = Color(0, 0, 1, 1)
+
+[node name="LaserEmitter4" parent="LaserSpinner2" index="2"]
+modulate = Color(0, 1, 0, 1)
+rgb_color = Color(0, 1, 0, 1)
+
+[node name="LaserEmitter5" parent="LaserSpinner2" index="3"]
+modulate = Color(0, 0, 1, 1)
+rgb_color = Color(0, 0, 1, 1)
+
+[node name="Screws" type="Node" parent="."]
+
+[node name="Screw" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(320, -320)
+
+[node name="Screw2" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(288, -320)
+
+[node name="Screw3" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(256, -320)
+
+[node name="Screw4" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(224, -320)
+
+[node name="Screw5" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(192, -320)
+
+[node name="Screw6" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(160, -320)
+
+[node name="Screw7" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(128, -320)
+
+[node name="Screw8" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(97, -320)
+
+[node name="Screw9" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(64, -320)
+
+[node name="Screw10" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(352, -320)
+
+[node name="Screw11" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(384, -320)
+
+[node name="Screw12" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(416, -320)
+
+[node name="Screw13" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(448, -320)
+
+[node name="Screw14" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(480, -320)
+
+[node name="Screw15" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(512, -320)
+
+[node name="Screw16" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(544, -320)
+
+[node name="ColorBubble" parent="." instance=ExtResource("11_xacle")]
+position = Vector2(632, 255)
+
+[editable path="LaserSpinner2"]

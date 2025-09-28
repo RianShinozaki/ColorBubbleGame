@@ -1,11 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://bolbn37ngi3oe"]
+[gd_scene load_steps=4 format=3 uid="uid://6qnty0c7kr8v"]
 
 [ext_resource type="Script" uid="uid://bchdoa3rqn3xi" path="res://Scripts/spin_me_right_roundgd.gd" id="1_dkdcd"]
-[ext_resource type="PackedScene" uid="uid://c7c2t7rt0xb8d" path="res://Objects/laser_emitter.tscn" id="2_30qqu"]
+[ext_resource type="PackedScene" uid="uid://okgm8ioburau" path="res://Objects/laser_emitter.tscn" id="2_30qqu"]
+[ext_resource type="Texture2D" uid="uid://qkj10nlv82ja" path="res://Art Folders/Screwhead.png" id="3_30qqu"]
 
 [node name="LaserSpinner" type="Node2D"]
 script = ExtResource("1_dkdcd")
-spin_speed = 1.0
+spin_speed = 0.4
 
 [node name="LaserEmitter2" parent="." instance=ExtResource("2_30qqu")]
 position = Vector2(0, -64)
@@ -21,3 +22,7 @@ rotation = 1.5707964
 [node name="LaserEmitter5" parent="." instance=ExtResource("2_30qqu")]
 position = Vector2(-64, 0)
 rotation = -3.1415925
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.375, 0.375)
+texture = ExtResource("3_30qqu")

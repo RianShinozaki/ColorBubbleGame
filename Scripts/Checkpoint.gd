@@ -5,7 +5,7 @@ class_name Checkpoint
 
 @export var inactive_texture: Texture2D
 @export var active_texture: Texture2D
-@export var make_unique := true
+@export var make_unique := true      # only one active at a time
 
 var activated := false
 
@@ -16,19 +16,23 @@ func _ready() -> void:
 	# connect signal if not connected in the editor
 	if not body_entered.is_connected(_on_body_entered):
 		body_entered.connect(_on_body_entered)
+	
+	if not is_in_group("checkpoint"):
+		add_to_group("checkpoint")
 
 func _apply_texture() -> void:
 	if sprite:
 		sprite.texture = active_texture if activated else inactive_texture
 
 func _on_body_entered(body: Node) -> void:
-	if not (body is RigidBody2D):
-		return
-	if not body.has_method("set_checkpoint"):
-		return
+	#if not (body is RigidBody2D):
+		#return
+	#if not body.has_method("set_checkpoint"):
+		#return
 
 	# If already active, still set the player's spawn
-	body.set_checkpoint(global_position)
+	if body and body.has_method("set_checkpoint"):
+		body.set_checkpoint(global_position)
 
 	# Swap texture if this is the first time
 	if not activated:
