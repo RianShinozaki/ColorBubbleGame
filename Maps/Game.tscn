@@ -1,13 +1,13 @@
-[gd_scene load_steps=13 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=11 format=4 uid="uid://bkvfgd3chj1pk"]
 
+[ext_resource type="TileSet" uid="uid://blllp1ve3elou" path="res://Tilesets/MainLevel.tres" id="2_8puwx"]
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
 [ext_resource type="PackedScene" uid="uid://daeq4sldjssur" path="res://Objects/pellet.tscn" id="4_hyobi"]
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
-[ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
-[ext_resource type="PackedScene" uid="uid://c7c2t7rt0xb8d" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
-[ext_resource type="Script" uid="uid://bchdoa3rqn3xi" path="res://Scripts/spin_me_right_roundgd.gd" id="8_8puwx"]
+[ext_resource type="PackedScene" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
+[ext_resource type="Script" path="res://Scripts/spin_me_right_roundgd.gd" id="8_8puwx"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -19,54 +19,6 @@ particles_anim_loop = false
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hyobi"]
 blend_mode = 1
 light_mode = 1
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kkdw2"]
-texture = ExtResource("5_mdqsx")
-texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 10
-0:0/0 = 0
-0:0/0/modulate = Color(0, 0, 0, 1)
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-0:0/1 = 1
-0:0/1/modulate = Color(1, 0, 0, 1)
-0:0/1/physics_layer_1/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-0:0/4 = 4
-0:0/4/modulate = Color(0, 1, 0, 1)
-0:0/4/physics_layer_2/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-0:0/5 = 5
-0:0/5/modulate = Color(0, 0, 1, 1)
-0:0/5/physics_layer_3/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-0:0/6 = 6
-0:0/6/modulate = Color(1, 1, 0, 1)
-0:0/6/physics_layer_4/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-0:0/7 = 7
-0:0/7/modulate = Color(1, 0, 1, 1)
-0:0/7/physics_layer_5/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-0:0/8 = 8
-0:0/8/modulate = Color(0, 1, 1, 1)
-0:0/8/physics_layer_6/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-0:0/9 = 9
-0:0/9/physics_layer_7/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-
-[sub_resource type="TileSet" id="TileSet_qbg5b"]
-tile_size = Vector2i(64, 64)
-physics_layer_0/collision_layer = 1
-physics_layer_0/collision_mask = 0
-physics_layer_1/collision_layer = 256
-physics_layer_1/collision_mask = 0
-physics_layer_2/collision_layer = 512
-physics_layer_2/collision_mask = 0
-physics_layer_3/collision_layer = 1024
-physics_layer_3/collision_mask = 0
-physics_layer_4/collision_layer = 768
-physics_layer_4/collision_mask = 0
-physics_layer_5/collision_layer = 1280
-physics_layer_5/collision_mask = 0
-physics_layer_6/collision_layer = 1536
-physics_layer_6/collision_mask = 0
-physics_layer_7/collision_layer = 1792
-physics_layer_7/collision_mask = 0
-sources/0 = SubResource("TileSetAtlasSource_kkdw2")
 
 [node name="Game" type="Node2D"]
 texture_filter = 1
@@ -93,7 +45,7 @@ line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD6/wIAAAAAAAAAAAD6//v/AAAAAAAAAAD7//v/AAAAAAAAAAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAADAPv/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAPv/AAAAAAAAAAAGAPv/AAAAAAAAAAAHAPv/AAAAAAAAAAAIAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAARAAIAAAAAAAAAAAASAAIAAAAAAAAAAAATAAIAAAAAAAAAAAAJAPr/AAAAAAAAAAAJAPn/AAAAAAAAAAAJAPj/AAAAAAAAAAAJAPf/AAAAAAAAAAAJAPb/AAAAAAAAAAAJAPX/AAAAAAAAAAAJAPT/AAAAAAAAAAAUAAIAAAAAAAAAAAAVAAIAAAAAAAAAAAAWAAIAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAPj/AAAAAAAAAAAXAPf/AAAAAAAAAAAKAPj/AAAAAAAAAQALAPj/AAAAAAAAAQAMAPj/AAAAAAAAAQANAPj/AAAAAAAAAQAOAPj/AAAAAAAAAQAPAPj/AAAAAAAAAQAQAPj/AAAAAAAAAQATAPj/AAAAAAAAAQAUAPj/AAAAAAAAAQAVAPj/AAAAAAAAAQAWAPj/AAAAAAAAAQAXAPb/AAAAAAAAAAAXAPX/AAAAAAAAAAAXAPT/AAAAAAAAAAARAPj/AAAAAAAAAQASAPj/AAAAAAAAAQAVAP3/AAAAAAAABAAVAPv/AAAAAAAAAQAVAP//AAAAAAAABQAYAPv/AAAAAAAABgAYAP3/AAAAAAAABwAYAP//AAAAAAAACAAbAPv/AAAAAAAACQAbAPz/AAAAAAAACQAbAP3/AAAAAAAACQAbAP7/AAAAAAAACQAbAP//AAAAAAAACQAYAPj/AAAAAAAAAAAZAPj/AAAAAAAAAAAaAPj/AAAAAAAAAAAbAPj/AAAAAAAAAAAcAPj/AAAAAAAAAAAdAPj/AAAAAAAAAAAYAAIAAAAAAAAAAAAZAAIAAAAAAAAAAAAaAAIAAAAAAAAAAAAbAAIAAAAAAAAAAAAcAAIAAAAAAAAAAAAdAAIAAAAAAAAAAAAeAAIAAAAAAAAAAAAeAAEAAAAAAAAAAAAeAAAAAAAAAAAAAAAeAP//AAAAAAAAAAAeAP7/AAAAAAAAAAAeAP3/AAAAAAAAAAAeAPz/AAAAAAAAAAAeAPv/AAAAAAAAAAAeAPr/AAAAAAAAAAAeAPn/AAAAAAAAAAAeAPj/AAAAAAAAAAAXAPP/AAAAAAAAAAAXAPL/AAAAAAAAAAAXAPH/AAAAAAAAAAAJAPP/AAAAAAAAAAAJAPL/AAAAAAAAAAAJAPH/AAAAAAAAAAA=")
-tile_set = SubResource("TileSet_qbg5b")
+tile_set = ExtResource("2_8puwx")
 
 [node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
 position = Vector2(84, -165)
