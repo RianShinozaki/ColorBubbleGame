@@ -103,9 +103,9 @@ func _current_color_mask() -> int:
 	return _mask_from_color(_player_color())
 
 func _mask_from_color(c: Color) -> int:
-	var r := int(round(clamp(c.r, 0.0, 1.0)))
-	var g := int(round(clamp(c.g, 0.0, 1.0)))
-	var b := int(round(clamp(c.b, 0.0, 1.0)))
+	var r := int(floor(clamp(c.r, 0.0, 1.0)))
+	var g := int(floor(clamp(c.g, 0.0, 1.0)))
+	var b := int(floor(clamp(c.b, 0.0, 1.0)))
 	return (r) | (g << 1) | (b << 2)
 
 func _color_from_mask(mask: int) -> Color:

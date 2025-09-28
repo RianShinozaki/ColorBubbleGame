@@ -124,7 +124,14 @@ position = Vector2(512, 0)
 [node name="Bubbles" type="Node" parent="."]
 
 [node name="ColorBubble" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-position = Vector2(-448, -256)
+modulate = Color(0.5686275, 0, 0, 1)
+position = Vector2(896, -256)
+rgb_color = Color(0.5686275, 0, 0, 1)
+
+[node name="ColorBubble7" parent="Bubbles" instance=ExtResource("5_kkdw2")]
+modulate = Color(0.61229926, 1.504086e-06, 5.7756904e-07, 1)
+position = Vector2(896, -352)
+rgb_color = Color(0.61229926, 1.504086e-06, 5.7756904e-07, 1)
 
 [node name="ColorBubble2" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 0, 1, 1)
