@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7c2t7rt0xb8d"]
+
+[ext_resource type="Script" uid="uid://c01yo6r2xccte" path="res://Scripts/laser_emitter.gd" id="1_2fbyj"]
+[ext_resource type="Texture2D" uid="uid://df4k8arq21lv4" path="res://Art Folders/Battery.png" id="2_u1rgf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8puwx"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_8puwx"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8edix"]
+gradient = SubResource("Gradient_8puwx")
+width = 32
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8puwx"]
+size = Vector2(8, 8)
+
+[node name="LaserEmitter" type="Node2D"]
+modulate = Color(1, 0, 0, 1)
+rotation = -1.5707964
+script = ExtResource("1_2fbyj")
+distance = 640
+width = 8
+
+[node name="Battery" type="Sprite2D" parent="."]
+position = Vector2(-32, -0.9999962)
+rotation = 1.5707964
+scale = Vector2(0.3, 0.222)
+texture = ExtResource("2_u1rgf")
+
+[node name="Light" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_8puwx")
+rotation = 1.5707964
+scale = Vector2(1, 32)
+texture = SubResource("GradientTexture1D_8edix")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(320, 0)
+shape = SubResource("RectangleShape2D_8puwx")
+debug_color = Color(1, 1, 1, 0.41960785)

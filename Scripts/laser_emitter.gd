@@ -11,7 +11,7 @@ extends Node2D
 var rect: RectangleShape2D = RectangleShape2D.new()
 	
 func _draw() -> void:
-	var _direction: Vector2 = Vector2(cos(rotation), sin(rotation))
+	var _direction: Vector2 = Vector2.from_angle(global_rotation)
 	#if Engine.is_editor_hint():
 	draw_set_transform_matrix(global_transform.affine_inverse())
 	draw_line(global_position, global_position + _direction * distance, modulate, 4)
@@ -34,6 +34,7 @@ func _process(_delta: float):
 		
 		var _light: Sprite2D = $Light as Sprite2D
 		_light.scale = Vector2(randf_range(0.4, 1.5), distance)
+		@warning_ignore("integer_division")
 		_light.position = Vector2(distance/2, 0)
 		
 	
