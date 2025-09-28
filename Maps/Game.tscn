@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=19 format=4 uid="uid://bkvfgd3chj1pk"]
 
 [ext_resource type="TileSet" uid="uid://blllp1ve3elou" path="res://Tilesets/MainLevel.tres" id="2_8puwx"]
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
@@ -6,8 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://daeq4sldjssur" path="res://Objects/pellet.tscn" id="4_hyobi"]
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
-[ext_resource type="PackedScene" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
-[ext_resource type="Script" path="res://Scripts/spin_me_right_roundgd.gd" id="8_8puwx"]
+[ext_resource type="Texture2D" uid="uid://df4k8arq21lv4" path="res://Art Folders/Battery.png" id="7_8puwx"]
+[ext_resource type="Script" path="res://Scripts/laser_emitter.gd" id="8_8puwx"]
+[ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="9_qpgel"]
+[ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="10_ceqvn"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -22,6 +24,7 @@ light_mode = 1
 
 [node name="Game" type="Node2D"]
 texture_filter = 1
+position = Vector2(0, 1)
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -137,3 +140,20 @@ rotation = 1.5707964
 [node name="LaserEmitter5" parent="LaserSpinner" instance=ExtResource("7_qbg5b")]
 position = Vector2(-64, 0)
 rotation = -3.1415925
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaserEmitter/Hitbox"]
+position = Vector2(320, 0)
+shape = SubResource("RectangleShape2D_8puwx")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="ColorLegend" parent="." instance=ExtResource("9_qpgel")]
+offset = Vector2(0, -50)
+transform = Transform2D(1, 0, 0, 1, 0, -50)
+
+[node name="Root" type="Control" parent="ColorLegend"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_ceqvn")
+player_path = NodePath("../../PlayerBubble")
