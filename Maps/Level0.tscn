@@ -98,7 +98,7 @@ tile_map_data = PackedByteArray("AAAPAAYAAAAAAAAAAAAOAAYAAAAAAAAAAAANAAYAAAAAAAA
 tile_set = SubResource("TileSet_qbg5b")
 
 [node name="PlayerBubble" parent="." instance=ExtResource("3_pgo3x")]
-position = Vector2(2848, -512)
+position = Vector2(332, 141)
 collision_mask = 1793
 
 [node name="ColorLegend" parent="." instance=ExtResource("7_81ri6")]
