@@ -1,7 +1,7 @@
 @tool
 class_name LaserEmitter
 
-extends Node2D 
+extends Hazard 
 
 @export var rgb_color: Color=Color(1, 0, 0, 1)
 @export_range(1, 1000, 1) var distance: int

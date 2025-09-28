@@ -67,14 +67,18 @@ func on_item_pickup(area: Area2D):
 	#Destroy whatever item we got
 	area.queue_free()
 
+#For things that really hurt the bubble (lasers, screws)
 func on_hurtbox_entered(_area: Area2D):
-	if _area.get_parent() is LaserEmitter:
-		set_color(Color(0, 0, 0, 1))
-		var _laser_forward = Vector2.from_angle(_area.global_rotation)
-		var _diff: Vector2 = global_position - _area.global_position
-		var _angle_to: float = _laser_forward.angle_to(_diff)
-		var _knockback_vec = Vector2.from_angle(_area.global_rotation + deg_to_rad(90))
-		linear_velocity = knockback_force * _knockback_vec * sign(_angle_to)
+	if _area.get_parent() is Hazard:
+		if rgb_color == Color.BLACK:
+			bubble_die()
+		else:
+			set_color(Color.BLACK)
+			var _laser_forward = Vector2.from_angle(_area.global_rotation)
+			var _diff: Vector2 = global_position - _area.global_position
+			var _angle_to: float = _laser_forward.angle_to(_diff)
+			var _knockback_vec = Vector2.from_angle(_area.global_rotation + deg_to_rad(90))
+			linear_velocity = knockback_force * _knockback_vec * sign(_angle_to)
 
 #continuous colors instead of bitmask
 func add_color(rgb_add: Color):
@@ -116,3 +120,6 @@ func set_color(_rgb_color: Color):
 	color_animation_gradient.remove_point(0)
 	color_animation_gradient.remove_point(0)
 	color_animation_gradient_position = 0
+
+func bubble_die():
+	print("Died")

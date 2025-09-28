@@ -173,8 +173,9 @@ transform = Transform2D(1, 0, 0, 1, 0, -50)
 [node name="Root" type="Control" parent="ColorLegend"]
 layout_mode = 3
 anchors_preset = 0
+offset_top = -14.0
 offset_right = 40.0
-offset_bottom = 40.0
+offset_bottom = 26.0
 script = ExtResource("10_ceqvn")
 player_path = NodePath("../../PlayerBubble")
 
