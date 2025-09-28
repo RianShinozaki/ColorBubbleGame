@@ -8,7 +8,9 @@ extends RigidBody2D
 @export var sprite_parent: Node2D
 @export var rgb_color: Color = Color.WHITE
 @export var knockback_force: float
+@export var invincibility_time: float
 
+var invincibility_counter: float = 0
 var this_scale: float = 1
 var to_scale: float = 1
 var grow_speed: float = 0.2
@@ -48,7 +50,13 @@ func _physics_process(_delta: float) -> void:
 	#Slowly shift the color to the desired one
 	color_animation_gradient_position = move_toward(color_animation_gradient_position, 1, _delta*5)
 	modulate = color_animation_gradient.sample(color_animation_gradient_position)
-
+	
+	visible = true
+	if invincibility_counter > 0:
+		invincibility_counter = move_toward(invincibility_counter, 0, _delta)
+		if floori(invincibility_counter * 10) % 2 == 0:
+			visible = false
+		
 #I use the same script for colored bubbles and growth pellets lol
 func on_item_pickup(area: Area2D):
 	#Check if it's a colored bubble and use add color script
@@ -71,9 +79,12 @@ func on_item_pickup(area: Area2D):
 func on_hurtbox_entered(_area: Area2D):
 	if _area.get_parent() is Hazard:
 		if rgb_color == Color.BLACK:
-			bubble_die()
+			if invincibility_counter == 0:
+				bubble_die()
 		else:
-			set_color(Color.BLACK)
+			if invincibility_counter == 0:
+				set_color(Color.BLACK)
+				invincibility_counter = invincibility_time
 			var _laser_forward = Vector2.from_angle(_area.global_rotation)
 			var _diff: Vector2 = global_position - _area.global_position
 			var _angle_to: float = _laser_forward.angle_to(_diff)

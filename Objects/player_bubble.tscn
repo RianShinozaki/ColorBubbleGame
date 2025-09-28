@@ -45,6 +45,8 @@ stretch_scale_factor = 1500.0
 sprite = NodePath("SpriteParent/Art")
 shape = NodePath("CollisionShape2D")
 sprite_parent = NodePath("SpriteParent")
+knockback_force = 350.0
+invincibility_time = 0.5
 
 [node name="SpriteParent" type="Node2D" parent="."]
 
@@ -83,7 +85,7 @@ debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
 
 [node name="Hurtbox" type="Area2D" parent="Area2Ds"]
 collision_layer = 0
-collision_mask = 0
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2Ds/Hurtbox"]
 shape = SubResource("CircleShape2D_kkdw2")

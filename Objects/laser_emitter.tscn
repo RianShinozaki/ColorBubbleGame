@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7c2t7rt0xb8d"]
+[gd_scene load_steps=7 format=3 uid="uid://okgm8ioburau"]
 
 [ext_resource type="Script" uid="uid://c01yo6r2xccte" path="res://Scripts/laser_emitter.gd" id="1_2fbyj"]
 [ext_resource type="Texture2D" uid="uid://df4k8arq21lv4" path="res://Art Folders/Battery.png" id="2_u1rgf"]

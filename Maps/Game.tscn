@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=16 format=4 uid="uid://bkvfgd3chj1pk"]
 
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
@@ -6,10 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
-[ext_resource type="PackedScene" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
+[ext_resource type="PackedScene" uid="uid://okgm8ioburau" path="res://Objects/laser_emitter.tscn" id="7_qbg5b"]
 [ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="9_qpgel"]
 [ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="10_ceqvn"]
-[ext_resource type="PackedScene" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
+[ext_resource type="PackedScene" uid="uid://6qnty0c7kr8v" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
+[ext_resource type="PackedScene" uid="uid://c1hjn7gxlwhrp" path="res://Objects/screw.tscn" id="11_lntlw"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -99,9 +100,8 @@ tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAA
 tile_set = SubResource("TileSet_qbg5b")
 
 [node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
-position = Vector2(84, -165)
+position = Vector2(32, -97)
 collision_mask = 1793
-knockback_force = 500.0
 
 [node name="Pellets" type="Node" parent="."]
 
@@ -149,14 +149,14 @@ position = Vector2(253, -68)
 rgb_color = Color(0, 1, 0, 1)
 
 [node name="ColorBubble4" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-modulate = Color(0.7019922, 0.05716729, 0.62302274, 1)
+modulate = Color(1, 0, 1, 1)
 position = Vector2(381, -68)
-rgb_color = Color(0.7019922, 0.05716729, 0.62302274, 1)
+rgb_color = Color(1, 0, 1, 1)
 
 [node name="ColorBubble5" parent="Bubbles" instance=ExtResource("5_kkdw2")]
-modulate = Color(0.90499455, 0.7741303, 0.13821825, 1)
+modulate = Color(1, 1, 0, 1)
 position = Vector2(381, -196)
-rgb_color = Color(0.90499455, 0.7741303, 0.13821825, 1)
+rgb_color = Color(1, 1, 0, 1)
 
 [node name="SpikyEnemyBubble" parent="Bubbles" instance=ExtResource("6_kkdw2")]
 position = Vector2(544, -160)
@@ -182,6 +182,78 @@ player_path = NodePath("../../PlayerBubble")
 [node name="LaserSpinner" parent="." instance=ExtResource("11_ceqvn")]
 position = Vector2(-704, -129)
 
+[node name="LaserSpinner2" parent="." instance=ExtResource("11_ceqvn")]
+position = Vector2(-1024, -1)
+rotation = 0.7853982
+
+[node name="LaserEmitter2" parent="LaserSpinner2" index="0"]
+modulate = Color(0, 1, 0, 1)
+rgb_color = Color(0, 1, 0, 1)
+
+[node name="LaserEmitter3" parent="LaserSpinner2" index="1"]
+modulate = Color(0, 0, 1, 1)
+rgb_color = Color(0, 0, 1, 1)
+
+[node name="LaserEmitter4" parent="LaserSpinner2" index="2"]
+modulate = Color(0, 1, 0, 1)
+rgb_color = Color(0, 1, 0, 1)
+
+[node name="LaserEmitter5" parent="LaserSpinner2" index="3"]
+modulate = Color(0, 0, 1, 1)
+rgb_color = Color(0, 0, 1, 1)
+
 [node name="LaserEmitter2" parent="." instance=ExtResource("7_qbg5b")]
 position = Vector2(-160, 287)
 rotation = 0.0
+
+[node name="Screws" type="Node" parent="."]
+
+[node name="Screw" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-64, -256)
+
+[node name="Screw2" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-96, -256)
+
+[node name="Screw3" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-128, -256)
+
+[node name="Screw4" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-160, -256)
+
+[node name="Screw5" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-192, -256)
+
+[node name="Screw6" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-224, -256)
+
+[node name="Screw7" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-256, -256)
+
+[node name="Screw8" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-288, -256)
+
+[node name="Screw9" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-320, -256)
+
+[node name="Screw10" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(-32, -256)
+
+[node name="Screw11" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(0, -256)
+
+[node name="Screw12" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(32, -256)
+
+[node name="Screw13" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(64, -256)
+
+[node name="Screw14" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(96, -256)
+
+[node name="Screw15" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(128, -256)
+
+[node name="Screw16" parent="Screws" instance=ExtResource("11_lntlw")]
+position = Vector2(160, -256)
+
+[editable path="LaserSpinner2"]
