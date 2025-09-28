@@ -26,8 +26,6 @@ var grow_speed: float = 0.2
 var no_color: bool = true
 var color_shift_multiple: float = 1.0 #this gives us the option to adjust the intensity of the color shift for boards with more collisions
 #to do: change color_shift_multiple to be proportionate to bubble size if we do dif. bubble sizes
-@export var color_animation_gradient: Gradient #Used to make the color switch smoother
-@export var color_animation_gradient_position: float = 1
 #The color to use instead of pure black
 var iridesence_speed: float = 0.5
 

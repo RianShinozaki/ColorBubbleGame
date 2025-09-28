@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://bkvfgd3chj1pk"]
+[gd_scene load_steps=16 format=4 uid="uid://bkvfgd3chj1pk"]
 
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="10_ceqvn"]
 [ext_resource type="PackedScene" uid="uid://6qnty0c7kr8v" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
 [ext_resource type="PackedScene" uid="uid://c1hjn7gxlwhrp" path="res://Objects/screw.tscn" id="11_lntlw"]
+[ext_resource type="PackedScene" uid="uid://bdu0pxx6rc3t8" path="res://Objects/weenie_bubble.tscn" id="11_xacle"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -138,7 +139,6 @@ rgb_color = Color(0.61229926, 1.504086e-06, 5.7756904e-07, 1)
 [node name="ColorBubble2" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 modulate = Color(0, 0, 1, 1)
 position = Vector2(896, 192)
-scale = Vector2(2, 2)
 collision_mask = 771
 rgb_color = Color(0, 0, 1, 1)
 radius = 2.0
@@ -256,5 +256,8 @@ position = Vector2(512, -320)
 
 [node name="Screw16" parent="Screws" instance=ExtResource("11_lntlw")]
 position = Vector2(544, -320)
+
+[node name="ColorBubble" parent="." instance=ExtResource("11_xacle")]
+position = Vector2(632, 255)
 
 [editable path="LaserSpinner2"]

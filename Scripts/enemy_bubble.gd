@@ -48,7 +48,15 @@ func update_attributes():
 	var _color_mask: int = _red_bit + (_green_bit<<1) + (_blue_bit<<2)
 	collision_mask |= 0b111 << 8
 	collision_mask &= ~(_color_mask << 8)
+	
+	# Always keep the RigidBody2D at scale 1 to avoid physics engine warnings
+	scale = Vector2.ONE
+	
+	# Scale child nodes instead when in editor
 	if Engine.is_editor_hint():
-		scale = Vector2(radius, radius)
-	else:
-		scale = Vector2.ONE
+		if has_node("SpriteParent"):
+			var _sprite_parent = get_node("SpriteParent")
+			_sprite_parent.scale = Vector2(radius, radius)
+		if has_node("CollisionShape2D"):
+			var _shape = get_node("CollisionShape2D")
+			_shape.scale = Vector2(radius, radius)
