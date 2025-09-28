@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-[gd_scene load_steps=13 format=4 uid="uid://bkvfgd3chj1pk"]
-=======
-[gd_scene load_steps=17 format=4 uid="uid://bkvfgd3chj1pk"]
->>>>>>> e093fc11886e7c396d63d9537a68305b22c1f48b
+[gd_scene load_steps=14 format=4 uid="uid://bkvfgd3chj1pk"]
 
 [ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="2_mdqsx"]
 [ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="3_5nq1w"]
@@ -10,13 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_kkdw2"]
-<<<<<<< HEAD
-[ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="7_qbg5b"]
-[ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="8_8puwx"]
-=======
 [ext_resource type="Texture2D" uid="uid://df4k8arq21lv4" path="res://Art Folders/Battery.png" id="7_8puwx"]
 [ext_resource type="Script" uid="uid://c01yo6r2xccte" path="res://Scripts/laser_emitter.gd" id="8_8puwx"]
->>>>>>> e093fc11886e7c396d63d9537a68305b22c1f48b
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -77,23 +68,11 @@ physics_layer_7/collision_layer = 1792
 physics_layer_7/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_kkdw2")
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8puwx"]
-blend_mode = 1
-
-[sub_resource type="Gradient" id="Gradient_8puwx"]
-offsets = PackedFloat32Array(0, 0.5, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_8edix"]
-gradient = SubResource("Gradient_8puwx")
-width = 32
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8puwx"]
 size = Vector2(8, 8)
 
 [node name="Game" type="Node2D"]
 texture_filter = 1
-position = Vector2(0, 1)
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -122,7 +101,6 @@ tile_set = SubResource("TileSet_qbg5b")
 [node name="PlayerBubble" parent="." instance=ExtResource("2_mdqsx")]
 position = Vector2(84, -165)
 collision_mask = 1793
-knockback_force = 500.0
 
 [node name="Pellets" type="Node" parent="."]
 
@@ -144,13 +122,7 @@ position = Vector2(384, -66)
 [node name="Pellet6" parent="Pellets" instance=ExtResource("4_hyobi")]
 position = Vector2(448, -66)
 
-<<<<<<< HEAD
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD6/wIAAAAAAAAAAAD6/wEAAAAAAAAAAAD6/wAAAAAAAAAAAAD6////AAAAAAAAAAD6//7/AAAAAAAAAAD6//3/AAAAAAAAAAD6//z/AAAAAAAAAAD6//v/AAAAAAAAAAD7//v/AAAAAAAAAAD8//v/AAAAAAAAAAD9//v/AAAAAAAAAAD+//v/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAADAPv/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAPv/AAAAAAAAAAAGAPv/AAAAAAAAAAAHAPv/AAAAAAAAAAAIAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAARAAIAAAAAAAAAAAASAAIAAAAAAAAAAAATAAIAAAAAAAAAAAAJAPr/AAAAAAAAAAAJAPn/AAAAAAAAAAAJAPj/AAAAAAAAAAAJAPf/AAAAAAAAAAAJAPb/AAAAAAAAAAAJAPX/AAAAAAAAAAAJAPT/AAAAAAAAAAAUAAIAAAAAAAAAAAAVAAIAAAAAAAAAAAAWAAIAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAPj/AAAAAAAAAAAXAPf/AAAAAAAAAAAKAPj/AAAAAAAAAQALAPj/AAAAAAAAAQAMAPj/AAAAAAAAAQANAPj/AAAAAAAAAQAOAPj/AAAAAAAAAQAPAPj/AAAAAAAAAQAQAPj/AAAAAAAAAQATAPj/AAAAAAAAAQAUAPj/AAAAAAAAAQAVAPj/AAAAAAAAAQAWAPj/AAAAAAAAAQAXAPb/AAAAAAAAAAAXAPX/AAAAAAAAAAAXAPT/AAAAAAAAAAARAPj/AAAAAAAAAQASAPj/AAAAAAAAAQAVAP3/AAAAAAAABAAVAPv/AAAAAAAAAQAVAP//AAAAAAAABQAYAPv/AAAAAAAABgAYAP3/AAAAAAAABwAYAP//AAAAAAAACAAbAPv/AAAAAAAACQAbAPz/AAAAAAAACQAbAP3/AAAAAAAACQAbAP7/AAAAAAAACQAbAP//AAAAAAAACQAYAAIAAAAAAAAAAAAZAAIAAAAAAAAAAAAaAAIAAAAAAAAAAAAbAAIAAAAAAAAAAAAcAAIAAAAAAAAAAAAdAAIAAAAAAAAAAAAeAAIAAAAAAAAAAAAeAAEAAAAAAAAAAAAeAAAAAAAAAAAAAAAeAP//AAAAAAAAAAAeAP7/AAAAAAAAAAAeAP3/AAAAAAAAAAAeAPz/AAAAAAAAAAAeAPv/AAAAAAAAAAAeAPr/AAAAAAAAAAAeAPn/AAAAAAAAAAAeAPj/AAAAAAAAAAAdAPj/AAAAAAAAAAAcAPj/AAAAAAAAAAAbAPj/AAAAAAAAAAAaAPj/AAAAAAAAAAAZAPj/AAAAAAAAAAAYAPj/AAAAAAAAAAA=")
-tile_set = SubResource("TileSet_qbg5b")
-=======
 [node name="Bubbles" type="Node" parent="."]
->>>>>>> e093fc11886e7c396d63d9537a68305b22c1f48b
 
 [node name="ColorBubble" parent="Bubbles" instance=ExtResource("5_kkdw2")]
 position = Vector2(253, -196)
@@ -193,19 +165,6 @@ modulate = Color(0, 0, 1, 1)
 position = Vector2(544, 32)
 rgb_color = Color(0, 0, 1, 1)
 
-<<<<<<< HEAD
-[node name="ColorLegend" parent="." instance=ExtResource("7_qbg5b")]
-offset = Vector2(0, -50)
-transform = Transform2D(1, 0, 0, 1, 0, -50)
-
-[node name="Root2" type="Control" parent="ColorLegend"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("8_8puwx")
-player_path = NodePath("../../PlayerBubble")
-=======
 [node name="LaserEmitter" type="Node2D" parent="."]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(-66, 195)
@@ -220,16 +179,9 @@ rotation = 1.5707964
 scale = Vector2(0.3, 0.222)
 texture = ExtResource("7_8puwx")
 
-[node name="Light" type="Sprite2D" parent="LaserEmitter"]
-material = SubResource("CanvasItemMaterial_8puwx")
-rotation = 1.5707964
-scale = Vector2(1, 32)
-texture = SubResource("GradientTexture1D_8edix")
-
 [node name="Hitbox" type="Area2D" parent="LaserEmitter"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaserEmitter/Hitbox"]
 position = Vector2(320, 0)
 shape = SubResource("RectangleShape2D_8puwx")
 debug_color = Color(1, 1, 1, 0.41960785)
->>>>>>> e093fc11886e7c396d63d9537a68305b22c1f48b

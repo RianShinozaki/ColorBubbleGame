@@ -27,7 +27,7 @@ radius = 32.0
 radius = 96.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kkdw2"]
-radius = 34.36568
+radius = 30.016663
 
 [node name="PlayerBubble" type="RigidBody2D" node_paths=PackedStringArray("sprite", "shape", "sprite_parent")]
 modulate = Color(0.64573294, 0.70089954, 0.7804614, 1)
@@ -61,21 +61,31 @@ texture = SubResource("GradientTexture2D_hyobi")
 visible = false
 shape = SubResource("CircleShape2D_hyobi")
 
-[node name="PelletAbsorption" type="Area2D" parent="."]
+[node name="Area2Ds" type="Node2D" parent="."]
+
+[node name="PelletAbsorption" type="Area2D" parent="Area2Ds"]
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PelletAbsorption"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2Ds/PelletAbsorption"]
 visible = false
 shape = SubResource("CircleShape2D_mdqsx")
 debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
 
-[node name="ItemCollision" type="Area2D" parent="."]
+[node name="ItemCollision" type="Area2D" parent="Area2Ds"]
 collision_layer = 0
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemCollision"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2Ds/ItemCollision"]
 visible = false
+shape = SubResource("CircleShape2D_kkdw2")
+debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
+
+[node name="Hurtbox" type="Area2D" parent="Area2Ds"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2Ds/Hurtbox"]
 shape = SubResource("CircleShape2D_kkdw2")
 debug_color = Color(0.8210959, 0.34273034, 0.55294806, 0.41960785)
 
