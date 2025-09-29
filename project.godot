@@ -58,4 +58,4 @@ respawn={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0.030663837, 0.031227617, 0.1356219, 1)
+environment/defaults/default_clear_color=Color(0.093795784, 0.09553637, 0.21151784, 1)
