@@ -55,9 +55,9 @@ func _process(_delta: float) -> void:
 
 func update_attributes():
 	modulate = rgb_color
-	var _red_bit: int = floori(rgb_color.r)
-	var _green_bit: int = floori(rgb_color.g)
-	var _blue_bit: int = floori(rgb_color.b)
+	var _red_bit: int = ceili(rgb_color.r)
+	var _green_bit: int = ceili(rgb_color.g)
+	var _blue_bit: int = ceili(rgb_color.b)
 	var _color_mask: int = _red_bit + (_green_bit<<1) + (_blue_bit<<2)
 	collision_mask |= 0b111 << 8
 	collision_mask &= ~(_color_mask << 8)

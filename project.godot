@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="BubbleGame"
-run/main_scene="uid://c7lp0dsr2am0a"
+run/main_scene="uid://b5b04vhtvrd8a"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0.0660848, 0.073836334, 0.14326572, 1)
 config/icon="res://icon.svg"
