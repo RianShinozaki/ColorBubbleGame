@@ -417,6 +417,12 @@ position = Vector2(2848, -992)
 collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 
+[node name="ColorBubble11" parent="ColorBubbles" instance=ExtResource("5_py67j")]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(2848, -992)
+collision_mask = 1283
+rgb_color = Color(0, 1, 0, 1)
+
 [node name="ColorBubble2" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 position = Vector2(2912, 608)
 
@@ -598,10 +604,6 @@ position = Vector2(2912, 32)
 [node name="Checkpoint2" parent="." groups=["checkpoint"] instance=ExtResource("11_72mkl")]
 position = Vector2(3328, -2048)
 
-[node name="PlayerBubble" parent="." instance=ExtResource("3_pgo3x")]
-position = Vector2(2784, -448)
-collision_mask = 1793
-
 [node name="WeenieBubble" parent="." instance=ExtResource("12_pgo3x")]
 position = Vector2(2912, -384)
 collision_layer = 0
@@ -611,6 +613,10 @@ freeze_mode = 1
 contact_monitor = true
 max_contacts_reported = 1
 to_scene = "res://Maps/Level1.tscn"
+
+[node name="PlayerBubble" parent="." instance=ExtResource("3_pgo3x")]
+position = Vector2(448, 128)
+collision_mask = 1793
 
 [connection signal="was_disabled" from="ColorBubbles/ColorBubble" to="Lasers/LaserEmitter" method="enable"]
 [connection signal="was_disabled" from="ColorBubbles/ColorBubble" to="Lasers/LaserEmitter4" method="enable"]

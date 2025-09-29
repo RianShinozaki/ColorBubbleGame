@@ -1,0 +1,154 @@
+[gd_scene load_steps=11 format=4 uid="uid://ctfiou8et5grn"]
+
+[ext_resource type="Script" uid="uid://dsmqm0m2u46hh" path="res://Scripts/grid_controller.gd" id="1_uhdby"]
+[ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="2_kied5"]
+[ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="3_0hy6d"]
+[ext_resource type="Script" path="res://Ui/color_legend_enhanced.gd" id="4_1t6wh"]
+[ext_resource type="PackedScene" uid="uid://swbutbh0hbrp" path="res://Objects/player_bubble.tscn" id="6_5jmxo"]
+[ext_resource type="PackedScene" uid="uid://bdu0pxx6rc3t8" path="res://Objects/weenie_bubble.tscn" id="6_uhdby"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hyobi"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kkdw2"]
+texture = ExtResource("2_kied5")
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 10
+0:0/0 = 0
+0:0/0/modulate = Color(0, 0, 0, 1)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/1 = 1
+0:0/1/modulate = Color(1, 0, 0, 1)
+0:0/1/physics_layer_1/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/4 = 4
+0:0/4/modulate = Color(0, 1, 0, 1)
+0:0/4/physics_layer_2/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/5 = 5
+0:0/5/modulate = Color(0, 0, 1, 1)
+0:0/5/physics_layer_3/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/6 = 6
+0:0/6/modulate = Color(1, 1, 0, 1)
+0:0/6/physics_layer_4/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/7 = 7
+0:0/7/modulate = Color(1, 0, 1, 1)
+0:0/7/physics_layer_5/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/8 = 8
+0:0/8/modulate = Color(0, 1, 1, 1)
+0:0/8/physics_layer_6/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/9 = 9
+0:0/9/physics_layer_7/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="TileSet" id="TileSet_qbg5b"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+physics_layer_1/collision_layer = 256
+physics_layer_1/collision_mask = 0
+physics_layer_2/collision_layer = 512
+physics_layer_2/collision_mask = 0
+physics_layer_3/collision_layer = 1024
+physics_layer_3/collision_mask = 0
+physics_layer_4/collision_layer = 768
+physics_layer_4/collision_mask = 0
+physics_layer_5/collision_layer = 1280
+physics_layer_5/collision_mask = 0
+physics_layer_6/collision_layer = 1536
+physics_layer_6/collision_mask = 0
+physics_layer_7/collision_layer = 1792
+physics_layer_7/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_kkdw2")
+
+[node name="Game" type="Node2D"]
+texture_filter = 1
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="GridController" type="Node2D" parent="Background"]
+material = SubResource("CanvasItemMaterial_5nq1w")
+script = ExtResource("1_uhdby")
+origin_point = Vector2i(-1600, -3200)
+grid_size = Vector2i(128, 128)
+cell_size = 64
+line_thickness = 7
+line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
+
+[node name="GridController2" type="Node2D" parent="Background"]
+material = SubResource("CanvasItemMaterial_hyobi")
+script = ExtResource("1_uhdby")
+origin_point = Vector2i(-1600, -3200)
+grid_size = Vector2i(128, 128)
+cell_size = 64
+line_thickness = 4
+line_color = Color(0.4499566, 0.6627397, 0.9294866, 0.18431373)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAjAPD/AAAAAAAAAAAjAPH/AAAAAAAAAAAjAPL/AAAAAAAAAAAjAPP/AAAAAAAAAAAjAPT/AAAAAAAAAAAjAPX/AAAAAAAAAAAjAPb/AAAAAAAAAAAjAPf/AAAAAAAAAAAjAPj/AAAAAAAAAAAjAPn/AAAAAAAAAAAjAPr/AAAAAAAAAAAjAPv/AAAAAAAAAAAjAPz/AAAAAAAAAAAjAP3/AAAAAAAAAAAjAP7/AAAAAAAAAAAqAPv/AAAAAAAACQAqAPz/AAAAAAAACQAqAP3/AAAAAAAACQAqAP7/AAAAAAAACQAqAP//AAAAAAAACQArAP//AAAAAAAACQAsAP7/AAAAAAAACQAsAP3/AAAAAAAACQAsAPz/AAAAAAAACQArAPv/AAAAAAAACQAuAP7/AAAAAAAACQAuAP3/AAAAAAAACQAuAPz/AAAAAAAACQAvAPv/AAAAAAAACQAwAPz/AAAAAAAACQAwAP3/AAAAAAAACQAuAP//AAAAAAAACQAwAP//AAAAAAAACQAvAP3/AAAAAAAACQAwAP7/AAAAAAAACQAyAP//AAAAAAAACQAyAP7/AAAAAAAACQAyAP3/AAAAAAAACQAyAPz/AAAAAAAACQAyAPv/AAAAAAAACQAzAPz/AAAAAAAACQA0AP3/AAAAAAAACQA1APz/AAAAAAAACQA2APv/AAAAAAAACQA2APz/AAAAAAAACQA2AP3/AAAAAAAACQA2AP7/AAAAAAAACQA2AP//AAAAAAAACQA4AP//AAAAAAAACQA4AP7/AAAAAAAACQA4AP3/AAAAAAAACQA4APz/AAAAAAAACQA5APv/AAAAAAAACQA6APz/AAAAAAAACQA6AP3/AAAAAAAACQA6AP7/AAAAAAAACQA6AP//AAAAAAAACQA5AP3/AAAAAAAACQAjAP//AAAAAAAAAAAjAAAAAAAAAAAAAAAjAAEAAAAAAAAAAAAqAPL/AAAAAAAACQAqAPP/AAAAAAAACQAqAPT/AAAAAAAACQAqAPX/AAAAAAAACQAsAPL/AAAAAAAACQAsAPP/AAAAAAAACQAsAPT/AAAAAAAACQAsAPX/AAAAAAAACQAuAPP/AAAAAAAACQAuAPT/AAAAAAAACQAuAPX/AAAAAAAACQAwAPP/AAAAAAAACQAwAPT/AAAAAAAACQAwAPX/AAAAAAAACQAyAPL/AAAAAAAACQAyAPP/AAAAAAAACQAyAPT/AAAAAAAACQAyAPX/AAAAAAAACQA2APP/AAAAAAAACQA2APT/AAAAAAAACQA4APP/AAAAAAAACQA4APT/AAAAAAAACQA6APL/AAAAAAAACQA6APP/AAAAAAAACQA6APT/AAAAAAAACQA6APX/AAAAAAAACQA9APL/AAAAAAAACQA9APP/AAAAAAAACQA9APT/AAAAAAAACQA9APX/AAAAAAAACQAlAPP/AAAAAAAACQAmAPL/AAAAAAAACQAmAPT/AAAAAAAACQAmAPb/AAAAAAAACQAnAPL/AAAAAAAACQAnAPT/AAAAAAAACQAnAPb/AAAAAAAACQAoAPX/AAAAAAAACQAqAPb/AAAAAAAACQArAPT/AAAAAAAACQAsAPb/AAAAAAAACQAuAPb/AAAAAAAACQAvAPL/AAAAAAAACQAvAPT/AAAAAAAACQAwAPb/AAAAAAAACQAyAPb/AAAAAAAACQAzAPL/AAAAAAAACQAzAPT/AAAAAAAACQAzAPb/AAAAAAAACQA0APP/AAAAAAAACQA0APX/AAAAAAAACQA2APX/AAAAAAAACQA3APL/AAAAAAAACQA3APb/AAAAAAAACQA4APX/AAAAAAAACQA6APb/AAAAAAAACQA7APP/AAAAAAAACQA8APT/AAAAAAAACQA9APb/AAAAAAAACQAkAPD/AAAAAAAAAAAlAPD/AAAAAAAAAAAmAPD/AAAAAAAAAAAnAPD/AAAAAAAAAAAoAPD/AAAAAAAAAAApAPD/AAAAAAAAAAAqAPD/AAAAAAAAAAArAPD/AAAAAAAAAAAsAPD/AAAAAAAAAAAtAPD/AAAAAAAAAAAuAPD/AAAAAAAAAAAvAPD/AAAAAAAAAAAwAPD/AAAAAAAAAAAxAPD/AAAAAAAAAAAyAPD/AAAAAAAAAAAzAPD/AAAAAAAAAAA0APD/AAAAAAAAAAA1APD/AAAAAAAAAAA2APD/AAAAAAAAAAA3APD/AAAAAAAAAAA4APD/AAAAAAAAAAA5APD/AAAAAAAAAAA6APD/AAAAAAAAAAA7APD/AAAAAAAAAAA8APD/AAAAAAAAAAA9APD/AAAAAAAAAAA+APD/AAAAAAAAAAA/APD/AAAAAAAAAAAkAAEAAAAAAAAAAAAlAAEAAAAAAAAAAAAmAAEAAAAAAAAAAAAzAAEAAAAAAAAAAAAyAAEAAAAAAAAAAAAxAAEAAAAAAAAAAAAwAAEAAAAAAAAAAAAvAAEAAAAAAAAAAAAuAAEAAAAAAAAAAAAtAAEAAAAAAAAAAAAsAAEAAAAAAAAAAAArAAEAAAAAAAAAAAAqAAEAAAAAAAAAAAApAAEAAAAAAAAAAAAoAAEAAAAAAAAAAAAnAAEAAAAAAAAAAAA0AAEAAAAAAAAAAAA1AAEAAAAAAAAAAAA2AAEAAAAAAAAAAAA3AAEAAAAAAAAAAAA4AAEAAAAAAAAAAAA5AAEAAAAAAAAAAAA6AAEAAAAAAAAAAAA7AAEAAAAAAAAAAAA8AAEAAAAAAAAAAAA9AAEAAAAAAAAAAAA+AAEAAAAAAAAAAAA/AAEAAAAAAAAAAAA/APH/AAAAAAAAAAA/APL/AAAAAAAAAAA/APP/AAAAAAAAAAA/APT/AAAAAAAAAAA/APX/AAAAAAAAAAA/APb/AAAAAAAAAAA/APf/AAAAAAAAAAA/APj/AAAAAAAAAAA/APn/AAAAAAAAAAA/APr/AAAAAAAAAAA/APv/AAAAAAAAAAA/APz/AAAAAAAAAAA/AP3/AAAAAAAAAAA/AP7/AAAAAAAAAAA/AP//AAAAAAAAAAA/AAAAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_qbg5b")
+
+[node name="ColorLegend" parent="." instance=ExtResource("3_0hy6d")]
+offset = Vector2(0, -50)
+transform = Transform2D(1, 0, 0, 1, 0, -50)
+
+[node name="Root" type="Control" parent="ColorLegend"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -14.0
+offset_right = 40.0
+offset_bottom = 26.0
+script = ExtResource("4_1t6wh")
+player_path = NodePath("../../PlayerBubble")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD"]
+layout_mode = 0
+offset_right = 1100.0
+offset_bottom = 400.0
+alignment = 1
+
+[node name="DeathLabel" type="Label" parent="UI/HUD/VBoxContainer" groups=["death_label"]]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "You Died!!
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartLabel" type="Label" parent="UI/HUD/VBoxContainer" groups=["restart_label"]]
+visible = false
+layout_mode = 2
+text = "Press Enter to respawn"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Pellets" type="Node2D" parent="."]
+
+[node name="WeenieBubble" parent="." instance=ExtResource("6_uhdby")]
+position = Vector2(3571, -454)
+collision_mask = 32
+contact_monitor = true
+max_contacts_reported = 1
+to_scene = "res://Maps/Level0.tscn"
+
+[node name="PlayerBubble" parent="." instance=ExtResource("6_5jmxo")]
+position = Vector2(3183, -458)
+collision_mask = 1793
+
+[connection signal="body_entered" from="WeenieBubble" to="WeenieBubble" method="end_level"]

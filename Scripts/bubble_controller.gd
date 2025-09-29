@@ -24,6 +24,7 @@ var start_color: Color
 var is_dead: bool = false
 @export var invincibility_time: float
 @export var initial_scale: float = 0.8
+@export var max_scale: float = 3.8
 
 @export var color_animation_gradient: Gradient
 @export var color_animation_gradient_position: float = 1
@@ -108,7 +109,7 @@ func _physics_process(_delta: float) -> void:
 	
 	sprite.scale = Vector2(1+linear_velocity.length()/stretch_scale_factor, 1-(linear_velocity.length()/stretch_scale_factor))
 	#We can't change the scale of this root node bc you can't scale a rigidbody
-	to_scale = clamp(to_scale, initial_scale, 5)
+	to_scale = clamp(to_scale, initial_scale, max_scale)
 	this_scale = lerp(this_scale, to_scale, grow_speed)
 	#I put a layer between the sprite and this root node to make life easier
 	sprite_parent.scale = Vector2(this_scale, this_scale)
