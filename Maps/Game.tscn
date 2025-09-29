@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_kkdw2"]
 [ext_resource type="Texture2D" uid="uid://btmty4d3eobm0" path="res://Art Folders/WhiteSquare.png" id="5_mdqsx"]
 [ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="9_qpgel"]
-[ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="10_ceqvn"]
+[ext_resource type="Script" path="res://Ui/color_legend_enhanced.gd" id="10_ceqvn"]
 [ext_resource type="PackedScene" uid="uid://o026y1pjxyrv" path="res://Objects/screw.tscn" id="11_1shu2"]
 [ext_resource type="PackedScene" uid="uid://6qnty0c7kr8v" path="res://Objects/laser_spinner.tscn" id="11_ceqvn"]
 [ext_resource type="PackedScene" uid="uid://chgks6x2hrsc2" path="res://Objects/nail.tscn" id="11_lntlw"]

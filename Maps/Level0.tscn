@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://br32x2pqn5aui" path="res://Objects/color_bubble.tscn" id="5_py67j"]
 [ext_resource type="PackedScene" uid="uid://btjikawn20mvo" path="res://Objects/spiky_enemy_bubble.tscn" id="6_rmkxy"]
 [ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="7_81ri6"]
-[ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="8_7mr11"]
+[ext_resource type="Script" path="res://Ui/color_legend_enhanced.gd" id="8_7mr11"]
 [ext_resource type="PackedScene" uid="uid://okgm8ioburau" path="res://Objects/laser_emitter.tscn" id="9_pgo3x"]
 [ext_resource type="PackedScene" uid="uid://6qnty0c7kr8v" path="res://Objects/laser_spinner.tscn" id="9_xym7l"]
 [ext_resource type="PackedScene" uid="uid://o026y1pjxyrv" path="res://Objects/screw.tscn" id="10_2vvoo"]

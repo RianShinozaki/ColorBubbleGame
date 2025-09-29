@@ -36,13 +36,14 @@ maximum_speed = 150.0
 acceleration = 800.0
 stretch_scale_factor = 1500.0
 rgb_color = Color(1, 0, 0, 1)
+radius = 0.0
 add_color = false
 behavior = 1
 detect_range = 512.0
-detect_range_alerted = 640.0
+detect_range_alerted = null
 
 [node name="SpriteParent" type="Node2D" parent="."]
-scale = Vector2(0.8, 0.8)
+scale = Vector2(1e-05, 1e-05)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpriteParent"]
 texture = ExtResource("1_yat1f")
@@ -55,5 +56,5 @@ texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-scale = Vector2(0.8, 0.8)
+scale = Vector2(1e-05, 1e-05)
 shape = SubResource("CircleShape2D_qbg5b")
