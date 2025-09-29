@@ -133,7 +133,7 @@ func on_bubble_collision(body: Node2D):
 		
 	if body is EnemyBubble:
 		var _cb: EnemyBubble = body as EnemyBubble
-		if _cb.radius > to_scale:
+		if _cb.radius > to_scale and _cb.add_color:
 			bubble_die()
 		else:
 			var _new_area = to_scale
@@ -143,6 +143,7 @@ func on_bubble_collision(body: Node2D):
 			else:
 				subtract_color(_cb.rgb_color)
 				_new_area = get_area(to_scale) - get_area(_cb.radius)
+			_new_area = clamp(_new_area, initial_scale, max_scale)
 			to_scale = get_radius(_new_area)
 			_soft_disable_body_generic(_cb)
 			
@@ -183,6 +184,7 @@ func on_hurtbox_entered(_area: Area2D):
 	if is_hazard:
 		if rgb_color == Color.BLACK and to_scale == initial_scale:
 			if invincibility_counter == 0:
+				print("died this way")
 				bubble_die()
 		else:
 			if invincibility_counter == 0:
