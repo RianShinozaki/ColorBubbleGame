@@ -18,6 +18,9 @@ enum behavior_mode {IDLE, ATTACK}
 @export var detect_range: float
 @export_tool_button("Update Attributes") var update_attributes_action = update_attributes
 
+signal was_disabled
+signal was_reset
+
 var disable_position: Vector2 = Vector2(416, 0)
 var disabled: bool
 var spawn_position: Vector2
@@ -70,7 +73,7 @@ func disable():
 	shape.set_deferred("disabled", true)
 	visible = false
 	set_deferred("freeze", true)
-
+	emit_signal("was_disabled")
 	
 func reset():
 	disabled = false
@@ -83,3 +86,5 @@ func reset():
 		Transform2D.IDENTITY.translated(spawn_position)
 	)
 	linear_velocity = Vector2.ZERO
+	emit_signal("was_reset")
+	

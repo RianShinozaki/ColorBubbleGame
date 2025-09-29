@@ -306,7 +306,8 @@ func _reset_collected_items() -> void:
 func _do_respawn() -> void:
 	state = State.ALIVE
 	input_enabled = true
-	modulate = Color(1, 1, 1, 1)
+	rgb_color = Color(0, 0, 0, 1)
+	to_scale = initial_scale
 	
 	GameState.respawn_player(self)
 	global_position = start_position

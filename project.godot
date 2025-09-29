@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="BubbleGame"
-run/main_scene="uid://bkvfgd3chj1pk"
+run/main_scene="uid://c7lp0dsr2am0a"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0.0660848, 0.073836334, 0.14326572, 1)
 config/icon="res://icon.svg"
@@ -20,10 +20,19 @@ config/icon="res://icon.svg"
 
 GameState="*res://Scripts/GameState.gd"
 
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+window/stretch/mode="viewport"
+
 [global_group]
 
 Hazard=""
 "Game Entity"=""
+checkpoint=""
+death_label=""
+restart_label=""
 
 [input]
 
@@ -40,6 +49,7 @@ respawn={
 2d_physics/layer_3="Pellet"
 2d_physics/layer_4="ColorBubble"
 2d_physics/layer_5="Hazard"
+2d_physics/layer_6="Player"
 2d_physics/layer_9="Red"
 2d_physics/layer_10="Green"
 2d_physics/layer_11="Blue"
