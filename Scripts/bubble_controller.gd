@@ -308,7 +308,7 @@ func _reset_collected_items() -> void:
 func _do_respawn() -> void:
 	state = State.ALIVE
 	input_enabled = true
-	rgb_color = start_color
+	set_color(start_color)
 	to_scale = initial_scale
 	
 	GameState.respawn_player(self)
