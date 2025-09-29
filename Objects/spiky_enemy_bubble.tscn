@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d18kxyc6xq3wi" path="res://Art Folders/SpikyBubble.png" id="1_yat1f"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d7xqd"]
-friction = 0.2
+friction = 0.0
 rough = true
 bounce = 1.0
 
@@ -30,20 +30,18 @@ collision_mask = 1539
 physics_material_override = SubResource("PhysicsMaterial_d7xqd")
 gravity_scale = 0.0
 lock_rotation = true
-linear_damp = 2.24
+linear_damp = 1.0
 script = ExtResource("1_fbcgj")
-maximum_speed = 150.0
-acceleration = 800.0
+maximum_speed = 300.0
+acceleration = 700.0
 stretch_scale_factor = 1500.0
 rgb_color = Color(1, 0, 0, 1)
-radius = 0.0
+radius = 1.0
 add_color = false
 behavior = 1
 detect_range = 512.0
-detect_range_alerted = null
 
 [node name="SpriteParent" type="Node2D" parent="."]
-scale = Vector2(1e-05, 1e-05)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpriteParent"]
 texture = ExtResource("1_yat1f")
@@ -56,5 +54,4 @@ texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-scale = Vector2(1e-05, 1e-05)
 shape = SubResource("CircleShape2D_qbg5b")

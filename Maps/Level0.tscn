@@ -326,8 +326,6 @@ radius = 1.5
 modulate = Color(0, 0, 1, 1)
 position = Vector2(4128, -96)
 collision_mask = 771
-maximum_speed = 300.0
-acceleration = 500.0
 rgb_color = Color(0, 0, 1, 1)
 radius = 3.0
 detect_range = 640.0
@@ -537,6 +535,9 @@ position = Vector2(4128, 896)
 
 [node name="Checkpoint3" parent="." groups=["checkpoint"] instance=ExtResource("11_72mkl")]
 position = Vector2(64, -1088)
+
+[node name="Checkpoint4" parent="." groups=["checkpoint"] instance=ExtResource("11_72mkl")]
+position = Vector2(2912, 32)
 
 [node name="Checkpoint2" parent="." groups=["checkpoint"] instance=ExtResource("11_72mkl")]
 position = Vector2(3328, -2048)
