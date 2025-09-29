@@ -65,7 +65,7 @@ stretch_scale_factor = 2000.0
 rgb_color = Color(1, 0, 0, 1)
 behavior = 1
 detect_range = 512.0
-detect_range_alerted = 1024.0
+detect_range_alerted = 700.0
 
 [node name="SpriteParent" type="Node2D" parent="."]
 scale = Vector2(0.8, 0.8)

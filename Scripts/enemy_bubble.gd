@@ -82,6 +82,7 @@ func disable():
 	emit_signal("was_disabled")
 	
 func reset():
+	detected = false
 	disabled = false
 	shape.set_deferred("disabled", false)
 	visible = true
