@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bh4m2eebg003k"]
+[gd_scene load_steps=4 format=3 uid="uid://bh4m2eebg003k"]
 
-[ext_resource type="Script" path="res://Scripts/Checkpoint.gd" id="1_gcwsm"]
-[ext_resource type="Texture2D" uid="uid://df4k8arq21lv4" path="res://Art Folders/Battery.png" id="2_4jiqy"]
-[ext_resource type="Texture2D" uid="uid://be7dex5ke6p7m" path="res://icon.svg" id="3_dxqed"]
+[ext_resource type="Script" uid="uid://sp4efhhg15ls" path="res://Scripts/Checkpoint.gd" id="1_gcwsm"]
+[ext_resource type="Texture2D" uid="uid://byc1qihr3cxx4" path="res://Art Folders/checkpoint.png" id="4_no5uu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gcwsm"]
 
@@ -10,13 +9,13 @@
 collision_layer = 0
 collision_mask = 32
 script = ExtResource("1_gcwsm")
-inactive_texture = ExtResource("2_4jiqy")
-active_texture = ExtResource("3_dxqed")
+inactive_texture = ExtResource("4_no5uu")
+active_texture = ExtResource("4_no5uu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gcwsm")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="StarSprite" type="Sprite2D" parent="."]
 position = Vector2(-2.9999886, 2)
-scale = Vector2(0.4483568, 0.409375)
-texture = ExtResource("2_4jiqy")
+scale = Vector2(0.25, 0.228)
+texture = ExtResource("4_no5uu")

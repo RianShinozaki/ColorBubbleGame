@@ -38,9 +38,6 @@ func _draw() -> void:
 	# Draw background
 	draw_rect(Rect2(Vector2.ZERO, Vector2(total_w, total_h)), bg_color, true)
 	
-	# Draw title
-	var font := ThemeDB.fallback_font
-	var title_size := 16
 	
 	# Draw RGB progress bars
 	var bar_start_y := bg_margin.y + 24
@@ -64,7 +61,7 @@ func _draw_rgb_progress_bars(start_y: float) -> void:
 		var label_color: Color = bar_colors[i]
 		label_color = label_color.lightened(0.2)
 		draw_string(font, Vector2(label_x, y_pos + bar_height * 0.65), 
-		           labels[i], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size + 2, label_color)
+				   labels[i], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size + 2, label_color)
 		
 		# Progress bar position
 		var bar_x := label_x + 20
@@ -109,7 +106,7 @@ func _draw_rgb_progress_bars(start_y: float) -> void:
 		var text_x := bar_x + actual_bar_width / 2
 		var text_y := y_pos + bar_height * 0.65
 		draw_string(font, Vector2(text_x - 15, text_y), 
-		           percent_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, text_color)
+				   percent_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, text_color)
 
 func _get_current_rgb_values() -> Vector3:
 	if player_controller == null:
