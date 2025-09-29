@@ -179,7 +179,7 @@ func on_hurtbox_entered(_area: Area2D):
 	var is_hazard := _area.is_in_group("Hazard")
 	#if _area.get_parent() is Hazard:
 	if is_hazard:
-		if rgb_color == Color.BLACK:
+		if rgb_color == Color.BLACK and to_scale == initial_scale:
 			if invincibility_counter == 0:
 				bubble_die()
 		else:

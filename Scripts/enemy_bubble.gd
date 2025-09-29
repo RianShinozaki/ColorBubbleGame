@@ -16,6 +16,7 @@ enum behavior_mode {IDLE, ATTACK}
 @export var add_color: bool = true
 @export var behavior: behavior_mode = behavior_mode.IDLE
 @export var detect_range: float
+@export var detect_range_alerted: float
 @export_tool_button("Update Attributes") var update_attributes_action = update_attributes
 
 signal was_disabled
@@ -24,6 +25,8 @@ signal was_reset
 var disable_position: Vector2 = Vector2(416, 0)
 var disabled: bool
 var spawn_position: Vector2
+var detected: bool
+
 func _ready() -> void:
 	update_attributes()
 	spawn_position = global_position
@@ -34,10 +37,13 @@ func _process(_delta: float) -> void:
 		
 		if behavior == behavior_mode.ATTACK:
 			var _diff: Vector2 = BubbleController.instance.global_position - global_position
-			if _diff.length() < detect_range:
+			if _diff.length() < (detect_range_alerted if detected else detect_range):
 				_input = _diff.normalized()
+				detected = true
 				if add_color and BubbleController.instance.to_scale >= radius:
 					_input = -_input
+			else:
+				detected = false
 
 		sprite_parent.scale = Vector2(radius, radius)
 		shape.scale = Vector2(radius, radius)
