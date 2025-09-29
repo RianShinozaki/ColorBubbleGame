@@ -8,7 +8,9 @@ class_name Checkpoint
 @export var active_texture: Texture2D
 @export var make_unique := true      # only one active at a time
 @export var inactive_color: Color = Color(1.0, 0.9, 0.3)     # Golden yellow for inactive
-@export var active_color: Color = Color(0.3, 1.0, 0.3)       # Green for active
+@export var active_color: Color = Color(0.0, 0.0, 0.0)       # Green for active
+
+const null_color: Color = Color(0.4, 0.4, 0.4, 1)
 
 var activated := false
 
@@ -33,6 +35,7 @@ func _apply_texture() -> void:
 		star_sprite.modulate = active_color
 	else:
 		star_sprite.modulate = inactive_color
+		
 	
 	# Different rotation speeds for active/inactive
 	var rotation_duration = 6.0 if not activated else 3.0  # Faster when active
@@ -74,10 +77,23 @@ func _on_body_entered(body: Node) -> void:
 		#return
 	#if not body.has_method("set_checkpoint"):
 		#return
+	var body_rgb = body.rgb_color
+	if active_color == body.null_color:
+		active_color = Color.BLACK
+	
+	if body.rgb_color == Color.BLACK:
+		active_color = body.null_color
+	
+	else:
+		var _r = clampf(body_rgb.r + active_color.r, 0, 1)
+		var _g = clampf(body_rgb.g + active_color.g, 0, 1)
+		var _b = clampf(body_rgb.b + active_color.b, 0, 1)
+		
+		active_color = Color(_r, _g, _b)
 
 	# If already active, still set the player's spawn
 	if body and body.has_method("set_checkpoint"):
-		body.set_checkpoint(global_position)
+		body.set_checkpoint(global_position, active_color)
 		# Don't play the collected animation as it causes the checkpoint to disappear
 
 	# Swap texture if this is the first time

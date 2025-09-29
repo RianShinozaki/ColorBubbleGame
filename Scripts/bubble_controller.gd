@@ -20,6 +20,7 @@ var input_enabled := true
 @onready var restart_label: Label = get_tree().get_first_node_in_group("restart_label")
 
 var start_position: Vector2
+var start_color: Color
 var is_dead: bool = false
 @export var invincibility_time: float
 @export var initial_scale: float = 0.8
@@ -306,7 +307,7 @@ func _reset_collected_items() -> void:
 func _do_respawn() -> void:
 	state = State.ALIVE
 	input_enabled = true
-	rgb_color = Color(0, 0, 0, 1)
+	rgb_color = start_color
 	to_scale = initial_scale
 	
 	GameState.respawn_player(self)
@@ -331,8 +332,9 @@ func _do_respawn() -> void:
 	#print(prefix, " death_label=", death_label, " vis=", death_label and death_label.visible)
 	#print(prefix, " restart_label=", restart_label, " vis=", restart_label and restart_label.visible)
 
-func set_checkpoint(pos: Vector2) -> void:
+func set_checkpoint(pos: Vector2, col: Color) -> void:
 	start_position = pos
+	start_color = col
 
 func get_area(_radius: float) -> float:
 	return pow(_radius, 2) * PI
