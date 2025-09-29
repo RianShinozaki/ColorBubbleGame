@@ -23,6 +23,7 @@ GameState="*res://Scripts/GameState.gd"
 [global_group]
 
 Hazard=""
+"Game Entity"=""
 
 [input]
 
@@ -38,6 +39,7 @@ respawn={
 2d_physics/layer_2="Entity"
 2d_physics/layer_3="Pellet"
 2d_physics/layer_4="ColorBubble"
+2d_physics/layer_5="Hazard"
 2d_physics/layer_9="Red"
 2d_physics/layer_10="Green"
 2d_physics/layer_11="Blue"

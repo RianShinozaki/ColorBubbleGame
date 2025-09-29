@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://br32x2pqn5aui"]
+[gd_scene load_steps=10 format=3 uid="uid://br32x2pqn5aui"]
 
 [ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_njfqy"]
 [ext_resource type="Shader" uid="uid://bnpn1fhy2ln2f" path="res://Shaders/color_bubble_shader.gdshader" id="2_ktd3s"]
 [ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="2_v4bbh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_njfqy"]
+friction = 0.2
+rough = true
+bounce = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oe3js"]
 shader = ExtResource("2_ktd3s")
@@ -30,11 +35,6 @@ shader_parameter/bubble_screen_pos = Vector2(0.5, 0.5)
 shader_parameter/global_light_pos = Vector2(0.3, 0.3)
 shader_parameter/light_influence = 0.5
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_njfqy"]
-friction = 0.2
-rough = true
-bounce = 1.0
-
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mdqsx"]
 blend_mode = 1
 
@@ -50,10 +50,10 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
 radius = 31.0
 
-[node name="ColorBubble" type="RigidBody2D"]
+[node name="ColorBubble" type="RigidBody2D" groups=["Game Entity"]]
 modulate = Color(1, 0, 0, 1)
 collision_layer = 10
-collision_mask = 3
+collision_mask = 1539
 physics_material_override = SubResource("PhysicsMaterial_njfqy")
 gravity_scale = 0.0
 lock_rotation = true
@@ -67,6 +67,7 @@ behavior = 1
 detect_range = 512.0
 
 [node name="SpriteParent" type="Node2D" parent="."]
+scale = Vector2(0.8, 0.8)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpriteParent"]
 material = SubResource("ShaderMaterial_oe3js")
@@ -79,5 +80,5 @@ scale = Vector2(2, 2)
 texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+scale = Vector2(0.8, 0.8)
 shape = SubResource("CircleShape2D_qbg5b")

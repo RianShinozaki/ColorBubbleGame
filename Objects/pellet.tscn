@@ -18,7 +18,7 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nq1w"]
 radius = 32.140316
 
-[node name="Pellet" type="Area2D"]
+[node name="Pellet" type="Area2D" groups=["Game Entity"]]
 scale = Vector2(0.3, 0.3)
 collision_layer = 4
 collision_mask = 0

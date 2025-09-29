@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dgocvemh306tv" path="res://Ui/ColorLegend.tscn" id="7_81ri6"]
 [ext_resource type="Script" uid="uid://d003uh3h15l1" path="res://Ui/color_legend.gd" id="8_7mr11"]
 [ext_resource type="PackedScene" uid="uid://6qnty0c7kr8v" path="res://Objects/laser_spinner.tscn" id="9_xym7l"]
-[ext_resource type="PackedScene" uid="uid://c1hjn7gxlwhrp" path="res://Objects/screw.tscn" id="10_2vvoo"]
+[ext_resource type="PackedScene" uid="uid://o026y1pjxyrv" path="res://Objects/screw.tscn" id="10_2vvoo"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5nq1w"]
 blend_mode = 1
@@ -298,14 +298,12 @@ rotation = -4.712389
 
 [node name="ColorBubble" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 position = Vector2(704, -1408)
-scale = Vector2(0.8, 0.8)
 collision_mask = 1539
 detect_range = 0.0
 
 [node name="ColorBubble2" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(5504, 128)
-scale = Vector2(0.8, 0.8)
 collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 detect_range = 0.0
@@ -317,20 +315,17 @@ radius = 1.0
 
 [node name="ColorBubble3" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 position = Vector2(2976, -1024)
-scale = Vector2(1.5, 1.5)
 collision_mask = 1539
 radius = 1.5
 
 [node name="ColorBubble4" parent="ColorBubbles" instance=ExtResource("5_py67j")]
-position = Vector2(2496, -1120)
-scale = Vector2(1.5, 1.5)
+position = Vector2(2464, -1120)
 collision_mask = 1539
 radius = 1.5
 
 [node name="ColorBubble5" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 modulate = Color(0, 0, 1, 1)
 position = Vector2(3136.0002, -1408)
-scale = Vector2(2, 2)
 collision_mask = 771
 rgb_color = Color(0, 0, 1, 1)
 radius = 2.0
@@ -338,28 +333,24 @@ radius = 2.0
 [node name="ColorBubble6" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(2368, -1632)
-scale = Vector2(0.8, 0.8)
 collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 
 [node name="ColorBubble7" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(3264, -1632)
-scale = Vector2(0.8, 0.8)
 collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 
 [node name="ColorBubble8" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(2688, -1536)
-scale = Vector2(0.8, 0.8)
 collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 
 [node name="ColorBubble9" parent="ColorBubbles" instance=ExtResource("5_py67j")]
 modulate = Color(0, 1, 0, 1)
 position = Vector2(2816, -1280)
-scale = Vector2(0.8, 0.8)
 collision_mask = 1283
 rgb_color = Color(0, 1, 0, 1)
 

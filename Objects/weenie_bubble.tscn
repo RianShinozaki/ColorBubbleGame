@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=3 uid="uid://bdu0pxx6rc3t8"]
+[gd_scene load_steps=9 format=3 uid="uid://bdu0pxx6rc3t8"]
 
-[ext_resource type="Script" uid="uid://udbcwx0xnuh1" path="res://Scripts/color_bubble.gd" id="1_p37jm"]
 [ext_resource type="Shader" uid="uid://cr0wiaxw8bv4e" path="res://Shaders/weenie_bubble_shader.gdshader" id="2_p37jm"]
 [ext_resource type="Texture2D" uid="uid://xphqtpr8p8cy" path="res://Art Folders/WhiteBubble.png" id="3_gtt57"]
 
@@ -51,7 +50,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qbg5b"]
-radius = 46.5
+radius = 21.333334
 
 [node name="WeenieBubble" type="RigidBody2D"]
 collision_layer = 10
@@ -60,13 +59,6 @@ physics_material_override = SubResource("PhysicsMaterial_njfqy")
 gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 2.24
-script = ExtResource("1_p37jm")
-maximum_speed = 10.0
-acceleration = 100.0
-stretch_scale_factor = 1500.0
-radius = 1.5
-behavior = 1
-detect_range = 512.0
 
 [node name="SpriteParent" type="Node2D" parent="."]
 scale = Vector2(1.5, 1.5)
@@ -82,6 +74,5 @@ scale = Vector2(2, 2)
 texture = SubResource("GradientTexture2D_hyobi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_qbg5b")

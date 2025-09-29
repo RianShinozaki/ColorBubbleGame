@@ -18,11 +18,15 @@ enum behavior_mode {IDLE, ATTACK}
 @export var detect_range: float
 @export_tool_button("Update Attributes") var update_attributes_action = update_attributes
 
+var disable_position: Vector2 = Vector2(416, 0)
+var disabled: bool
+var spawn_position: Vector2
 func _ready() -> void:
 	update_attributes()
+	spawn_position = global_position
 	
 func _process(_delta: float) -> void:
-	if not Engine.is_editor_hint():
+	if not Engine.is_editor_hint() && not disabled:
 		var _input: Vector2 = Vector2.ZERO
 		
 		if behavior == behavior_mode.ATTACK:
@@ -60,3 +64,22 @@ func update_attributes():
 		if has_node("CollisionShape2D"):
 			var _shape = get_node("CollisionShape2D")
 			_shape.scale = Vector2(radius, radius)
+
+func disable():
+	disabled = true
+	shape.set_deferred("disabled", true)
+	visible = false
+	set_deferred("freeze", true)
+
+	
+func reset():
+	disabled = false
+	shape.set_deferred("disabled", false)
+	visible = true
+	set_deferred("freeze", false)
+	PhysicsServer2D.body_set_state(
+		get_rid(),
+		PhysicsServer2D.BODY_STATE_TRANSFORM,
+		Transform2D.IDENTITY.translated(spawn_position)
+	)
+	linear_velocity = Vector2.ZERO

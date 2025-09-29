@@ -126,66 +126,45 @@ func _physics_process(_delta: float) -> void:
 			visible = false
 
 func on_bubble_collision(body: Node2D):
+	if state == State.DEAD:
+		return
+		
 	if body is EnemyBubble:
 		var _cb: EnemyBubble = body as EnemyBubble
-		var _new_area = to_scale
-		if _cb.add_color:
-			add_color(_cb.rgb_color)
-			_new_area = get_area(to_scale) + get_area(_cb.radius)
+		if _cb.radius > to_scale:
+			bubble_die()
 		else:
-			subtract_color(_cb.rgb_color)
-			_new_area = get_area(to_scale) - get_area(_cb.radius)
-		to_scale = get_radius(_new_area)
-		#body.queue_free()
-		if body.has_method("soft_disable"):
-			body.soft_disable()
-		else:
-			_soft_disable_body_generic(body)
+			var _new_area = to_scale
+			if _cb.add_color:
+				add_color(_cb.rgb_color)
+				_new_area = get_area(to_scale) + get_area(_cb.radius)
+			else:
+				subtract_color(_cb.rgb_color)
+				_new_area = get_area(to_scale) - get_area(_cb.radius)
+			to_scale = get_radius(_new_area)
+			_soft_disable_body_generic(_cb)
 			
 func _soft_disable_body_generic(n: Node) -> void:
+	
 	# Try to find the Area2D that actually triggers collisions
-	var area := n as Area2D
-	if area == null:
-		area = n.get_node_or_null("Area2D") as Area2D
-
-	# Hide visuals: if the root draws, hide it; also try a common child sprite
-	if n is CanvasItem:
-		(n as CanvasItem).visible = false
-	var bodysprite := n.get_node_or_null("Sprite2D") as CanvasItem
-	if bodysprite:
-		bodysprite.visible = false
-
-	if area:
-		area.set_deferred("monitoring",  false)
-		area.set_deferred("monitorable", false)
-
+	n.disable()
 	if not n.is_in_group("collectible_soft_disabled"):
 		n.add_to_group("collectible_soft_disabled")
 		
 #I use the same script for colored bubbles and growth pellets lol
 func on_item_pickup(area: Area2D):
+	if state == State.DEAD:
+		return
 	#Check if it's a colored bubble and use add color script
 	var _new_area = get_area(to_scale) + get_area(area.radius)
 	to_scale = get_radius(_new_area)
 	#Destroy whatever item we got
 	# area.queue_free()
-	if area.has_method("soft_disable"):
-		area.soft_disable()
-	else:
-		_soft_disable_generic(area)
+	_soft_disable_generic(area)
 	
 	
 func _soft_disable_generic(a: Area2D) -> void:
-	#Hide visuals (Area2D is a CanvasItem, so it has `visible`)
-	a.visible = false
-	#If the sprite/mesh is on the parent or a sibling, also hide the parent if it's a CanvasItem
-	var p := a.get_parent()
-	if p and p is CanvasItem:
-		(p as CanvasItem).visible = false
-
-	# Stop future overlap callbacks
-	a.set_deferred("monitoring",  false)
-	a.set_deferred("monitorable", false)
+	a.disable()
 
 	# Mark it so we can restore later
 	if not a.is_in_group("collectible_soft_disabled"):
@@ -194,7 +173,10 @@ func _soft_disable_generic(a: Area2D) -> void:
 
 #For things that really hurt the bubble (lasers, screws)
 func on_hurtbox_entered(_area: Area2D):
-	var is_hazard := _area.is_in_group("hazard")
+	if state == State.DEAD:
+		return
+		
+	var is_hazard := _area.is_in_group("Hazard")
 	#if _area.get_parent() is Hazard:
 	if is_hazard:
 		if rgb_color == Color.BLACK:
@@ -286,7 +268,7 @@ func bubble_die() -> void:
 	
 	#_debug_check_labels("after_die")
 		
-		
+#Is this used?
 func hazard_hit(hazard: Node) -> void:
 	match state:
 		State.ALIVE:
@@ -305,9 +287,8 @@ func hazard_hit(hazard: Node) -> void:
 		State.DEAD:
 			pass
 			
-			
 func _reset_collected_items() -> void:
-	var to_restore := get_tree().get_nodes_in_group("collectible_soft_disabled")
+	var to_restore := get_tree().get_nodes_in_group("Game Entity")
 	#for a in get_tree().get_nodes_in_group("collectible_soft_disabled"):
 	for a in to_restore:
 		if not is_instance_valid(a):
@@ -315,19 +296,8 @@ func _reset_collected_items() -> void:
 		if a.has_method("reset"):
 			a.reset()
 		else:
-			if a is CanvasItem:
-				(a as CanvasItem).visible = true
-			var spr := a.get_node_or_null("Sprite2D") as CanvasItem
-			if spr: spr.visible = true
-			var area := (a as Node).get_node_or_null("Area2D") as Area2D
-			if area:
-				area.set_deferred("monitoring",  true)
-				area.set_deferred("monitorable", true)
-		#if "visible" in a: a.visible = true
-		#var p := a.get_parent()
-		#if p and p is CanvasItem:
-			#(p as CanvasItem).visible = true
-		# re-enable overlaps
+			print(a.name + " is missing a reset function!")
+
 	await get_tree().create_timer(0.05).timeout
 	for a in to_restore:
 		if is_instance_valid(a):
