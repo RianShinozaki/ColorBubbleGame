@@ -73,27 +73,14 @@ func _apply_texture() -> void:
 
 
 func _on_body_entered(body: Node) -> void:
-	#if not (body is RigidBody2D):
-		#return
-	#if not body.has_method("set_checkpoint"):
-		#return
-	var body_rgb = body.rgb_color
-	if active_color == body.null_color:
-		active_color = Color.BLACK
-	
-	if body.rgb_color == Color.BLACK:
-		active_color = body.null_color
-	
-	else:
-		var _r = clampf(body_rgb.r + active_color.r, 0, 1)
-		var _g = clampf(body_rgb.g + active_color.g, 0, 1)
-		var _b = clampf(body_rgb.b + active_color.b, 0, 1)
-		
-		active_color = Color(_r, _g, _b)
 
+	if body.rgb_color == Color.BLACK:
+		active_color = null_color
+	else:
+		active_color = body.rgb_color
 	# If already active, still set the player's spawn
 	if body and body.has_method("set_checkpoint"):
-		body.set_checkpoint(global_position, active_color)
+		body.set_checkpoint(global_position, body.rgb_color) 
 		# Don't play the collected animation as it causes the checkpoint to disappear
 
 	# Swap texture if this is the first time
