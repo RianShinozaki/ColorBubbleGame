@@ -73,15 +73,19 @@ func _apply_texture() -> void:
 
 
 func _on_body_entered(body: Node) -> void:
+	if not activated:
+		if body.rgb_color == Color.BLACK:
+			active_color = null_color
+		else:
+			active_color = body.rgb_color
 
-	if body.rgb_color == Color.BLACK:
-		active_color = null_color
-	else:
-		active_color = body.rgb_color
-	# If already active, still set the player's spawn
+		# If already active, still set the player's spawn
 	if body and body.has_method("set_checkpoint"):
-		body.set_checkpoint(global_position, body.rgb_color) 
-		# Don't play the collected animation as it causes the checkpoint to disappear
+		if active_color == null_color:
+			body.set_checkpoint(global_position, Color.BLACK)
+		else:
+			body.set_checkpoint(global_position, active_color)
+			# Don't play the collected animation as it causes the checkpoint to disappear
 
 	# Swap texture if this is the first time
 	if not activated:
