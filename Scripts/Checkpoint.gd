@@ -13,6 +13,7 @@ class_name Checkpoint
 const null_color: Color = Color(0.4, 0.4, 0.4, 1)
 
 var activated := false
+@export var saved_scale: float = 0.8
 
 func _ready() -> void:
 	# show correct initial texture
@@ -82,9 +83,9 @@ func _on_body_entered(body: Node) -> void:
 		# If already active, still set the player's spawn
 	if body and body.has_method("set_checkpoint"):
 		if active_color == null_color:
-			body.set_checkpoint(global_position, Color.BLACK)
+			body.set_checkpoint(global_position, Color.BLACK, body.to_scale)
 		else:
-			body.set_checkpoint(global_position, active_color)
+			body.set_checkpoint(global_position, active_color, body.to_scale)
 			# Don't play the collected animation as it causes the checkpoint to disappear
 
 	# Swap texture if this is the first time

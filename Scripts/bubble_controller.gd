@@ -21,6 +21,7 @@ var input_enabled := true
 
 var start_position: Vector2
 var start_color: Color
+var respawn_scale: float = 0.8
 var is_dead: bool = false
 @export var invincibility_time: float
 @export var initial_scale: float = 0.8
@@ -96,6 +97,11 @@ func _physics_process(_delta: float) -> void:
 		
 	#Get movement input vector from API Call
 	var _input: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		_input = (get_global_mouse_position() - global_position)/(64*3)
+		if _input.length() > 1:
+			_input = _input.normalized()
+		
 	if _input.length() > 0: #Check if there is any input
 		if linear_velocity.length() < maximum_speed: #Check if we're below maximum speed
 			linear_velocity += _input * acceleration * _delta
@@ -310,7 +316,7 @@ func _do_respawn() -> void:
 	state = State.ALIVE
 	input_enabled = true
 	set_color(start_color)
-	to_scale = initial_scale
+	to_scale = respawn_scale
 	
 	GameState.respawn_player(self)
 	global_position = start_position
@@ -334,9 +340,10 @@ func _do_respawn() -> void:
 	#print(prefix, " death_label=", death_label, " vis=", death_label and death_label.visible)
 	#print(prefix, " restart_label=", restart_label, " vis=", restart_label and restart_label.visible)
 
-func set_checkpoint(pos: Vector2, col: Color) -> void:
+func set_checkpoint(pos: Vector2, col: Color, sc: float) -> void:
 	start_position = pos
 	start_color = col
+	respawn_scale = sc
 
 func get_area(_radius: float) -> float:
 	return pow(_radius, 2) * PI
